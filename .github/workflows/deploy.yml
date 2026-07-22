@@ -113,7 +113,13 @@ jobs:
           printf 'SETUPINDEX_IMAGE_TAG=%s\n' "$SETUPINDEX_IMAGE_TAG" > .env
           docker compose config --quiet
           docker compose build --pull web
-          docker compose up -d --remove-orphans --wait --wait-timeout 90 web
+          if ! docker compose up -d --remove-orphans --wait --wait-timeout 90 web; then
+            docker compose ps --all
+            docker compose logs --no-color --tail=100 web
+            docker inspect setupindex-web \
+              --format '{{range .State.Health.Log}}{{println .Output}}{{end}}' 2>/dev/null || true
+            exit 1
+          fi
           test "$(docker inspect setupindex-web --format '{{.State.Health.Status}}')" = "healthy"
           docker compose ps
           REMOTE
