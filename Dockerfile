@@ -2,6 +2,7 @@ FROM nginx:1.29-alpine
 
 LABEL org.opencontainers.image.title="SetupIndex" \
       org.opencontainers.image.description="Static multilingual creator setup directory" \
+      org.opencontainers.image.source="https://github.com/Krokodilushka/setupindex" \
       com.setupindex.image="true"
 
 RUN rm -rf /usr/share/nginx/html/* /etc/nginx/conf.d/default.conf

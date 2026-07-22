@@ -45,7 +45,7 @@ Before publishing a new profile:
 
 ## Container deployment
 
-Pushes to `main` run linting, type-checking, and static generation. The workflow uploads the generated site together with `Dockerfile`, `compose.yaml`, and the Nginx configuration to `/home/deploy/setupindex/`. It then builds the image on the server and runs `docker compose up -d --wait`. Pull requests only run verification.
+Pushes to `main` run linting, type-checking, static generation, and a Docker Buildx build. The workflow publishes immutable commit and `latest` tags to `ghcr.io/krokodilushka/setupindex-web`, uploads `compose.yaml` to `/home/deploy/setupindex/`, then runs `docker compose pull` and `docker compose up -d --wait`. Pull requests build the image for verification without publishing or deploying it.
 
 Configure the `production` environment in GitHub and add these repository or environment secrets:
 

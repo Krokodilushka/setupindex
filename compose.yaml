@@ -2,10 +2,7 @@ name: setupindex
 
 services:
   web:
-    image: setupindex-web:${SETUPINDEX_IMAGE_TAG:-latest}
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/krokodilushka/setupindex-web:${SETUPINDEX_IMAGE_TAG:-latest}
     container_name: setupindex-web
     restart: unless-stopped
     expose:
