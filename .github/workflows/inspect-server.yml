@@ -46,4 +46,9 @@ jobs:
             echo "[$container]"
             docker inspect "$container" --format '{{range .Args}}{{println .}}{{end}}'
           done
+          echo "REFERENCE_TRAEFIK_LABELS"
+          docker inspect futures-calculator-web \
+            --format '{{range $key, $value := .Config.Labels}}{{println $key "=" $value}}{{end}}' \
+            | grep '^traefik\.' \
+            | sort
           REMOTE
