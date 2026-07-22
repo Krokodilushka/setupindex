@@ -1,0 +1,66 @@
+# SetupIndex
+
+Multilingual static directory of creator PCs, peripherals, and streaming gear. The MVP is built with Nuxt, ships English and Russian URLs, and is designed for display ads and clearly disclosed affiliate links once monetization is enabled.
+
+## Local development
+
+Requirements: Node.js 24 and npm 11.
+
+```bash
+npm install
+npm run dev
+```
+
+Production checks:
+
+```bash
+npm run lint
+npm run typecheck
+npm run generate
+npx serve .output/public
+```
+
+Set `NUXT_PUBLIC_SITE_URL` when generating for a non-production hostname. Production defaults to `https://setupindex.com`.
+
+## Content model
+
+Creator records live in `app/data/creators.ts`. Each equipment claim has its own source URL, source label, and checked date. Only profiles with enough sourced content use `indexable: true`; research placeholders receive `noindex, follow` and are excluded from the explicit sitemap list.
+
+Before publishing a new profile:
+
+1. Prefer the creator's own setup page, video, stream command, or public post.
+2. Record a direct URL and the date it was checked for every item.
+3. Use `reported` unless the creator directly confirmed the item.
+4. Add genuinely useful context in both languages; do not index thin placeholder pages.
+
+## SEO behavior
+
+- Every public page has separate `/en/...` and `/ru/...` URLs.
+- Canonical, `hreflang`, Open Graph locale, title, and description tags are generated server-side.
+- Creator pages include `ProfilePage`, `Person`, breadcrumbs, equipment lists, and FAQ structured data where applicable.
+- Static generation outputs HTML for all routes and generates a localized `sitemap_index.xml` plus `robots.txt`.
+- Search/filter query variants are marked `noindex` to avoid duplicate indexable pages.
+
+## GitHub Actions deployment
+
+Pushes to `main` run linting, type-checking, and static generation, then sync `.output/public/` to `/home/deploy/setupindex/`. Pull requests only run verification.
+
+Configure the `production` environment in GitHub and add these repository or environment secrets:
+
+| Secret | Value |
+| --- | --- |
+| `DEPLOY_HOST` | Server hostname or IP |
+| `DEPLOY_USER` | SSH user with write access to `/home/deploy/setupindex` |
+| `DEPLOY_PORT` | Optional SSH port; defaults to `22` |
+| `DEPLOY_SSH_KEY` | Private deployment key |
+| `DEPLOY_KNOWN_HOSTS` | Optional pinned host key from `ssh-keyscan -H your-host`; otherwise SSH trusts the first seen key |
+
+The server needs `rsync`. Point the web server document root at `/home/deploy/setupindex` and use a static-file fallback such as this Nginx location:
+
+```nginx
+location / {
+    try_files $uri $uri/ =404;
+}
+```
+
+The workflow intentionally deploys only generated public files; Node.js is not required on the server.
