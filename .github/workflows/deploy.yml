@@ -39,6 +39,7 @@ jobs:
         run: npm run generate
         env:
           NUXT_PUBLIC_SITE_URL: https://setupindex.com
+          NUXT_PUBLIC_YANDEX_METRIKA_ID: ${{ vars.NUXT_PUBLIC_YANDEX_METRIKA_ID }}
 
       - name: Upload generated site
         if: github.event_name != 'pull_request'
@@ -59,7 +60,7 @@ jobs:
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
       DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
-      DEPLOY_PATH: /home/deploy/setupindex
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/home/deploy/setupindex' }}
     steps:
       - name: Download generated site
         uses: actions/download-artifact@v8
