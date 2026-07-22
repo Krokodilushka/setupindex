@@ -43,9 +43,9 @@ Before publishing a new profile:
 - Static generation outputs HTML for all routes and generates a localized `sitemap_index.xml` plus `robots.txt`.
 - Search/filter query variants are marked `noindex` to avoid duplicate indexable pages.
 
-## GitHub Actions deployment
+## Container deployment
 
-Pushes to `main` run linting, type-checking, and static generation, then sync `.output/public/` to `/home/deploy/setupindex/`. Pull requests only run verification.
+Pushes to `main` run linting, type-checking, and static generation. The workflow uploads the generated site together with `Dockerfile`, `compose.yaml`, and the Nginx configuration to `/home/deploy/setupindex/`. It then builds the image on the server and runs `docker compose up -d --wait`. Pull requests only run verification.
 
 Configure the `production` environment in GitHub and add these repository or environment secrets:
 
@@ -64,12 +64,15 @@ Configure these non-sensitive repository variables:
 | `DEPLOY_PATH` | `/home/deploy/setupindex` |
 | `NUXT_PUBLIC_YANDEX_METRIKA_ID` | Yandex Metrica counter ID; leave unset to disable analytics |
 
-The server needs `rsync`. Point the web server document root at `/home/deploy/setupindex` and use a static-file fallback such as this Nginx location:
+The server needs Docker, Docker Compose, and `rsync`. The Compose service joins the existing external `traefik` network and publishes `setupindex.com` through the `websecure` entrypoint with the `letsencrypt` certificate resolver.
 
-```nginx
-location / {
-    try_files $uri $uri/ =404;
-}
+Useful server commands:
+
+```bash
+cd /home/deploy/setupindex
+docker compose ps
+docker compose logs --tail=100 web
+docker compose restart web
 ```
 
-The workflow intentionally deploys only generated public files; Node.js is not required on the server.
+Node.js is not required on the server. Nginx serves the generated files from the container, including immutable caching for Nuxt assets, locale-aware root redirects, health checks, and static 404 handling.

@@ -41,12 +41,17 @@ jobs:
           NUXT_PUBLIC_SITE_URL: https://setupindex.com
           NUXT_PUBLIC_YANDEX_METRIKA_ID: ${{ vars.NUXT_PUBLIC_YANDEX_METRIKA_ID }}
 
-      - name: Upload generated site
+      - name: Upload deployment bundle
         if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v7
         with:
-          name: setupindex-static
-          path: .output/public
+          name: setupindex-deployment
+          path: |
+            .output/public
+            .dockerignore
+            Dockerfile
+            compose.yaml
+            deploy/nginx.conf
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 3
@@ -62,11 +67,11 @@ jobs:
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT || '22' }}
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/home/deploy/setupindex' }}
     steps:
-      - name: Download generated site
+      - name: Download deployment bundle
         uses: actions/download-artifact@v8
         with:
-          name: setupindex-static
-          path: dist
+          name: setupindex-deployment
+          path: release
 
       - name: Configure SSH
         env:
@@ -89,8 +94,35 @@ jobs:
             "$DEPLOY_USER@$DEPLOY_HOST" \
             'install -d -m 755 /home/deploy/setupindex'
 
-      - name: Deploy static files
+      - name: Upload Compose release
         run: |
           rsync -az --delete-delay \
             -e "ssh -p $DEPLOY_PORT -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" \
-            dist/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+            release/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+
+      - name: Build and start container
+        run: |
+          ssh -p "$DEPLOY_PORT" -i ~/.ssh/id_ed25519 \
+            -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "SETUPINDEX_IMAGE_TAG='$GITHUB_SHA' sh -s" <<'REMOTE'
+          set -eu
+          target=/home/deploy/setupindex
+          test "$target" = "/home/deploy/setupindex"
+          cd "$target"
+          printf 'SETUPINDEX_IMAGE_TAG=%s\n' "$SETUPINDEX_IMAGE_TAG" > .env
+          docker compose config --quiet
+          docker compose build --pull web
+          docker compose up -d --remove-orphans --wait --wait-timeout 90 web
+          test "$(docker inspect setupindex-web --format '{{.State.Health.Status}}')" = "healthy"
+          docker compose ps
+          REMOTE
+
+      - name: Verify public site
+        run: |
+          curl --fail --silent --show-error \
+            --retry 10 --retry-delay 3 --retry-all-errors \
+            https://setupindex.com/en/ | grep -q 'SetupIndex'
+          curl --fail --silent --show-error \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            https://setupindex.com/sitemap_index.xml | grep -q '<sitemapindex'
