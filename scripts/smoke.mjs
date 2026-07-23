@@ -118,7 +118,7 @@ async function run() {
   check('indexable profile is indexable', /<meta[^>]+name="robots"[^>]+content="index, follow/.test(profileBody))
   check('server-rendered HTML contains equipment', profileBody.includes('9800X3D'))
 
-  const research = await get('/en/creators/kuplinov')
+  const research = await get('/en/creators/marmok')
   const researchBody = research.ok ? await research.text() : ''
   check('research profile is noindex', research.status === 200
     && /<meta[^>]+name="robots"[^>]+content="noindex/.test(researchBody))
@@ -149,7 +149,7 @@ async function run() {
   const enSitemap = await get('/__sitemap__/en.xml')
   const enSitemapBody = await enSitemap.text()
   check('sitemap includes an indexable creator', enSitemapBody.includes('/en/creators/m0nesy'))
-  check('sitemap excludes research profiles', !enSitemapBody.includes('/en/creators/kuplinov'))
+  check('sitemap excludes research profiles', !enSitemapBody.includes('/en/creators/marmok'))
 
   for (const locale of ['en', 'ru']) {
     const body = await (await get(`/__sitemap__/${locale}.xml`)).text()

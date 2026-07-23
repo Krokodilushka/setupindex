@@ -45,6 +45,9 @@
   "equipment": {
     "cpu": "Processor",
     "gpu": "Graphics card",
+    "motherboard": "Motherboard",
+    "memory": "Memory",
+    "psu": "Power supply",
     "monitor": "Monitor",
     "mouse": "Mouse",
     "keyboard": "Keyboard",
