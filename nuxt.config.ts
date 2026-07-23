@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import tailwindcss from '@tailwindcss/vite'
 
 const siteUrl = (process.env.NUXT_PUBLIC_SITE_URL || 'https://setupindex.com').replace(/\/$/, '')
 const localeCodes = ['en', 'ru'] as const
@@ -39,6 +40,12 @@ export default defineNuxtConfig({
   ],
 
   css: ['~/assets/css/main.css'],
+
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
+  },
 
   runtimeConfig: {
     databasePath: process.env.NUXT_DATABASE_PATH || './.data/setupindex.sqlite',
