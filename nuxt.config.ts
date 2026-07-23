@@ -94,6 +94,11 @@ export default defineNuxtConfig({
   },
 
   sitemap: {
+    // `sitemapUrls` already enumerates every indexable route, so auto-discovery is
+    // off: it also picked up `/`, which only negotiates a locale and redirects.
+    // Exclude globs cannot express that — they match with the locale prefix stripped,
+    // so a `/` pattern hits the `/en` home page instead.
+    excludeAppSources: true,
     urls: sitemapUrls,
     exclude: excludedCreatorRoutes,
   },

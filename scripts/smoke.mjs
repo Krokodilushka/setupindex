@@ -150,6 +150,17 @@ async function run() {
   const enSitemapBody = await enSitemap.text()
   check('sitemap includes an indexable creator', enSitemapBody.includes('/en/creators/m0nesy'))
   check('sitemap excludes research profiles', !enSitemapBody.includes('/en/creators/kuplinov'))
+
+  for (const locale of ['en', 'ru']) {
+    const body = await (await get(`/__sitemap__/${locale}.xml`)).text()
+    const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1])
+
+    // `/` redirects, so submitting it would report as "Page with redirect".
+    check(`${locale} sitemap omits the redirecting root`, !locs.some(loc => /^https?:\/\/[^/]+\/?$/.test(loc)),
+      locs.join(' '))
+    check(`${locale} sitemap only lists ${locale} URLs`,
+      locs.every(loc => new URL(loc).pathname.startsWith(`/${locale}`)), locs.join(' '))
+  }
 }
 
 try {
