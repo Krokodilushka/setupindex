@@ -10,12 +10,14 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "nuxt prepare",
-    "preview": "npx serve .output/public",
-    "typecheck": "nuxt typecheck"
+    "preview": "node .output/server/index.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "start": "node .output/server/index.mjs",
+    "typecheck": "nuxt typecheck",
+    "validate": "node scripts/validate-content.ts"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^10.5.0",

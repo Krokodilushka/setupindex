@@ -7,8 +7,10 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: setupindex-production
-  cancel-in-progress: true
+  # Keyed by ref so a pull request build can never cancel a production deploy,
+  # and never cancel main mid-rollout.
+  group: setupindex-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
@@ -36,11 +38,16 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
-      - name: Generate static site
-        run: npm run generate
+      - name: Validate content
+        run: npm run validate
+
+      - name: Build SSR bundle
+        run: npm run build
         env:
           NUXT_PUBLIC_SITE_URL: https://setupindex.com
-          NUXT_PUBLIC_YANDEX_METRIKA_ID: ${{ vars.NUXT_PUBLIC_YANDEX_METRIKA_ID }}
+
+      - name: Smoke-test the server
+        run: npm run smoke
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -59,6 +66,8 @@ jobs:
           context: .
           file: Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
+          build-args: |
+            NUXT_PUBLIC_SITE_URL=https://setupindex.com
           tags: |
             ghcr.io/krokodilushka/setupindex-web:${{ github.sha }}
             ghcr.io/krokodilushka/setupindex-web:latest
@@ -121,17 +130,22 @@ jobs:
             -e "ssh -p $DEPLOY_PORT -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" \
             release/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
 
-      - name: Build and start container
+      - name: Pull and start container
+        env:
+          METRIKA_ID: ${{ vars.NUXT_PUBLIC_YANDEX_METRIKA_ID }}
         run: |
           ssh -p "$DEPLOY_PORT" -i ~/.ssh/id_ed25519 \
             -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new \
             "$DEPLOY_USER@$DEPLOY_HOST" \
-            "SETUPINDEX_IMAGE_TAG='$GITHUB_SHA' sh -s" <<'REMOTE'
+            "SETUPINDEX_IMAGE_TAG='$GITHUB_SHA' METRIKA_ID='$METRIKA_ID' sh -s" <<'REMOTE'
           set -eu
           target=/home/deploy/setupindex
           test "$target" = "/home/deploy/setupindex"
           cd "$target"
-          printf 'SETUPINDEX_IMAGE_TAG=%s\n' "$SETUPINDEX_IMAGE_TAG" > .env
+          {
+            printf 'SETUPINDEX_IMAGE_TAG=%s\n' "$SETUPINDEX_IMAGE_TAG"
+            printf 'NUXT_PUBLIC_YANDEX_METRIKA_ID=%s\n' "${METRIKA_ID:-}"
+          } > .env
           docker compose config --quiet
           docker compose pull web
           if ! docker compose up -d --remove-orphans --wait --wait-timeout 90 web; then
@@ -149,7 +163,13 @@ jobs:
         run: |
           curl --fail --silent --show-error \
             --retry 10 --retry-delay 3 --retry-all-errors \
-            https://setupindex.com/en/ | grep -q 'SetupIndex'
+            -H 'Accept: text/html' \
+            https://setupindex.com/en | grep -q 'SetupIndex'
           curl --fail --silent --show-error \
             --retry 5 --retry-delay 2 --retry-all-errors \
             https://setupindex.com/sitemap_index.xml | grep -q '<sitemapindex'
+          # The root must negotiate a locale rather than 404 now that Nginx is gone.
+          curl --fail --silent --show-error --output /dev/null --write-out '%{redirect_url}\n' \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            -H 'Accept-Language: ru-RU,ru;q=0.9' \
+            https://setupindex.com/ | grep -q '/ru'

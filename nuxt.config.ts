@@ -6,19 +6,11 @@ const staticPaths = ['', '/creators', '/methodology']
 const localizedStaticRoutes = localeCodes.flatMap(locale =>
   staticPaths.map(path => `/${locale}${path}`),
 )
-const localizedCreatorRoutes = localeCodes.flatMap(locale =>
-  creators.map(creator => `/${locale}/creators/${creator.slug}`),
-)
 const excludedCreatorRoutes = localeCodes.flatMap(locale =>
   creators
     .filter(creator => !creator.indexable)
     .map(creator => `/${locale}/creators/${creator.slug}`),
 )
-const prerenderRoutes = [
-  ...localizedStaticRoutes,
-  ...localizedCreatorRoutes,
-  '/robots.txt',
-]
 const sitemapUrls = [
   ...localizedStaticRoutes.map(loc => ({ loc })),
   ...localeCodes.flatMap(locale =>
@@ -117,19 +109,25 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: prerenderRoutes,
-      failOnError: true,
-    },
+    preset: 'node-server',
+    // Nginx is gone under SSR, so Nitro has to ship pre-compressed assets itself.
+    compressPublicAssets: { gzip: true, brotli: true },
   },
 
   routeRules: {
     '/**': {
       headers: {
         'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
         'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+      },
+    },
+    // The locale of `/` depends on the cookie and Accept-Language of each visitor.
+    '/': {
+      headers: {
+        'Cache-Control': 'no-store',
+        'Vary': 'Accept-Language, Cookie',
       },
     },
   },

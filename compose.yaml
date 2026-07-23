@@ -6,15 +6,22 @@ services:
     container_name: setupindex-web
     restart: unless-stopped
     expose:
-      - "80"
+      - "3000"
+    environment:
+      NUXT_PUBLIC_SITE_URL: https://setupindex.com
+      # Read at runtime by the SSR server: changing it needs a restart, not a rebuild.
+      NUXT_PUBLIC_YANDEX_METRIKA_ID: ${NUXT_PUBLIC_YANDEX_METRIKA_ID:-}
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/healthz | grep -qx 'ok'"]
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/healthz | grep -qx 'ok'"]
       interval: 15s
       timeout: 3s
-      start_period: 5s
+      start_period: 10s
       retries: 4
     security_opt:
       - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
     networks:
       - traefik
     labels:
@@ -24,7 +31,9 @@ services:
       traefik.http.routers.setupindex-web.entrypoints: websecure
       traefik.http.routers.setupindex-web.tls: "true"
       traefik.http.routers.setupindex-web.tls.certresolver: letsencrypt
-      traefik.http.services.setupindex-web.loadbalancer.server.port: "80"
+      traefik.http.routers.setupindex-web.middlewares: setupindex-compress
+      traefik.http.middlewares.setupindex-compress.compress: "true"
+      traefik.http.services.setupindex-web.loadbalancer.server.port: "3000"
 
 networks:
   traefik:

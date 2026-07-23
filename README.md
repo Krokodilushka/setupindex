@@ -1,6 +1,6 @@
 # SetupIndex
 
-Multilingual static directory of creator PCs, peripherals, and streaming gear. The MVP is built with Nuxt, ships English and Russian URLs, and is designed for display ads and clearly disclosed affiliate links once monetization is enabled.
+Multilingual directory of creator PCs, peripherals, and streaming gear. The MVP is built with Nuxt, server-rendered on every request, ships English and Russian URLs, and is designed for display ads and clearly disclosed affiliate links once monetization is enabled.
 
 ## Local development
 
@@ -11,18 +11,24 @@ npm install
 npm run dev
 ```
 
-Production checks:
+Production checks, in the order CI runs them:
 
 ```bash
 npm run lint
 npm run typecheck
-npm run generate
-npx serve .output/public
+npm run validate   # content invariants that types cannot express
+npm run build
+npm run smoke      # boots .output/server and asserts runtime behavior
+npm run preview    # same server, for manual poking
 ```
 
-Set `NUXT_PUBLIC_SITE_URL` when generating for a non-production hostname. Production defaults to `https://setupindex.com`.
+`npm run validate` fails on dangling `sourceIds`, duplicate slugs, missing or over-long SEO copy, mismatched keys between `en.json` and `ru.json`, and profiles marked `indexable` without sourced equipment.
 
-Set `NUXT_PUBLIC_YANDEX_METRIKA_ID` to enable Yandex Metrica. The integration uses SPA mode and records an explicit page hit after each completed Nuxt navigation.
+`npm run smoke` is the integration test. It covers what only exists at runtime: locale negotiation on `/`, localized 404s, security headers, JSON-LD in the server-rendered HTML, and sitemap contents.
+
+Set `NUXT_PUBLIC_SITE_URL` when building for a non-production hostname. Production defaults to `https://setupindex.com`.
+
+Set `NUXT_PUBLIC_YANDEX_METRIKA_ID` to enable Yandex Metrica. Under SSR this is read at runtime, so changing the counter needs a container restart, not a rebuild. The integration uses SPA mode and records an explicit page hit after each completed Nuxt navigation.
 
 ## Content model
 
@@ -40,12 +46,16 @@ Before publishing a new profile:
 - Every public page has separate `/en/...` and `/ru/...` URLs.
 - Canonical, `hreflang`, Open Graph locale, title, and description tags are generated server-side.
 - Creator pages include `ProfilePage`, `Person`, breadcrumbs, equipment lists, and FAQ structured data where applicable.
-- Static generation outputs HTML for all routes and generates a localized `sitemap_index.xml` plus `robots.txt`.
+- `/` is not a page. It negotiates a locale per visitor — the `setupindex_locale` cookie first, then `Accept-Language` with proper q-weights — and redirects. It is served `no-store` with `Vary: Accept-Language, Cookie` so no cache pins one language for everyone.
+- Error pages are rendered in the locale of the requested URL, so `/ru/...` 404s are Russian.
+- `sitemap_index.xml` and `robots.txt` are generated per request; research profiles are excluded from the sitemap.
 - Search/filter query variants are marked `noindex` to avoid duplicate indexable pages.
 
 ## Container deployment
 
-Pushes to `main` run linting, type-checking, static generation, and a Docker Buildx build. The workflow publishes immutable commit and `latest` tags to `ghcr.io/krokodilushka/setupindex-web`, uploads `compose.yaml` to `/home/deploy/setupindex/`, then runs `docker compose pull` and `docker compose up -d --wait`. Pull requests build the image for verification without publishing or deploying it.
+Pushes to `main` run linting, type-checking, content validation, an SSR build, the smoke test, and a Docker Buildx build. The workflow publishes immutable commit and `latest` tags to `ghcr.io/krokodilushka/setupindex-web`, uploads `compose.yaml` to `/home/deploy/setupindex/`, then runs `docker compose pull` and `docker compose up -d --wait`. Pull requests build the image for verification without publishing or deploying it.
+
+The concurrency group is keyed by ref, so a pull request build cannot cancel a production rollout, and `main` never cancels itself mid-deploy.
 
 Configure the `production` environment in GitHub and add these repository or environment secrets:
 
@@ -64,7 +74,7 @@ Configure these non-sensitive repository variables:
 | `DEPLOY_PATH` | `/home/deploy/setupindex` |
 | `NUXT_PUBLIC_YANDEX_METRIKA_ID` | Yandex Metrica counter ID; leave unset to disable analytics |
 
-The server needs Docker, Docker Compose, and `rsync`. The Compose service joins the existing external `traefik` network and publishes `setupindex.com` through the `websecure` entrypoint with the `letsencrypt` certificate resolver.
+The server needs Docker, Docker Compose, and `rsync`. The Compose service joins the existing external `traefik` network and publishes `setupindex.com` through the `websecure` entrypoint with the `letsencrypt` certificate resolver. Traefik must also have an HTTP-to-HTTPS redirect on the `web` entrypoint — this stack only defines a `websecure` router, so plain `http://setupindex.com` depends on that global rule.
 
 Useful server commands:
 
@@ -75,4 +85,4 @@ docker compose logs --tail=100 web
 docker compose restart web
 ```
 
-Node.js is not required on the server. Nginx serves the generated files from the container, including immutable caching for Nuxt assets, locale-aware root redirects, health checks, and static 404 handling.
+The container runs the Nitro server on port 3000 as the non-root `node` user with a read-only root filesystem. It serves its own static assets with pre-compressed gzip and brotli variants, and Traefik's `compress` middleware handles the rendered HTML. Health is exposed at `/healthz`, which both the image `HEALTHCHECK` and the Compose healthcheck poll.
