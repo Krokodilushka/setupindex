@@ -3,6 +3,7 @@
 .output
 dist
 .data
+/data/
 .cache
 
 # Dependencies

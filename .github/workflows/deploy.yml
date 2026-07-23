@@ -125,11 +125,12 @@ jobs:
           ssh -p "$DEPLOY_PORT" -i ~/.ssh/id_ed25519 \
             -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new \
             "$DEPLOY_USER@$DEPLOY_HOST" \
-            'install -d -m 755 /home/deploy/setupindex /home/deploy/setupindex-data'
+            'install -d -m 755 /home/deploy/setupindex /home/deploy/setupindex/data'
 
       - name: Upload Compose release
         run: |
           rsync -az --delete-delay \
+            --exclude='data/' \
             -e "ssh -p $DEPLOY_PORT -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" \
             release/ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
 
@@ -150,7 +151,7 @@ jobs:
             printf 'SETUPINDEX_IMAGE_TAG=%s\n' "$SETUPINDEX_IMAGE_TAG"
             printf 'NUXT_PUBLIC_YANDEX_METRIKA_ID=%s\n' "${METRIKA_ID:-}"
             printf 'NUXT_SESSION_PASSWORD=%s\n' "$SESSION_PASSWORD"
-            printf 'SETUPINDEX_DATA_PATH=%s\n' "/home/deploy/setupindex-data"
+            printf 'SETUPINDEX_DATA_PATH=%s\n' "$target/data"
             printf 'SETUPINDEX_UID=%s\n' "$(id -u)"
             printf 'SETUPINDEX_GID=%s\n' "$(id -g)"
           } > .env

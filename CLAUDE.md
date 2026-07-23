@@ -62,7 +62,7 @@ Each page sets `useSeoMeta` plus a `useHead` JSON-LD block built through `safeJs
 
 ### Deploy path
 
-`.github/workflows/deploy.yml`: verify job runs the five checks, then Buildx builds `Dockerfile` and pushes `ghcr.io/krokodilushka/setupindex-web:{sha,latest}`. PRs build but do not push or deploy. The deploy job rsyncs only `compose.yaml` to `/home/deploy/setupindex`, writes runtime settings to `.env`, and runs `docker compose up -d --wait`. SQLite lives in the separate host directory `/home/deploy/setupindex-data`, so release rsync cannot delete it.
+`.github/workflows/deploy.yml`: verify job runs the five checks, then Buildx builds `Dockerfile` and pushes `ghcr.io/krokodilushka/setupindex-web:{sha,latest}`. PRs build but do not push or deploy. The deploy job rsyncs only `compose.yaml` to `/home/deploy/setupindex`, explicitly excludes `data/` from deletion, writes runtime settings to `.env`, and runs `docker compose up -d --wait`. SQLite lives at `/home/deploy/setupindex/data/setupindex.sqlite`.
 
 `Dockerfile` is multi-stage and self-contained: it installs with `npm ci --ignore-scripts`, builds, and copies `.output` plus `drizzle/` into a `node:24-alpine` runtime. The container runs as the deployment UID/GID on port 3000 with a read-only root filesystem and a `/tmp` tmpfs. Compose bind-mounts the only writable persistent path at `/data` for the SQLite database, WAL, and SHM files.
 

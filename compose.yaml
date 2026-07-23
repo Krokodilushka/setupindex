@@ -17,7 +17,7 @@ services:
       NUXT_PUBLIC_YANDEX_METRIKA_ID: ${NUXT_PUBLIC_YANDEX_METRIKA_ID:-}
     volumes:
       - type: bind
-        source: ${SETUPINDEX_DATA_PATH:-./.data}
+        source: ${SETUPINDEX_DATA_PATH:-./data}
         target: /data
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/healthz | grep -qx 'ok'"]
