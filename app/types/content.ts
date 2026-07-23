@@ -6,7 +6,7 @@ export type CreatorKind = 'streamer' | 'youtuber' | 'esports'
 
 export type Platform = 'twitch' | 'youtube' | 'vk-video' | 'esports'
 
-export type VerificationStatus = 'reported' | 'mixed' | 'research'
+export type VerificationStatus = 'confirmed' | 'reported' | 'mixed' | 'research'
 
 export type EquipmentStatus = 'confirmed' | 'reported' | 'historical'
 
@@ -16,10 +16,13 @@ export type EquipmentCategory
     | 'motherboard'
     | 'memory'
     | 'psu'
+    | 'laptop'
     | 'monitor'
     | 'mouse'
     | 'keyboard'
     | 'microphone'
+    | 'audio-interface'
+    | 'speakers'
     | 'camera'
     | 'headset'
     | 'mousepad'
