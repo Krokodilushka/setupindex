@@ -1177,6 +1177,33 @@ if (status.value.authenticated)
                 </small>
               </fieldset>
             </div>
+
+            <div class="admin-section-title admin-subsection-title">
+              <h2>Социальные ссылки</h2>
+              <button type="button" class="admin-button secondary" @click="addSocial">+ Ссылка</button>
+            </div>
+            <div class="admin-repeat-list">
+              <article v-for="(social, index) in editor.socials" :key="index" class="admin-repeat-card compact">
+                <label class="admin-field">
+                  <span>Название</span>
+                  <input
+                    v-model="social.label"
+                    list="admin-social-label-suggestions"
+                    autocomplete="off"
+                  >
+                </label>
+                <label class="admin-field">
+                  <span>Ссылка</span>
+                  <input
+                    v-model="social.url"
+                    type="url"
+                    placeholder="https://"
+                    @blur="completeSocial(social)"
+                  >
+                </label>
+                <button type="button" class="admin-remove" @click="editor.socials?.splice(index, 1)">Удалить</button>
+              </article>
+            </div>
           </section>
 
           <section v-for="locale in (['ru', 'en'] as const)" :key="locale" class="admin-form-section">
@@ -1322,34 +1349,6 @@ if (status.value.authenticated)
             </div>
           </section>
 
-          <section class="admin-form-section">
-            <div class="admin-section-title">
-              <h2>Социальные ссылки</h2>
-              <button type="button" class="admin-button secondary" @click="addSocial">+ Ссылка</button>
-            </div>
-            <div class="admin-repeat-list">
-              <article v-for="(social, index) in editor.socials" :key="index" class="admin-repeat-card compact">
-                <label class="admin-field">
-                  <span>Название</span>
-                  <input
-                    v-model="social.label"
-                    list="admin-social-label-suggestions"
-                    autocomplete="off"
-                  >
-                </label>
-                <label class="admin-field">
-                  <span>Ссылка</span>
-                  <input
-                    v-model="social.url"
-                    type="url"
-                    placeholder="https://"
-                    @blur="completeSocial(social)"
-                  >
-                </label>
-                <button type="button" class="admin-remove" @click="editor.socials?.splice(index, 1)">Удалить</button>
-              </article>
-            </div>
-          </section>
         </div>
 
         <div v-else class="admin-empty">
@@ -1783,6 +1782,10 @@ if (status.value.authenticated)
 
 .admin-section-title {
   margin-bottom: 20px;
+}
+
+.admin-subsection-title {
+  margin-top: 24px;
 }
 
 .admin-form-grid {
