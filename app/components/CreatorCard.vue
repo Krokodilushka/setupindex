@@ -16,8 +16,7 @@ const realName = computed(() => localize(props.creator.realName, locale.value))
   <article class="creator-card" :style="{ '--card-accent': creator.accent }">
     <NuxtLink :to="localePath(`/creators/${creator.slug}`)" class="creator-card-link">
       <div class="creator-card-top">
-        <CreatorAvatar :initials="creator.initials" :accent="creator.accent" />
-        <StatusBadge :status="creator.verificationStatus" />
+        <CreatorAvatar :initials="creator.initials" :accent="creator.accent" :image="creator.avatarUrl" />
       </div>
 
       <div class="creator-card-body">

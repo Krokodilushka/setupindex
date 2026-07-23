@@ -6,7 +6,6 @@ export const creatorRecords = sqliteTable('creators', {
   id: integer().primaryKey({ autoIncrement: true }),
   slug: text().notNull().unique(),
   document: text({ mode: 'json' }).$type<Creator>().notNull(),
-  indexable: integer({ mode: 'boolean' }).notNull(),
   featured: integer({ mode: 'boolean' }).notNull(),
   version: integer().notNull().default(1),
   createdAt: text('created_at').notNull(),

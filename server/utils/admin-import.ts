@@ -2,6 +2,7 @@ import type { Creator } from '../../app/types/content'
 import type { CreatorImport } from '../../app/utils/creator-schema'
 import type { H3Event } from 'h3'
 import { createHmac, timingSafeEqual } from 'node:crypto'
+import { sortSourcesNewestFirst } from '../../app/utils/content'
 import { creatorImportSchema, validateCreatorSemantics } from '../../app/utils/creator-schema'
 import { withCreatorAccent } from '../../shared/utils/creator-accent'
 
@@ -52,7 +53,10 @@ export function parseImportBatch(input: unknown): CreatorImport {
     ...result.data,
     operations: result.data.operations.map(operation => ({
       ...operation,
-      document: withCreatorAccent(operation.document),
+      document: withCreatorAccent({
+        ...operation.document,
+        sources: sortSourcesNewestFirst(operation.document.sources),
+      }),
     })),
   } as CreatorImport
 }

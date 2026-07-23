@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Creator } from '../../types/content'
-import { formatIsoDate, localize, safeJsonLd } from '../../utils/content'
+import type { Creator, EquipmentItem } from '../../types/content'
+import { formatIsoDate, localize, safeJsonLd, sortSourcesNewestFirst } from '../../utils/content'
 
 const route = useRoute()
 const { locale, t } = useI18n()
@@ -26,6 +26,15 @@ const realName = computed(() => localize(creator.realName, locale.value))
 const relatedCreators = computed(() => creatorList.value
   .filter(item => item.slug !== creator.slug && item.kinds.some(kind => creator.kinds.includes(kind)))
   .slice(0, 3))
+const sourceGroups = computed(() => sortSourcesNewestFirst(creator.sources)
+  .map(source => ({
+    source,
+    items: creator.equipment.filter(item => item.sourceIds.includes(source.id)),
+  }))
+  .filter(group => group.items.length))
+function affiliateUrl(item: EquipmentItem) {
+  return item.affiliateUrl?.[locale.value as 'en' | 'ru']
+}
 const breadcrumbItems = computed(() => [
   { label: t('nav.home'), to: localePath('/') },
   { label: t('nav.creators'), to: localePath('/creators') },
@@ -56,9 +65,7 @@ useSeoMeta({
   ogType: 'profile',
   articlePublishedTime: creator.publishedAt,
   articleModifiedTime: creator.updatedAt,
-  robots: creator.indexable
-    ? 'index, follow, max-image-preview:large'
-    : 'noindex, follow',
+  robots: 'index, follow, max-image-preview:large',
 })
 
 useHead(() => ({
@@ -128,99 +135,151 @@ useHead(() => ({
       <div class="container">
         <AppBreadcrumbs :items="breadcrumbItems" />
 
-        <div class="profile-hero-grid">
-          <div class="profile-identity">
-            <CreatorAvatar :initials="creator.initials" :accent="creator.accent" size="large" />
-            <div>
-              <p class="eyebrow">{{ content.eyebrow }}</p>
-              <h1>{{ creator.name }}</h1>
-              <p v-if="realName" class="profile-real-name">{{ realName }}</p>
-            </div>
-          </div>
-
-          <div class="profile-summary">
-            <StatusBadge :status="creator.verificationStatus" />
-            <p>{{ content.intro }}</p>
-            <div class="profile-meta-row">
-              <span>{{ t('profile.lastReviewed') }}</span>
-              <strong>{{ formatIsoDate(creator.updatedAt, locale) }}</strong>
-            </div>
+        <div class="profile-identity">
+          <CreatorAvatar
+            :initials="creator.initials"
+            :accent="creator.accent"
+            :image="creator.avatarUrl"
+            size="large"
+          />
+          <div class="profile-identity-copy">
+            <p class="eyebrow">{{ content.eyebrow }}</p>
+            <h1>{{ creator.name }}</h1>
+            <p v-if="realName" class="profile-real-name">{{ realName }}</p>
           </div>
         </div>
 
-        <div class="tag-row profile-tags">
-          <span v-for="kind in creator.kinds" :key="kind" class="tag">
-            {{ t(`kind.${kind}`) }}
-          </span>
-          <span v-for="platform in creator.platforms" :key="platform" class="tag tag-muted">
-            {{ t(`platform.${platform}`) }}
-          </span>
-          <span v-if="creator.game" class="tag tag-muted">{{ creator.game }}</span>
+        <div class="profile-hero-toolbar">
+          <div class="profile-hero-facts">
+            <div class="profile-review-date">
+              <span>{{ t('profile.lastReviewed') }}</span>
+              <time :datetime="creator.updatedAt">{{ formatIsoDate(creator.updatedAt, locale) }}</time>
+            </div>
+
+            <div class="tag-row profile-tags">
+              <span v-for="kind in creator.kinds" :key="kind" class="tag">
+                {{ t(`kind.${kind}`) }}
+              </span>
+              <span v-for="platform in creator.platforms" :key="platform" class="tag tag-muted">
+                {{ t(`platform.${platform}`) }}
+              </span>
+              <span v-if="creator.game" class="tag tag-muted">{{ creator.game }}</span>
+            </div>
+          </div>
+
+          <nav
+            v-if="creator.socials?.length"
+            class="profile-social-links"
+            :aria-label="t('profile.socialsTitle')"
+          >
+            <a
+              v-for="social in creator.socials"
+              :key="social.url"
+              :href="social.url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ social.label }}
+              <span aria-hidden="true">↗</span>
+              <span class="sr-only">({{ t('common.externalLink') }})</span>
+            </a>
+          </nav>
         </div>
       </div>
     </section>
 
     <section class="section profile-content-section">
-      <div class="container profile-layout">
+      <div class="container">
         <div class="profile-main">
-          <article class="verdict-card">
-            <p class="eyebrow">{{ t('profile.verdictTitle') }}</p>
-            <p>{{ content.verdict }}</p>
-          </article>
-
           <section aria-labelledby="equipment-title">
             <div class="section-heading compact-heading">
               <h2 id="equipment-title">{{ t('profile.equipmentTitle') }}</h2>
               <p>{{ t('profile.equipmentDescription') }}</p>
             </div>
 
-            <div v-if="creator.equipment.length" class="equipment-grid">
-              <EquipmentCard
-                v-for="item in creator.equipment"
-                :key="`${item.category}-${item.name}`"
-                :item="item"
-                :sources="creator.sources"
-              />
+            <div v-if="sourceGroups.length" class="source-group-list">
+              <article
+                v-for="(group, index) in sourceGroups"
+                :key="group.source.id"
+                class="source-group"
+              >
+                <header class="source-group-header">
+                  <span class="source-index">{{ String(index + 1).padStart(2, '0') }}</span>
+                  <div class="source-group-heading">
+                    <p class="source-publisher">{{ group.source.publisher }}</p>
+                    <h3>
+                      <a
+                        v-if="group.source.url"
+                        :href="group.source.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {{ localize(group.source.title, locale) }}
+                        <span aria-hidden="true">↗</span>
+                        <span class="sr-only">({{ t('common.externalLink') }})</span>
+                      </a>
+                      <span v-else>{{ localize(group.source.title, locale) }}</span>
+                    </h3>
+                    <p v-if="localize(group.source.description, locale)" class="source-description">
+                      {{ localize(group.source.description, locale) }}
+                    </p>
+                  </div>
+                  <dl v-if="group.source.sourceUpdatedAt" class="source-group-date">
+                    <dt>{{ t('common.sourceUpdated') }}</dt>
+                    <dd>
+                      <time :datetime="group.source.sourceUpdatedAt">
+                        {{ formatIsoDate(group.source.sourceUpdatedAt, locale) }}
+                      </time>
+                    </dd>
+                  </dl>
+                </header>
+
+                <div class="equipment-table-wrap">
+                  <table class="equipment-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">{{ t('profile.equipmentCategory') }}</th>
+                        <th scope="col">{{ t('profile.equipmentModel') }}</th>
+                        <th scope="col">{{ t('profile.equipmentDetails') }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="item in group.items"
+                        :key="`${group.source.id}-${item.category}-${item.name}`"
+                      >
+                        <td class="equipment-table-category">
+                          {{ t(`equipment.${item.category}`) }}
+                        </td>
+                        <td class="equipment-table-model">
+                          <strong>{{ item.name }}</strong>
+                          <a
+                            v-if="affiliateUrl(item)"
+                            :href="affiliateUrl(item)"
+                            target="_blank"
+                            rel="sponsored noopener noreferrer"
+                          >
+                            {{ t('profile.findProduct') }}
+                            <span aria-hidden="true">↗</span>
+                            <span class="sr-only">({{ t('common.externalLink') }})</span>
+                          </a>
+                        </td>
+                        <td class="equipment-table-note">
+                          {{ localize(item.note, locale) || '—' }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
             </div>
 
-            <div v-else class="research-state">
-              <div class="research-icon" aria-hidden="true">?</div>
+            <div v-else class="empty-equipment-state">
+              <div class="empty-equipment-icon" aria-hidden="true">?</div>
               <div>
                 <h3>{{ t('profile.noEquipmentTitle') }}</h3>
                 <p>{{ t('profile.noEquipmentText') }}</p>
               </div>
-            </div>
-          </section>
-
-          <section class="source-section" aria-labelledby="sources-title">
-            <div class="section-heading compact-heading">
-              <h2 id="sources-title">{{ t('profile.sourcesTitle') }}</h2>
-              <p>{{ t('profile.sourcesDescription') }}</p>
-            </div>
-
-            <ol v-if="creator.sources.length" class="source-list">
-              <li v-for="(source, index) in creator.sources" :key="source.id">
-                <span class="source-index">{{ String(index + 1).padStart(2, '0') }}</span>
-                <div>
-                  <a :href="source.url" target="_blank" rel="noopener noreferrer">
-                    {{ localize(source.title, locale) }} ↗
-                    <span class="sr-only">({{ t('common.externalLink') }})</span>
-                  </a>
-                  <p>{{ source.publisher }}</p>
-                </div>
-                <dl>
-                  <template v-if="source.sourceUpdatedAt">
-                    <dt>{{ t('common.sourceUpdated') }}</dt>
-                    <dd>{{ formatIsoDate(source.sourceUpdatedAt, locale) }}</dd>
-                  </template>
-                  <dt>{{ t('common.checked') }}</dt>
-                  <dd>{{ formatIsoDate(source.checkedAt, locale) }}</dd>
-                </dl>
-              </li>
-            </ol>
-
-            <div v-else class="source-empty">
-              {{ t('profile.noEquipmentText') }}
             </div>
           </section>
 
@@ -232,34 +291,6 @@ useHead(() => ({
             </details>
           </section>
         </div>
-
-        <aside class="profile-sidebar">
-          <div v-if="creator.socials?.length" class="sidebar-card">
-            <h2>{{ t('profile.socialsTitle') }}</h2>
-            <a
-              v-for="social in creator.socials"
-              :key="social.url"
-              :href="social.url"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {{ social.label }} ↗
-            </a>
-          </div>
-
-          <div class="sidebar-card sidebar-methodology">
-            <span aria-hidden="true">✓</span>
-            <h2>{{ t('home.proofTitle') }}</h2>
-            <p>{{ t('home.proofText') }}</p>
-            <NuxtLink :to="localePath('/methodology')" class="text-link">
-              {{ t('common.readMethodology') }} →
-            </NuxtLink>
-          </div>
-
-          <p class="affiliate-disclosure">
-            {{ t('profile.affiliateDisclosure') }}
-          </p>
-        </aside>
       </div>
     </section>
 

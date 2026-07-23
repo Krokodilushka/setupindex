@@ -8,6 +8,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
+    "avatars:fetch": "node scripts/fetch-creator-avatars.mjs",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "lint": "eslint .",

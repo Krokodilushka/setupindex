@@ -2,6 +2,14 @@ import { z } from 'zod'
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected YYYY-MM-DD')
 const httpsUrl = z.string().url().startsWith('https://')
+const avatarUrl = z.union([
+  httpsUrl,
+  z.string().regex(/^\/uploads\/avatars\/[a-z0-9][a-z0-9-]*-[a-f0-9]{16}\.webp$/),
+  // Legacy inline avatars are written to disk the next time the profile is saved.
+  z.string()
+    .max(1_500_000)
+    .regex(/^data:image\/webp;base64,[A-Za-z0-9+/]+=*$/),
+])
 
 const localizedTextSchema = z.object({
   en: z.string(),
@@ -12,9 +20,10 @@ const sourceSchema = z.object({
   id: z.string().min(1),
   title: localizedTextSchema,
   publisher: z.string().min(1),
-  url: httpsUrl,
+  url: httpsUrl.optional(),
   sourceUpdatedAt: isoDate.optional(),
   checkedAt: isoDate,
+  description: localizedTextSchema.optional(),
 })
 
 const equipmentSchema = z.object({
@@ -40,7 +49,6 @@ const equipmentSchema = z.object({
     'cooling',
   ]),
   name: z.string().min(1),
-  status: z.enum(['confirmed', 'reported', 'historical']),
   sourceIds: z.array(z.string().min(1)),
   note: localizedTextSchema.optional(),
   affiliateUrl: z.object({
@@ -53,9 +61,6 @@ const localeContentSchema = z.object({
   seoTitle: z.string().min(1).max(70),
   seoDescription: z.string().min(1).max(165),
   eyebrow: z.string().min(1),
-  intro: z.string().min(1),
-  verdict: z.string().min(1),
-  researchNote: z.string().optional(),
 })
 
 export const creatorSchema = z.object({
@@ -64,14 +69,13 @@ export const creatorSchema = z.object({
   realName: localizedTextSchema.optional(),
   aliases: z.array(z.string()),
   initials: z.string().min(1),
+  avatarUrl: avatarUrl.optional(),
   // Accepted for compatibility with older exports, but overwritten from slug.
   accent: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
   kinds: z.array(z.enum(['streamer', 'youtuber', 'esports'])).min(1),
   platforms: z.array(z.enum(['twitch', 'youtube', 'vk-video', 'esports'])).min(1),
   game: z.string().optional(),
   featured: z.boolean(),
-  indexable: z.boolean(),
-  verificationStatus: z.enum(['confirmed', 'reported', 'mixed', 'research']),
   publishedAt: isoDate,
   updatedAt: isoDate,
   content: z.object({
@@ -162,13 +166,6 @@ export function validateCreatorSemantics(creator: z.infer<typeof creatorSchema>)
     if (!usedSourceIds.has(sourceId))
       problems.push(`source "${sourceId}" is not used by equipment`)
   }
-
-  if (creator.indexable && creator.equipment.length === 0)
-    problems.push('indexable creator has no equipment')
-  if (creator.indexable && creator.verificationStatus === 'research')
-    problems.push('indexable creator is still in research')
-  if (!creator.indexable && creator.equipment.length > 0 && creator.verificationStatus !== 'research')
-    problems.push('creator has equipment but is excluded from indexing')
 
   return problems
 }

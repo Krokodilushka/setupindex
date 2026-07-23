@@ -17,21 +17,21 @@ npm run preview      # node .output/server/index.mjs
 
 CI order is `lint` → `typecheck` → `validate` → `build` → `smoke`; run all five before calling a change done. There is no unit-test framework — [scripts/smoke.mjs](scripts/smoke.mjs) is the integration test, and it is the only thing that catches locale negotiation, localized errors, response headers, and sitemap contents, because none of those exist until the server runs.
 
-[scripts/validate-content.ts](scripts/validate-content.ts) covers what the types cannot: dangling/unused `sourceIds`, duplicate slugs, date sanity, SEO length limits, `en.json`/`ru.json` key parity, and `indexable` profiles without sourced equipment. A typo in `sourceIds` otherwise fails silently — [EquipmentCard.vue](app/components/EquipmentCard.vue#L11) just renders the item with no source link, which is exactly the failure the project exists to prevent.
+[scripts/validate-content.ts](scripts/validate-content.ts) validates the clean-database import in `docs/imports/setupindex-creators.json`: dangling/unused `sourceIds`, active-profile requirements, local avatar files, duplicate slugs, date sanity, SEO limits, and `en.json`/`ru.json` key parity.
 
-`NUXT_PUBLIC_SITE_URL` is baked at build time (i18n `baseUrl` and canonicals) and defaults to `https://setupindex.com`. `NUXT_PUBLIC_YANDEX_METRIKA_ID`, `NUXT_DATABASE_PATH`, and `NUXT_SESSION_PASSWORD` are runtime settings. The session password must be at least 32 characters.
+`NUXT_PUBLIC_SITE_URL` is baked at build time (i18n `baseUrl` and canonicals) and defaults to `https://setupindex.com`. `NUXT_PUBLIC_YANDEX_METRIKA_ID`, `NUXT_DATABASE_PATH`, `NUXT_UPLOADS_PATH`, and `NUXT_SESSION_PASSWORD` are runtime settings. The session password must be at least 32 characters.
 
 ## Architecture
 
 Nuxt 4 server-rendered app (Nitro `node-server` preset) with a SQLite content database, Drizzle ORM `1.0.0-rc.4`, and a first-party admin panel. Publishing through `/admin` updates the database immediately and does not require a rebuild.
 
-### SQLite content and seed
+### SQLite content and portable import
 
 `server/database/schema.ts` declares two tables: `creators`, which stores the complete typed `Creator` document as JSON plus query/version columns, and `webauthn_credentials`, which stores the sole administrator passkey. `server/utils/database.ts` opens SQLite through the built-in Node 24 `node:sqlite` driver, enables WAL/foreign keys/busy timeout, and runs checked-in migrations from `drizzle/`.
 
-`app/data/creators.ts` is seed data only. It is imported when the database is empty and is never applied over existing content. `scripts/validate-content.ts` continues to validate that seed so a fresh installation cannot start from corrupt content.
+An empty database receives schema migrations only; no creator is inserted by startup or by a migration. Populate it by copying `docs/imports/avatars/*.webp` to `${NUXT_UPLOADS_PATH}/avatars/` and applying `docs/imports/setupindex-creators.json` through the admin import flow.
 
-Public pages read through `/api/creators`; the dynamic sitemap source at `server/api/__sitemap__/urls.ts` queries SQLite and only emits `indexable` profiles. `updatedAt` becomes `lastmod`. Keep `creators.ts` side-effect-free and importable outside Nuxt because the validation script still uses native type stripping.
+Public pages read through `/api/creators`; the dynamic sitemap source at `server/api/__sitemap__/urls.ts` emits every stored creator. `updatedAt` becomes `lastmod`.
 
 ### Admin and imports
 
@@ -41,9 +41,9 @@ During `nuxt dev` only, `/api/admin/dev-login` creates the same admin session wi
 
 There are deliberately no roles, revisions, audit log, drafts, or stored import history. Manual saves publish immediately. Import files use the Zod schema in `app/utils/creator-schema.ts`, are previewed with a server-signed content hash, and are revalidated and applied in one transaction. `expectedVersion` provides optimistic concurrency without keeping prior versions.
 
-### Evidence model
+### Source model
 
-The editorial contract is encoded in the types, not just docs. Every `EquipmentItem` carries `status` (`confirmed` | `reported` | `historical`) and `sourceIds` pointing into the creator's own `sources: Source[]`, each with `url` and `checkedAt`. `EquipmentCard` renders the status badge and resolves source IDs. Do not add equipment without a matching source entry, and default to `reported` unless the creator confirmed it directly. Creators with no verified content use the `researchContent()` helper at the top of `creators.ts` plus `indexable: false` and `verificationStatus: 'research'`.
+Every `EquipmentItem` carries `sourceIds` pointing into the creator's own `sources: Source[]`. Each source has a required `checkedAt` plus an optional original URL, source date, and bilingual description. The admin UI presents sources as parent records with their equipment nested below. There are no creator or equipment status fields, and every stored creator page is indexable.
 
 ### Localization
 
@@ -52,7 +52,7 @@ Two locales, `strategy: 'prefix'` — every public URL is `/en/...` or `/ru/...`
 Two parallel translation mechanisms coexist:
 
 - **UI strings**: `i18n/locales/{en,ru}.json`, accessed with `t()`. Both files must stay key-identical.
-- **Per-creator prose**: `Creator.content` is `Record<LocaleCode, CreatorLocaleContent>` (seoTitle/seoDescription/eyebrow/intro/verdict), and free-text fields elsewhere use `LocalizedText` read through `localize()` in `app/utils/content.ts`. Content is authored, not machine-translated — Russian copy is written natively, not as a literal translation of the English.
+- **Per-creator prose**: `Creator.content` is `Record<LocaleCode, CreatorLocaleContent>` (seoTitle/seoDescription/eyebrow), and free-text fields elsewhere use `LocalizedText` read through `localize()` in `app/utils/content.ts`. Content is authored, not machine-translated — Russian copy is written natively, not as a literal translation of the English.
 
 Use `useLocalePath()` for internal links; never hardcode `/en/...`.
 
@@ -64,7 +64,7 @@ Each page sets `useSeoMeta` plus a `useHead` JSON-LD block built through `safeJs
 
 `.github/workflows/deploy.yml`: verify job runs the five checks, then Buildx builds `Dockerfile` and pushes `ghcr.io/krokodilushka/setupindex-web:{sha,latest}`. PRs build but do not push or deploy. The deploy job rsyncs only `compose.yaml` to `/home/deploy/setupindex`, explicitly excludes `data/` from deletion, writes runtime settings to `.env`, and runs `docker compose up -d --wait`. SQLite lives at `/home/deploy/setupindex/data/setupindex.sqlite`.
 
-`Dockerfile` is multi-stage and self-contained: it installs with `npm ci --ignore-scripts`, builds, and copies `.output` plus `drizzle/` into a `node:24-alpine` runtime. The container runs as the deployment UID/GID on port 3000 with a read-only root filesystem and a `/tmp` tmpfs. Compose bind-mounts the only writable persistent path at `/data` for the SQLite database, WAL, and SHM files.
+`Dockerfile` is multi-stage and self-contained: it installs with `npm ci --ignore-scripts`, builds, and copies `.output` plus `drizzle/` into a `node:24-alpine` runtime. The container runs as the deployment UID/GID on port 3000 with a read-only root filesystem and a `/tmp` tmpfs. Compose bind-mounts the only writable persistent path at `/data` for SQLite and uploaded avatars.
 
 `server/routes/healthz.ts` backs both the image `HEALTHCHECK` and the Compose healthcheck; both match the body exactly, so it must stay `ok\n`.
 

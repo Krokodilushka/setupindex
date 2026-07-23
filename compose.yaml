@@ -11,6 +11,7 @@ services:
     environment:
       NUXT_PUBLIC_SITE_URL: https://setupindex.com
       NUXT_DATABASE_PATH: /data/setupindex.sqlite
+      NUXT_UPLOADS_PATH: /data/uploads
       NUXT_MIGRATIONS_DIR: /app/drizzle
       NUXT_SESSION_PASSWORD: ${NUXT_SESSION_PASSWORD:?NUXT_SESSION_PASSWORD is required}
       # Read at runtime by the SSR server: changing it needs a restart, not a rebuild.

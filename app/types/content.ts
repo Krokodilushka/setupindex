@@ -6,10 +6,6 @@ export type CreatorKind = 'streamer' | 'youtuber' | 'esports'
 
 export type Platform = 'twitch' | 'youtube' | 'vk-video' | 'esports'
 
-export type VerificationStatus = 'confirmed' | 'reported' | 'mixed' | 'research'
-
-export type EquipmentStatus = 'confirmed' | 'reported' | 'historical'
-
 export type EquipmentCategory
   = | 'cpu'
     | 'gpu'
@@ -35,15 +31,15 @@ export interface Source {
   id: string
   title: LocalizedText
   publisher: string
-  url: string
+  url?: string
   sourceUpdatedAt?: string
   checkedAt: string
+  description?: LocalizedText
 }
 
 export interface EquipmentItem {
   category: EquipmentCategory
   name: string
-  status: EquipmentStatus
   sourceIds: string[]
   note?: LocalizedText
   affiliateUrl?: Partial<Record<LocaleCode, string>>
@@ -53,9 +49,6 @@ export interface CreatorLocaleContent {
   seoTitle: string
   seoDescription: string
   eyebrow: string
-  intro: string
-  verdict: string
-  researchNote?: string
 }
 
 export interface Creator {
@@ -64,13 +57,12 @@ export interface Creator {
   realName?: LocalizedText
   aliases: string[]
   initials: string
+  avatarUrl?: string
   accent: string
   kinds: CreatorKind[]
   platforms: Platform[]
   game?: string
   featured: boolean
-  indexable: boolean
-  verificationStatus: VerificationStatus
   publishedAt: string
   updatedAt: string
   content: Record<LocaleCode, CreatorLocaleContent>

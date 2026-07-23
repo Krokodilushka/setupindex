@@ -1,0 +1,3707 @@
+{
+  "format": "setupindex.creator-batch",
+  "version": 1,
+  "operations": [
+    {
+      "action": "create",
+      "document": {
+        "slug": "m0nesy",
+        "name": "m0NESY",
+        "realName": {
+          "en": "Ilya Osipov",
+          "ru": "Илья Осипов"
+        },
+        "aliases": [
+          "monesy",
+          "монеси",
+          "илья осипов"
+        ],
+        "initials": "M0",
+        "accent": "#d9ff58",
+        "kinds": [
+          "esports"
+        ],
+        "platforms": [
+          "esports",
+          "twitch"
+        ],
+        "game": "Counter-Strike 2",
+        "featured": true,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-22",
+        "content": {
+          "en": {
+            "seoTitle": "m0NESY PC specs and gaming gear in 2026",
+            "seoDescription": "m0NESY PC specs and CS2 gear in 2026: Ryzen 7 9800X3D, RTX 4080 Super, ZOWIE 600 Hz monitor and Logitech mouse, with dated sources.",
+            "eyebrow": "Counter-Strike 2 pro"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК и девайсы у m0NESY в 2026 году",
+            "seoDescription": "Характеристики ПК и девайсы m0NESY в 2026 году: Ryzen 7 9800X3D, RTX 4080 Super, монитор ZOWIE 600 Гц и мышь Logitech — с датированным источником.",
+            "eyebrow": "Профессиональный игрок в Counter-Strike 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "ASUS ROG Strix GeForce RTX 4080 Super",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "ZOWIE XL2586X+ (600 Hz)",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight 2 White",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "NZXT H710i",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Samsung 970 EVO Plus 500GB",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "NZXT Kraken X73",
+            "sourceIds": [
+              "prosettings-m0nesy-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-m0nesy-2026",
+            "title": {
+              "en": "m0NESY CS2 Settings, Crosshair & Config",
+              "ru": "Настройки, конфиг и оборудование m0NESY для CS2"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/m0nesy/",
+            "sourceUpdatedAt": "2026-07-13",
+            "checkedAt": "2026-07-22"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/m0nesy-e36012bdfc43d09f.webp",
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/m0nesyof"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "donk",
+        "name": "donk",
+        "realName": {
+          "en": "Danil Kryshkovets",
+          "ru": "Данил Крышковец"
+        },
+        "aliases": [
+          "донк",
+          "danil kryshkovets",
+          "данил крышковец"
+        ],
+        "initials": "DK",
+        "accent": "#72e6ff",
+        "kinds": [
+          "esports"
+        ],
+        "platforms": [
+          "esports",
+          "twitch"
+        ],
+        "game": "Counter-Strike 2",
+        "featured": true,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-22",
+        "content": {
+          "en": {
+            "seoTitle": "donk PC specs and CS2 gear in 2026",
+            "seoDescription": "donk PC and CS2 setup in 2026: Core i9-13900K, RTX 4080 Super, ZOWIE 600 Hz monitor and Wooting keyboard, with source dates.",
+            "eyebrow": "Team Spirit · Counter-Strike 2"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК и девайсы у donk в 2026 году",
+            "seoDescription": "ПК и девайсы donk в 2026 году: Core i9-13900K, RTX 4080 Super, монитор ZOWIE 600 Гц и клавиатура Wooting — с датами источников.",
+            "eyebrow": "Team Spirit · Counter-Strike 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-13900K",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 4080 Super",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "ZOWIE XL2586X+ (600 Hz)",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "ZOWIE × donk Mouse (unreleased)",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ],
+            "note": {
+              "en": "The model was still unreleased when the source was checked.",
+              "ru": "На момент проверки источника модель ещё не поступила в продажу."
+            }
+          },
+          {
+            "category": "keyboard",
+            "name": "Wooting 80HE Frost",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "HyperX Cloud II",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "SteelSeries QcK Large Black",
+            "sourceIds": [
+              "prosettings-donk-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-donk-2026",
+            "title": {
+              "en": "donk CS2 Settings, Crosshair & Config",
+              "ru": "Настройки, конфиг и оборудование donk для CS2"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/donk/",
+            "sourceUpdatedAt": "2026-07-10",
+            "checkedAt": "2026-07-22"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/donk-cefd857f62a1eab4.webp",
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/donk1437"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "nix",
+        "name": "Nix",
+        "realName": {
+          "en": "Alexander Levin",
+          "ru": "Александр Левин"
+        },
+        "aliases": [
+          "никс",
+          "alexander levin",
+          "александр левин"
+        ],
+        "initials": "NX",
+        "avatarUrl": "/uploads/avatars/nix-3f194fa92199e15c.webp",
+        "accent": "#e5cd6c",
+        "kinds": [
+          "streamer",
+          "esports"
+        ],
+        "platforms": [
+          "twitch",
+          "esports"
+        ],
+        "game": "Dota 2",
+        "featured": true,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-22",
+        "content": {
+          "en": {
+            "seoTitle": "Nix streaming setup: PC, microphone and camera",
+            "seoDescription": "The latest public Nix setup: i9-13900K, RTX 4090, Shure SM7B and Sony α6300, grouped by dated sources.",
+            "eyebrow": "Dota 2 streamer and analyst"
+          },
+          "ru": {
+            "seoTitle": "Сетап Nix: ПК, микрофон и камера",
+            "seoDescription": "Последний публичный сетап Nix: i9-13900K, RTX 4090, Shure SM7B и Sony α6300, сгруппированный по датированным источникам.",
+            "eyebrow": "Стример и аналитик Dota 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-13900K",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 4090",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight 2",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Wooting 60HE+",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          },
+          {
+            "category": "camera",
+            "name": "Sony α6300 + Sigma 16mm f/1.4",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          },
+          {
+            "category": "chair",
+            "name": "Herman Miller Embody",
+            "sourceIds": [
+              "what-equipment-nix-2025"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "what-equipment-nix-2025",
+            "title": {
+              "en": "Nix's Streaming Setup & PC Specs",
+              "ru": "Стриминговый сетап и характеристики ПК Nix"
+            },
+            "publisher": "What.Equipment",
+            "url": "https://what.equipment/profiles/nix/",
+            "sourceUpdatedAt": "2025-09-27",
+            "checkedAt": "2026-07-22"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/nix"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "kuplinov",
+        "name": "Kuplinov Play",
+        "realName": {
+          "en": "Dmitry Kuplinov",
+          "ru": "Дмитрий Куплинов"
+        },
+        "aliases": [
+          "куплинов",
+          "kuplinov",
+          "дмитрий куплинов"
+        ],
+        "initials": "KP",
+        "accent": "#ffbd66",
+        "kinds": [
+          "youtuber"
+        ],
+        "platforms": [
+          "youtube",
+          "vk-video"
+        ],
+        "featured": true,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Kuplinov Play PC: the HYPERPC dual-system build",
+            "seoDescription": "The two-in-one HYPERPC build documented for Kuplinov Play: RTX 3090 and RTX 3080, Core i9-10900K and i7-10700 in one case.",
+            "eyebrow": "Gaming YouTuber"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Куплинова: сборка HYPERPC два в одном",
+            "seoDescription": "Сборка HYPERPC для Куплинова: два компьютера в одном корпусе — RTX 3090 и RTX 3080, Core i9-10900K и i7-10700.",
+            "eyebrow": "Игровой YouTube-блогер"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-10900K(F)",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ],
+            "note": {
+              "en": "Gaming half of the build.",
+              "ru": "Игровая половина сборки."
+            }
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i7-10700(F)",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ],
+            "note": {
+              "en": "Streaming and capture half of the build.",
+              "ru": "Стриминговая половина сборки."
+            }
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 3090 VENTUS 3X",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 3080 VENTUS 3X",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MEG Z490 Unify",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MEG Z490I Unify (Mini-ITX)",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "Corsair Dominator Platinum 64 GB DDR4",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ],
+            "note": {
+              "en": "32 GB in each of the two systems.",
+              "ru": "По 32 ГБ в каждой из двух систем."
+            }
+          },
+          {
+            "category": "storage",
+            "name": "Corsair MP510 NVMe SSD 7.5 TB",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Seagate BarraCuda 8 TB HDD",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "Corsair HX1200i 1200 W",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "be quiet! SFX-L Power 600 W",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "Custom HYPERPC water-cooling loop",
+            "sourceIds": [
+              "hyperpc-kuplinov"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "hyperpc-kuplinov",
+            "title": {
+              "en": "HYPERPC project page for the Kuplinov Play build",
+              "ru": "Прокачка компьютера для Kuplinov Play от компании HYPERPC"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/kuplinov-play",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@KuplinovPlay"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/kuplinov-1622b879db80aede.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "buster",
+        "name": "Buster",
+        "realName": {
+          "en": "Vyacheslav Leontiev",
+          "ru": "Вячеслав Леонтьев"
+        },
+        "aliases": [
+          "бустер",
+          "слава бустер",
+          "buster"
+        ],
+        "initials": "BS",
+        "accent": "#ff7487",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube"
+        ],
+        "featured": true,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Buster streaming setup: desk PC and Lunacy gear",
+            "seoDescription": "Buster's setup: RTX 4090 and i9-13900KF built into a desk, a 360 Hz Samsung Odyssey G6 and his own Lunacy peripherals, with dated sources.",
+            "eyebrow": "Twitch streamer and GUN5 founder"
+          },
+          "ru": {
+            "seoTitle": "Сетап Бустера: ПК в столе и девайсы Lunacy",
+            "seoDescription": "Сетап Бустера: RTX 4090 и i9-13900KF в столе, монитор Samsung Odyssey G6 360 Гц и периферия его марки Lunacy — с датами источников.",
+            "eyebrow": "Стример Twitch, основатель GUN5"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-13900KF",
+            "sourceIds": [
+              "cybersport-buster-desk-2023"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 4090",
+            "sourceIds": [
+              "cybersport-buster-desk-2023"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "Samsung Odyssey G6 (360 Hz)",
+            "sourceIds": [
+              "cybersport-buster-devices-2025"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Lunacy One",
+            "sourceIds": [
+              "cybersport-buster-devices-2025"
+            ],
+            "note": {
+              "en": "Lunacy is Buster’s own peripheral brand.",
+              "ru": "Lunacy — собственная марка периферии Бустера."
+            }
+          },
+          {
+            "category": "keyboard",
+            "name": "Lunacy Moonlight",
+            "sourceIds": [
+              "cybersport-buster-devices-2025"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Lunacy Loud",
+            "sourceIds": [
+              "cybersport-buster-devices-2025"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "Lunacy Slip XL",
+            "sourceIds": [
+              "cybersport-buster-devices-2025"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-10900K",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ],
+            "note": {
+              "en": "Part of the HyperX build he received in 2021.",
+              "ru": "Из сборки HyperX, полученной в 2021 году."
+            }
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 2080 GAMING X TRIO",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MEG Z490 ACE",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "HyperX Predator DDR4 32 GB 3200 MHz",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Kingston KC2000 1 TB NVMe",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "Super Flower Leadex Platinum 1000 W",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "Cougar Conquer II",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "HYPERPC WaterCooling 240 RGB",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "HyperX QuadCast S",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "HyperX Cloud Orbit S",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "HyperX Alloy Origins Core",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "HyperX Pulsefire Dart",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "HyperX Fury S Speed Edition",
+            "sourceIds": [
+              "respawn-buster-2022"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "cybersport-buster-devices-2025",
+            "title": {
+              "en": "Buster CS2 config and gear in 2026",
+              "ru": "Конфиг Бустера CS 2 в 2026 — настройки прицела, рук и девайсы"
+            },
+            "publisher": "Cyber.Sports.ru",
+            "url": "https://cyber.sports.ru/cs/blogs/3316505.html",
+            "sourceUpdatedAt": "2025-04-13",
+            "checkedAt": "2026-07-23"
+          },
+          {
+            "id": "cybersport-buster-desk-2023",
+            "title": {
+              "en": "Buster showed a ₽1.7M PC built into his desk with an RTX 4090 and i9-13900KF",
+              "ru": "Бустер показал ПК в столе за 1,7 млн рублей с RTX 4090 и i9-13900KF"
+            },
+            "publisher": "Cyber.Sports.ru",
+            "url": "https://cyber.sports.ru/streamers-twitch/1115133174-buster-pokazal-pk-v-stole-za-1-7-mln-rublej-rtx-4090-i9-13900kf-2x16-g.html",
+            "sourceUpdatedAt": "2023-05-15",
+            "checkedAt": "2026-07-23"
+          },
+          {
+            "id": "respawn-buster-2022",
+            "title": {
+              "en": "What a PC like s1mple’s and Buster’s costs",
+              "ru": "Сколько стоит ПК, как у Симпла и Бустера"
+            },
+            "publisher": "Respawn Media",
+            "url": "https://respawn.media/celebrities/bpm43-kompiuter-kak-u-s1mple-i-buster-skolko-stoit-pk-zvezdnykh-igrokov-i-strimerov",
+            "sourceUpdatedAt": "2022-05-05",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/buster"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/buster-2264b98c26673c15.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "marmok",
+        "name": "Marmok",
+        "realName": {
+          "en": "Marin Mocanu",
+          "ru": "Марин Мокану"
+        },
+        "aliases": [
+          "мармок",
+          "mr marmok",
+          "marmok"
+        ],
+        "initials": "MM",
+        "accent": "#ffdd5c",
+        "kinds": [
+          "youtuber",
+          "streamer"
+        ],
+        "platforms": [
+          "youtube"
+        ],
+        "featured": true,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Marmok setup: microphones, audio chain and monitors",
+            "seoDescription": "From Marmok’s own workspace tour: Neumann U87 Ai, Shure SM7B, RME Fireface UCX, UA Apollo x6, KRK Rokit 5 and a 4K 240 Hz ASUS ROG OLED.",
+            "eyebrow": "Gaming creator"
+          },
+          "ru": {
+            "seoTitle": "Сетап Мармока: микрофоны, звуковой тракт и мониторы",
+            "seoDescription": "Из обзора рабочего места самого Мармока: Neumann U87 Ai, Shure SM7B, RME Fireface UCX, UA Apollo x6, KRK Rokit 5 и ASUS ROG OLED 4K 240 Гц.",
+            "eyebrow": "Игровой YouTube-блогер"
+          }
+        },
+        "equipment": [
+          {
+            "category": "microphone",
+            "name": "Neumann U87 Ai MT",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "His main microphone over the past year; MT denotes the black finish.",
+              "ru": "Основной микрофон последнего года; MT означает чёрное исполнение."
+            }
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "Dynamic; he alternates mainly between this and the Neumann.",
+              "ru": "Динамический; переключается в основном между ним и Neumann."
+            }
+          },
+          {
+            "category": "microphone",
+            "name": "RØDE NT1",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "AKG C414",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ]
+          },
+          {
+            "category": "audio-interface",
+            "name": "Universal Audio Apollo x6",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "Runs the live voice chain — compression, EQ, noise suppression and gating — with a preset per microphone.",
+              "ru": "Обрабатывает голос в реальном времени — компрессия, эквализация, шумодав и гейт — со своим пресетом под каждый микрофон."
+            }
+          },
+          {
+            "category": "audio-interface",
+            "name": "RME Fireface UCX ×2",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "Two identical units: one on the Mac, one on the Windows machine.",
+              "ru": "Две одинаковые: одна подключена к Mac, вторая — к машине на Windows."
+            }
+          },
+          {
+            "category": "speakers",
+            "name": "KRK Rokit 5",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "Studio monitors, driven from the RME interfaces.",
+              "ru": "Студийные мониторы, подключены к интерфейсам RME."
+            }
+          },
+          {
+            "category": "monitor",
+            "name": "ASUS ROG OLED 32\" 4K 240 Hz",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "He gives the panel specs but does not name the exact model on camera.",
+              "ru": "Он называет характеристики панели, но точную модель на камеру не произносит."
+            }
+          },
+          {
+            "category": "laptop",
+            "name": "Apple MacBook Pro 16\" (M3 Max)",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "NuPhy",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ],
+            "note": {
+              "en": "Heavily modified and the model is not named: Russian keycaps, switches swapped for silent ones and lubed, because near-silence is his priority.",
+              "ru": "Сильно доработана, модель не названа: русские капсы, свитчи заменены на бесшумные и смазаны — тишина для него принципиальна."
+            }
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight",
+            "sourceIds": [
+              "marmok-workspace-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "marmok-workspace-2026",
+            "title": {
+              "en": "My workspace tour (PC config, device list and more)",
+              "ru": "Обзор Моего Рабочего Места 🎙️🖥️ (конфиг ПК, список девайсов и пр.)"
+            },
+            "publisher": "Marmok (YouTube)",
+            "url": "https://www.youtube.com/watch?v=cM3RNVaH9PI",
+            "sourceUpdatedAt": "2026-02-24",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@MrMarmok"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/marmok-a9cc960c00eadcb4.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "mrlololoshka",
+        "name": "MrLololoshka",
+        "realName": {
+          "en": "Roman Filchenkov",
+          "ru": "Роман Фильченков"
+        },
+        "aliases": [
+          "лололошка",
+          "mrlololoshka",
+          "роман фильченков"
+        ],
+        "initials": "ML",
+        "accent": "#7ee8d6",
+        "kinds": [
+          "youtuber"
+        ],
+        "platforms": [
+          "youtube"
+        ],
+        "game": "Minecraft",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "MrLololoshka PC: the HYPERPC GTX 1080 SLI build",
+            "seoDescription": "The HYPERPC build documented for MrLololoshka: two GTX 1080 Strix in SLI, a Core i7-6850K on X99 and 32 GB of DDR4.",
+            "eyebrow": "Minecraft YouTuber"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Лололошки: сборка HYPERPC на GTX 1080 SLI",
+            "seoDescription": "Сборка HYPERPC для Лололошки: две GTX 1080 Strix в SLI, Core i7-6850K на X99 и 32 ГБ DDR4.",
+            "eyebrow": "YouTube-блогер по Minecraft"
+          }
+        },
+        "equipment": [
+          {
+            "category": "gpu",
+            "name": "ASUS ROG Strix GeForce GTX 1080 ×2",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ],
+            "note": {
+              "en": "A pair running in SLI.",
+              "ru": "Пара видеокарт в режиме SLI."
+            }
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i7-6850K",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "ASUS STRIX X99 GAMING",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "Corsair Vengeance LPX 32 GB DDR4-2666",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "Corsair Hydro Series H100i v2",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Corsair Force Series MP500 480 GB M.2 SSD",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Seagate BarraCuda 3 TB HDD",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "Corsair RM1000",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "Corsair Crystal 480X RGB",
+            "sourceIds": [
+              "hyperpc-mrlololoshka"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "hyperpc-mrlololoshka",
+            "title": {
+              "en": "HYPERPC project page for the MrLololoshka build",
+              "ru": "Проект HYPERPC: компьютер для MrLololoshka"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/mrlololoshka",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/channel/UCAvrIl6ltV8MdJo3mV4Nl4Q"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/mrlololoshka-48d2a2ed36460c8b.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "bratishkinoff",
+        "name": "Bratishkinoff",
+        "aliases": [
+          "братишкин",
+          "братишкинофф",
+          "bratishkin"
+        ],
+        "initials": "BR",
+        "accent": "#6ee7b7",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "twitch"
+        ],
+        "featured": false,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Bratishkinoff PC specs: i9-13900KF and RTX 4090",
+            "seoDescription": "The build published for Bratishkinoff in April 2024: Core i9-13900KF, GIGABYTE RTX 4090 Windforce V2, ROG Strix Z790-E and DDR5-7200.",
+            "eyebrow": "Twitch streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Братишкина: i9-13900KF и RTX 4090",
+            "seoDescription": "Сборка, опубликованная для Братишкина в апреле 2024 года: Core i9-13900KF, GIGABYTE RTX 4090 Windforce V2, ROG Strix Z790-E и DDR5-7200.",
+            "eyebrow": "Стример Twitch"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-13900KF",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ],
+            "note": {
+              "en": "The whole list is a third-party build note, not a statement by the streamer.",
+              "ru": "Весь список — сторонняя публикация о сборке, а не слова самого стримера."
+            }
+          },
+          {
+            "category": "gpu",
+            "name": "GIGABYTE GeForce RTX 4090 WINDFORCE V2",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "ASUS ROG Strix Z790-E Gaming WiFi",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "ADATA XPG Lancer RGB DDR5 32 GB (2×16) 7200 MHz",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Samsung 990 PRO 2 TB NVMe ×2",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "DEEPCOOL LS720",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "Fractal Design Meshify 2 RGB Black TG Light Tint",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "Chieftec PowerPlay 1050 W",
+            "sourceIds": [
+              "pcstonks-bratishkinoff-2024"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "pcstonks-bratishkinoff-2024",
+            "title": {
+              "en": "Gaming PC of streamer bratishkinoff",
+              "ru": "Игровой ПК стримера bratishkinoff"
+            },
+            "publisher": "PCstonks",
+            "url": "https://pcstonks.com/note/ukWtX5",
+            "sourceUpdatedAt": "2024-04-20",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/bratishkinoff"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/bratishkinoff-393110510356a852.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "strogo",
+        "name": "StRoGo",
+        "aliases": [
+          "строго",
+          "strogo"
+        ],
+        "initials": "ST",
+        "accent": "#78aaff",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "twitch"
+        ],
+        "game": "Counter-Strike 2",
+        "featured": false,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "StRoGo PC specs and CS2 gear in 2026",
+            "seoDescription": "StRoGo setup in 2026: Ryzen 9 9950X3D, RTX 5090, a 500 Hz Alienware AW2524H, G Pro X Superlight 2 and G915 TKL, with a dated source.",
+            "eyebrow": "Counter-Strike 2 streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК и девайсы у StRoGo в 2026 году",
+            "seoDescription": "Сетап StRoGo в 2026 году: Ryzen 9 9950X3D, RTX 5090, монитор Alienware AW2524H 500 Гц, мышь G Pro X Superlight 2 и клавиатура G915 TKL.",
+            "eyebrow": "Стример Counter-Strike 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 9 9950X3D",
+            "sourceIds": [
+              "prosettings-strogo-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 5090",
+            "sourceIds": [
+              "prosettings-strogo-2026"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "Alienware AW2524H (24.5\", 1080p, 500 Hz)",
+            "sourceIds": [
+              "prosettings-strogo-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight 2 Black",
+            "sourceIds": [
+              "prosettings-strogo-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Logitech G915 TKL Carbon",
+            "sourceIds": [
+              "prosettings-strogo-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Logitech G333 Purple",
+            "sourceIds": [
+              "prosettings-strogo-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-strogo-2026",
+            "title": {
+              "en": "StRoGo CS2 Settings, Crosshair & Config",
+              "ru": "Настройки, конфиг и оборудование StRoGo для CS2"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/strogo/",
+            "sourceUpdatedAt": "2026-05-06",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/strogo"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/strogo-2962b30a03cb90e2.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "recrent",
+        "name": "Recrent",
+        "aliases": [
+          "рекрент",
+          "recrent"
+        ],
+        "initials": "RC",
+        "accent": "#ff936b",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "twitch"
+        ],
+        "featured": false,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Recrent PC specs and gaming gear in 2026",
+            "seoDescription": "Recrent setup: Ryzen 7 9800X3D, RTX 5090, a 480 Hz Sony INZONE M10S, Lamzu Maya X and a WLMouse Ying75, with a dated source.",
+            "eyebrow": "Competitive gaming streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК и девайсы у Recrent в 2026 году",
+            "seoDescription": "Сетап Recrent: Ryzen 7 9800X3D, RTX 5090, монитор Sony INZONE M10S 480 Гц, мышь Lamzu Maya X и клавиатура WLMouse Ying75.",
+            "eyebrow": "Стример соревновательных шутеров"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 5090",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "Sony INZONE M10S (27\", 1440p, 480 Hz OLED)",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Lamzu Maya X White",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "WLMouse Ying75",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Moondrop Blessing 3",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ],
+            "note": {
+              "en": "In-ear monitors, not a gaming headset.",
+              "ru": "Внутриканальные мониторы, а не игровая гарнитура."
+            }
+          },
+          {
+            "category": "chair",
+            "name": "Herman Miller Embody",
+            "sourceIds": [
+              "prosettings-recrent-2025"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-recrent-2025",
+            "title": {
+              "en": "Recrent Settings, Crosshair, Config & Gear",
+              "ru": "Настройки, конфиг и оборудование Recrent"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/recrent/",
+            "sourceUpdatedAt": "2025-11-24",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/recrent"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/recrent-583b21873e3bc9b4.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "sasavot",
+        "name": "Sasavot",
+        "aliases": [
+          "сасавот",
+          "глеб сасавот",
+          "sasavot"
+        ],
+        "initials": "SV",
+        "accent": "#d0ff78",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "twitch"
+        ],
+        "featured": false,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Sasavot PC specs: Ryzen 7 9800X3D and RTX 5090",
+            "seoDescription": "Sasavot’s build as he listed it on stream: Ryzen 7 9800X3D, Palit RTX 5090 GameRock, X870E AORUS PRO, 32 GB DDR5-6400 and a 420 mm AIO.",
+            "eyebrow": "Twitch streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Sasavot: Ryzen 7 9800X3D и RTX 5090",
+            "seoDescription": "Сборка Sasavot по списку с его же стрима: Ryzen 7 9800X3D, Palit RTX 5090 GameRock, X870E AORUS PRO, 32 ГБ DDR5-6400 и СЖО на 420 мм.",
+            "eyebrow": "Стример Twitch"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "Palit GeForce RTX 5090 GameRock",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "GIGABYTE X870E AORUS PRO",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "ADATA XPG Lancer Blade DDR5-6400 CL32 32 GB (2×16)",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ],
+            "note": {
+              "en": "Listed with Hynix A-die chips.",
+              "ru": "В списке указаны чипы Hynix A-die."
+            }
+          },
+          {
+            "category": "storage",
+            "name": "ADATA XPG Legend 960 2 TB",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "Geometric Future Eskimo Pro 420 Black",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "Geometric Future Squama 2503RB 140 mm",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ],
+            "note": {
+              "en": "One standard fan plus three Reverse units.",
+              "ru": "Один обычный вентилятор и три в исполнении Reverse."
+            }
+          },
+          {
+            "category": "case",
+            "name": "Geometric Future Model 5 Black",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "1STPLAYER NGDP 1300 W 80+ Platinum (ATX 3.0)",
+            "sourceIds": [
+              "sasavot-new-pc-2025"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "sasavot-new-pc-2025",
+            "title": {
+              "en": "Gleb bought a new computer — the parts list shown on stream",
+              "ru": "ГЛЕБ КУПИЛ НОВЫЙ КОМПЬЮТЕР — список комплектующих на экране"
+            },
+            "publisher": "YouTube (unofficial Sasavot clips)",
+            "url": "https://www.youtube.com/watch?v=xfDBi8H2J2A",
+            "sourceUpdatedAt": "2025-04-21",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/sasavot"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/sasavot-9e0a4ff98054b98a.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "papich",
+        "name": "Papich",
+        "aliases": [
+          "папич",
+          "arthas",
+          "виталий цаль"
+        ],
+        "initials": "PP",
+        "accent": "#f7a8ff",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "youtube"
+        ],
+        "game": "Dota 2",
+        "featured": false,
+        "publishedAt": "2026-07-22",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Papich PC specs: i9-14900K and RTX 4090 build",
+            "seoDescription": "Papich’s 2024 setup purchase: Core i9-14900K, ASUS ROG Strix RTX 4090, 96 GB of DDR5 and a custom loop, from two dated sources.",
+            "eyebrow": "Dota 2 creator"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Папича: i9-14900K и RTX 4090",
+            "seoDescription": "Сетап Папича 2024 года: Core i9-14900K, ASUS ROG Strix RTX 4090, 96 ГБ DDR5 и кастомная СЖО. Два датированных источника.",
+            "eyebrow": "Блогер по Dota 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-14900K",
+            "sourceIds": [
+              "cybersport-papich-2024",
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "ASUS ROG Strix GeForce RTX 4090 White OC",
+            "sourceIds": [
+              "cybersport-papich-2024",
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "ASUS ROG Strix Z790-A Gaming WiFi II",
+            "sourceIds": [
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "Corsair Dominator Titanium RGB DDR5 96 GB (2×48) 6600 MHz",
+            "sourceIds": [
+              "cybersport-papich-2024",
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Samsung 990 PRO NVMe SSD",
+            "sourceIds": [
+              "cybersport-papich-2024",
+              "pcstonks-papich-2024"
+            ],
+            "note": {
+              "en": "The sources disagree on capacity: 8 TB per Cybersport.ru, 2 TB per PCstonks.",
+              "ru": "Источники расходятся в объёме: 8 ТБ по данным Cybersport.ru и 2 ТБ по данным PCstonks."
+            }
+          },
+          {
+            "category": "cooling",
+            "name": "Custom water-cooling loop with a distro plate",
+            "sourceIds": [
+              "cybersport-papich-2024",
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "ASUS TUF Gaming GT502 White",
+            "sourceIds": [
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "DEEPCOOL PX1200G White",
+            "sourceIds": [
+              "pcstonks-papich-2024"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "ASUS ROG Delta Animate",
+            "sourceIds": [
+              "cybersport-papich-2024"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Sennheiser Game One",
+            "sourceIds": [
+              "cybersport-papich-2024"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "27\" 1440p IPS monitor",
+            "sourceIds": [
+              "cybersport-papich-2024"
+            ],
+            "note": {
+              "en": "The source describes the panel but does not name the model.",
+              "ru": "Источник описывает характеристики панели, но не называет модель."
+            }
+          }
+        ],
+        "sources": [
+          {
+            "id": "pcstonks-papich-2024",
+            "title": {
+              "en": "Papich Arthas’s PC: i9-14900K + RTX 4090",
+              "ru": "Компьютер Папича Arthas: i9-14900K + RTX 4090"
+            },
+            "publisher": "PCstonks",
+            "url": "https://pcstonks.com/note/KksihP",
+            "sourceUpdatedAt": "2024-07-18",
+            "checkedAt": "2026-07-23"
+          },
+          {
+            "id": "cybersport-papich-2024",
+            "title": {
+              "en": "Papich bought a streaming setup for ₽1.5 million",
+              "ru": "Папич купил ПК и периферию для стримов за ₽1,5 млн"
+            },
+            "publisher": "Cybersport.ru",
+            "url": "https://www.cybersport.ru/tags/other/papich-kupil-setap-dlia-strimov-za-1-5-mln",
+            "sourceUpdatedAt": "2024-07-10",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/papich-32e49cf9579d4945.webp",
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/channel/UCbt5BCs0aUDgNwRaUnKtXwA"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "s1mple",
+        "name": "s1mple",
+        "realName": {
+          "en": "Oleksandr Kostyliev",
+          "ru": "Александр Костылев"
+        },
+        "aliases": [
+          "симпл",
+          "s1mple",
+          "александр костылев"
+        ],
+        "initials": "S1",
+        "accent": "#3ddc97",
+        "kinds": [
+          "esports"
+        ],
+        "platforms": [
+          "esports",
+          "twitch"
+        ],
+        "game": "Counter-Strike 2",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "s1mple PC specs and CS2 gear in 2026",
+            "seoDescription": "s1mple setup in 2026: Ryzen 7 7800X3D, RTX 4090, a 600 Hz ZOWIE XL2586X+, G Pro X Superlight 2 and Arctis Nova Pro, with a dated source.",
+            "eyebrow": "Counter-Strike 2 pro"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК и девайсы у s1mple в 2026 году",
+            "seoDescription": "Сетап s1mple в 2026 году: Ryzen 7 7800X3D, RTX 4090, монитор ZOWIE XL2586X+ 600 Гц, мышь G Pro X Superlight 2 и гарнитура Arctis Nova Pro.",
+            "eyebrow": "Профессиональный игрок в Counter-Strike 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 7800X3D",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 4090",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "ZOWIE XL2586X+ (24\", 1080p, 600 Hz)",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight 2 Cyan",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Logitech G Pro X TKL Black",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ],
+            "note": {
+              "en": "Listed with GX Brown tactile switches.",
+              "ru": "В источнике указаны тактильные переключатели GX Brown."
+            }
+          },
+          {
+            "category": "headset",
+            "name": "SteelSeries Arctis Nova Pro Wireless",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "SteelSeries QcK Performance Speed",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "HyperX QuadCast S",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "camera",
+            "name": "Logitech StreamCam White",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          },
+          {
+            "category": "chair",
+            "name": "Backforce One NAVI Edition",
+            "sourceIds": [
+              "prosettings-s1mple-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-s1mple-2026",
+            "title": {
+              "en": "s1mple CS2 Settings, Crosshair & Config",
+              "ru": "Настройки, конфиг и оборудование s1mple для CS2"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/s1mple/",
+            "sourceUpdatedAt": "2026-07-19",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/s1mple-9327362217555838.webp",
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/s1mple"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "edison",
+        "name": "EdisonPts",
+        "aliases": [
+          "эдисон",
+          "edisonpts",
+          "edison pts"
+        ],
+        "initials": "ED",
+        "accent": "#ff5c3a",
+        "kinds": [
+          "youtuber"
+        ],
+        "platforms": [
+          "youtube"
+        ],
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "EdisonPts PC: the two HYPERPC builds",
+            "seoDescription": "The two HYPERPC builds documented for EdisonPts: an i9-12900K with an RTX 4090 SUPRIM, and the earlier i7-11700K with an RTX 3080.",
+            "eyebrow": "Gaming YouTuber"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Эдисона: две сборки HYPERPC",
+            "seoDescription": "Две сборки HYPERPC для Эдисона: i9-12900K с RTX 4090 SUPRIM и более ранняя i7-11700K с RTX 3080.",
+            "eyebrow": "Игровой YouTube-блогер"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-12900K(F)",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 4090 SUPRIM",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MAG Z690 TORPEDO EK X",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "G.Skill Trident Z5 RGB 64 GB DDR5-5600",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Samsung 970 EVO Plus 2 TB M.2 SSD",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "MSI MPG A1000G 1000 W",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "HYPERPC custom water-cooling loop (EKWB)",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ],
+            "note": {
+              "en": "Red coolant and custom red cables throughout.",
+              "ru": "Красный хладагент и кастомные красные кабели по всей сборке."
+            }
+          },
+          {
+            "category": "case",
+            "name": "Fractal Design Meshify 2 XL",
+            "sourceIds": [
+              "hyperpc-edison-2"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i7-11700K(F)",
+            "sourceIds": [
+              "hyperpc-edison-1"
+            ],
+            "note": {
+              "en": "From the earlier of the two builds.",
+              "ru": "Из более ранней сборки."
+            }
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 3080 GAMING X TRIO",
+            "sourceIds": [
+              "hyperpc-edison-1"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MEG Z590 ACE",
+            "sourceIds": [
+              "hyperpc-edison-1"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "HyperX Predator 32 GB DDR4-3600",
+            "sourceIds": [
+              "hyperpc-edison-1"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "Cooler Master V850 850 W",
+            "sourceIds": [
+              "hyperpc-edison-1"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "HYPERPC WaterCooling 240",
+            "sourceIds": [
+              "hyperpc-edison-1"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "hyperpc-edison-2",
+            "title": {
+              "en": "HYPERPC CONCEPT project page for the EdisonPts 2.0 build",
+              "ru": "Проект HYPERPC CONCEPT: компьютер для EdisonPts 2.0"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/edison-pts-2",
+            "checkedAt": "2026-07-23"
+          },
+          {
+            "id": "hyperpc-edison-1",
+            "title": {
+              "en": "HYPERPC LUMEN PLUS project page for Edison PTS",
+              "ru": "Проект HYPERPC LUMEN PLUS для Edison PTS"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/edison-pts",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/edison-106a960093eb7dae.webp",
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@edisonpts"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "chezee",
+        "name": "CheZee",
+        "aliases": [
+          "чизи",
+          "chezee",
+          "чизи раст"
+        ],
+        "initials": "CZ",
+        "accent": "#e0b341",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube"
+        ],
+        "game": "Rust",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "CheZee PC specs: Ryzen 7 9800X3D and RTX 5090",
+            "seoDescription": "The Rust-themed HYPERPC build for CheZee: Ryzen 7 9800X3D, Palit RTX 5090 GameRock, MSI X870E CARBON, 64 GB DDR5 and a custom water loop.",
+            "eyebrow": "Rust streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у CheZee: Ryzen 7 9800X3D и RTX 5090",
+            "seoDescription": "Сборка HYPERPC для CheZee в стилистике Rust: Ryzen 7 9800X3D, Palit RTX 5090 GameRock, MSI X870E CARBON, 64 ГБ DDR5 и кастомная СЖО.",
+            "eyebrow": "Стример по Rust"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "Palit GeForce RTX 5090 GameRock",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MPG X870E CARBON",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "TEAMGROUP T-Force Delta 64 GB DDR5-6000",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Samsung 990 PRO 2 TB NVMe SSD",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "MSI MPG A1000G 1000 W",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "HYPERPC custom water-cooling loop",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "PHANTEKS NV7 Black",
+            "sourceIds": [
+              "hyperpc-chezee"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "hyperpc-chezee",
+            "title": {
+              "en": "HYPERPC CONCEPT project page for the CheZee Rust build",
+              "ru": "Проект HYPERPC: компьютер для CheZee в стилистике Rust"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/chezee",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/chezee-b950b6f33576885c.webp",
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@chezeeplay"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "derzko69",
+        "name": "Derzko69",
+        "aliases": [
+          "дерзко",
+          "derzko69",
+          "дерзко69"
+        ],
+        "initials": "D6",
+        "accent": "#ff5f9e",
+        "kinds": [
+          "streamer"
+        ],
+        "platforms": [
+          "twitch"
+        ],
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Derzko69 PC specs: Ryzen 7 9800X3D and RTX 4080 Super",
+            "seoDescription": "The HYPERPC build documented for Derzko69: Ryzen 7 9800X3D, MSI RTX 4080 SUPER Gaming Slim, ROG Strix X870-F and 64 GB of DDR5-6000.",
+            "eyebrow": "Twitch streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у Дерзко: Ryzen 7 9800X3D и RTX 4080 Super",
+            "seoDescription": "Сборка HYPERPC для Derzko69: Ryzen 7 9800X3D, MSI RTX 4080 SUPER Gaming Slim, ROG Strix X870-F и 64 ГБ DDR5-6000.",
+            "eyebrow": "Стример Twitch"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 4080 SUPER GAMING SLIM",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "ASUS ROG STRIX X870-F GAMING",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "G.Skill Trident Z5 64 GB DDR5-6000",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "ADATA LEGEND 850 SSD",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ],
+            "note": {
+              "en": "Two drives: 1 TB plus 2 TB.",
+              "ru": "Два накопителя: на 1 ТБ и на 2 ТБ."
+            }
+          },
+          {
+            "category": "cooling",
+            "name": "DeepCool LD360",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "HYPERPC DYNAMIC",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "MSI MPG A1000G 1000 W",
+            "sourceIds": [
+              "hyperpc-derzko69"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "hyperpc-derzko69",
+            "title": {
+              "en": "HYPERPC project page for the Derzko69 build",
+              "ru": "Проект HYPERPC: компьютер для Derzko69"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/derzko69",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/derzko69"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/derzko69-a61d4492e4f4fe65.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "derzhi-dver",
+        "name": "Derzhi Dver",
+        "aliases": [
+          "держи дверь",
+          "derzhi dver",
+          "держидверь"
+        ],
+        "initials": "DD",
+        "accent": "#c77dff",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "youtube"
+        ],
+        "game": "Rust",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Derzhi Dver PC: Ryzen 9 9950X3D and RTX 5090",
+            "seoDescription": "The HYPERPC CONCEPT 5 build for Rust streamer Derzhi Dver: Ryzen 9 9950X3D, Palit RTX 5090 GameRock, 64 GB DDR5-6400 and a custom red loop.",
+            "eyebrow": "Rust streamer"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК у «Держи дверь»: Ryzen 9 9950X3D и RTX 5090",
+            "seoDescription": "Сборка HYPERPC CONCEPT 5 для раст-стримера «Держи дверь»: Ryzen 9 9950X3D, Palit RTX 5090 GameRock, 64 ГБ DDR5-6400 и кастомная СЖО.",
+            "eyebrow": "Стример по Rust"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 9 9950X3D",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "Palit GeForce RTX 5090 GameRock 32 GB",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MPG X870E CARBON",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "G.Skill Trident Z5 RGB Black 64 GB DDR5-6400",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Samsung 9100 PRO 2 TB + Samsung 990 PRO 4 TB",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "MSI MAG A1250GL PCIE5 1250 W 80+ Gold",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          },
+          {
+            "category": "cooling",
+            "name": "Custom loop with rigid tubing and Lian Li UNI FAN TL Wireless 120",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ],
+            "note": {
+              "en": "Filled with red EK-CryoFuel coolant.",
+              "ru": "Залита красным хладагентом EK-CryoFuel."
+            }
+          },
+          {
+            "category": "case",
+            "name": "Lian Li O11 Dynamic EVO RGB Black",
+            "sourceIds": [
+              "hyperpc-derzhi-dver"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "hyperpc-derzhi-dver",
+            "title": {
+              "en": "HYPERPC CONCEPT 5 project page for the Derzhi Dver build",
+              "ru": "Проект HYPERPC CONCEPT 5: компьютер для «Держи дверь»"
+            },
+            "publisher": "HYPERPC",
+            "url": "https://hyperpc.ru/project/hyperboost/concept-5-rust",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/derzhi-dver-7cf6c15a8db8a6b9.webp",
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@dergidver"
+          }
+        ]
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "deko",
+        "name": "deko",
+        "realName": {
+          "en": "Denis Zhukov",
+          "ru": "Денис Жуков"
+        },
+        "aliases": [
+          "деко",
+          "deko",
+          "денис жуков"
+        ],
+        "initials": "DE",
+        "accent": "#5b8def",
+        "kinds": [
+          "esports"
+        ],
+        "platforms": [
+          "esports",
+          "twitch"
+        ],
+        "game": "Counter-Strike 2",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "deko PC specs and CS2 gear in 2026",
+            "seoDescription": "deko setup in 2026: Ryzen 7 9800X3D, RTX 5090, a 400 Hz ZOWIE XL2566X+, Endgame Gear OP1w 4k v2 and a Wooting 80HE, with a dated source.",
+            "eyebrow": "Counter-Strike 2 pro"
+          },
+          "ru": {
+            "seoTitle": "Какой ПК и девайсы у deko в 2026 году",
+            "seoDescription": "Сетап deko в 2026 году: Ryzen 7 9800X3D, RTX 5090, монитор ZOWIE XL2566X+ 400 Гц, мышь Endgame Gear OP1w 4k v2 и клавиатура Wooting 80HE.",
+            "eyebrow": "Профессиональный игрок в Counter-Strike 2"
+          }
+        },
+        "equipment": [
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 5090",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ]
+          },
+          {
+            "category": "monitor",
+            "name": "ZOWIE XL2566X+ (24\", 1080p, 400 Hz TN)",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Endgame Gear OP1w 4k v2 Black",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Wooting 80HE Black",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ],
+            "note": {
+              "en": "TKL layout with Lekker switches.",
+              "ru": "Формат TKL с переключателями Lekker."
+            }
+          },
+          {
+            "category": "headset",
+            "name": "Logitech G PRO X 2 White",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Logitech G333 Black",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ],
+            "note": {
+              "en": "In-ear monitors worn under the headset on stage.",
+              "ru": "Внутриканальные наушники, которые надевают под гарнитуру на сцене."
+            }
+          },
+          {
+            "category": "mousepad",
+            "name": "SteelSeries QcK Performance Balance",
+            "sourceIds": [
+              "prosettings-deko-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-deko-2026",
+            "title": {
+              "en": "deko CS2 Settings, Crosshair & Config",
+              "ru": "Настройки, конфиг и оборудование deko для CS2"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/deko/",
+            "sourceUpdatedAt": "2026-07-19",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/deko"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/deko-e24f27934ade418d.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "jynxzi",
+        "name": "Jynxzi",
+        "realName": {
+          "en": "Nicholas Stewart",
+          "ru": "Николас Стюарт"
+        },
+        "aliases": [
+          "junko",
+          "nicholas stewart",
+          "jynxzi r6"
+        ],
+        "initials": "JX",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube"
+        ],
+        "game": "Rainbow Six Siege",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Jynxzi PC and streaming setup",
+            "seoDescription": "Jynxzi's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "Rainbow Six Siege streamer"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап Jynxzi",
+            "seoDescription": "ПК, периферия и стриминговое оборудование Jynxzi, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Стример по Rainbow Six Siege"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "Acer XF240Q",
+            "sourceIds": [
+              "prosettings-jynxzi-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Wooting 80HE Black",
+            "sourceIds": [
+              "prosettings-jynxzi-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "beyerdynamic MMX 300",
+            "sourceIds": [
+              "prosettings-jynxzi-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-jynxzi-2026",
+            "title": {
+              "en": "Jynxzi Rainbow Six Siege Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование Jynxzi для Rainbow Six Siege"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/jynxzi/",
+            "sourceUpdatedAt": "2026-06-10",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/jynxzi"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@Jynxzi"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/jynxzi-f18c8614f69a454c.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "xqc",
+        "name": "xQc",
+        "realName": {
+          "en": "Félix Lengyel",
+          "ru": "Феликс Ленгель"
+        },
+        "aliases": [
+          "xqcow",
+          "felix lengyel",
+          "félix lengyel"
+        ],
+        "initials": "XQ",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube"
+        ],
+        "game": "Variety",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "xQc PC and streaming setup",
+            "seoDescription": "xQc's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "Canadian variety streamer"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап xQc",
+            "seoDescription": "ПК, периферия и стриминговое оборудование xQc, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Канадский variety-стример"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "ASUS ROG Swift PG259QN",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight Magenta",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "keyboard",
+            "name": "SteelSeries Apex 7 TKL Ghost",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "headset",
+            "name": "HyperX Cloud II",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "mousepad",
+            "name": "SteelSeries QcK Heavy",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "chair",
+            "name": "Herman Miller Embody",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "camera",
+            "name": "Logitech Brio",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 9 7950X3D",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 4090",
+            "sourceIds": [
+              "prosettings-xqc-2023"
+            ],
+            "note": {
+              "en": "The source snapshot is dated August 2023.",
+              "ru": "Снимок источника датирован августом 2023 года."
+            }
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-xqc-2023",
+            "title": {
+              "en": "xQc Overwatch Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование xQc для Overwatch"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/xqc/",
+            "sourceUpdatedAt": "2023-08-02",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/xqc"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@xQcOW"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/xqc-e6832190b6d88da9.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "typical-gamer",
+        "name": "Typical Gamer",
+        "realName": {
+          "en": "Andre Rebelo",
+          "ru": "Андре Ребело"
+        },
+        "aliases": [
+          "typicalgamer",
+          "andre rebelo",
+          "tg"
+        ],
+        "initials": "TG",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "youtube"
+        ],
+        "game": "Fortnite",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Typical Gamer PC and streaming setup",
+            "seoDescription": "Typical Gamer's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "Fortnite and YouTube Gaming streamer"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап Typical Gamer",
+            "seoDescription": "ПК, периферия и стриминговое оборудование Typical Gamer, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Стример Fortnite и YouTube Gaming"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "Alienware AW2518H",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X Superlight Black",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "SteelSeries Apex Pro",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "beyerdynamic DT 1990 PRO",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "Razer Gigantus V2",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          },
+          {
+            "category": "chair",
+            "name": "Herman Miller Aeron",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "prosettings-typical-gamer-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-typical-gamer-2026",
+            "title": {
+              "en": "Typical Gamer Fortnite Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование Typical Gamer для Fortnite"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/typical-gamer/",
+            "sourceUpdatedAt": "2026-03-11",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@TypicalGamer"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/typical-gamer-478b2a02c50f0c08.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "shroud",
+        "name": "shroud",
+        "realName": {
+          "en": "Michael Grzesiek",
+          "ru": "Майкл Гржесик"
+        },
+        "aliases": [
+          "michael grzesiek",
+          "shroud fps"
+        ],
+        "initials": "SH",
+        "kinds": [
+          "streamer",
+          "esports"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube",
+          "esports"
+        ],
+        "game": "Competitive shooters",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "shroud PC and streaming setup",
+            "seoDescription": "shroud's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "FPS streamer and former Counter-Strike pro"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап shroud",
+            "seoDescription": "ПК, периферия и стриминговое оборудование shroud, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "FPS-стример и бывший профессионал Counter-Strike"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "ASUS ROG PG27AQDM",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Logitech G Pro X2 SUPERSTRIKE",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Logitech G Pro X TKL RAPID Black",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Logitech G PRO X 2 Headset Black",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "Logitech G840 Darth Vader",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "chair",
+            "name": "Logitech G x Herman Miller Embody",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "audio-interface",
+            "name": "Focusrite Scarlett 2i2",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "camera",
+            "name": "Sony Alpha A6000",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 5090",
+            "sourceIds": [
+              "prosettings-shroud-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-shroud-2026",
+            "title": {
+              "en": "shroud Marvel Rivals Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование shroud"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/shroud/",
+            "sourceUpdatedAt": "2026-07-19",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/shroud"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@shroud"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/shroud-bd30baf0581721dd.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "ninja",
+        "name": "Ninja",
+        "realName": {
+          "en": "Tyler Blevins",
+          "ru": "Тайлер Блевинс"
+        },
+        "aliases": [
+          "tyler blevins",
+          "ninja fortnite",
+          "ninjasHyper"
+        ],
+        "initials": "NJ",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube"
+        ],
+        "game": "Fortnite",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Ninja PC and streaming setup",
+            "seoDescription": "Ninja's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "Fortnite streamer and creator"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап Ninja",
+            "seoDescription": "ПК, периферия и стриминговое оборудование Ninja, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Стример и автор по Fortnite"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "Alienware AW2518H",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Finalmouse Ultralight X Prophecy Clix Small",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "SteelSeries Apex Pro TKL",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "beyerdynamic DT 1990 PRO",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "HyperX Fury S Pro",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Electro-Voice RE20",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-13900K",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 4090",
+            "sourceIds": [
+              "prosettings-ninja-2025"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-ninja-2025",
+            "title": {
+              "en": "Ninja Fortnite Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование Ninja для Fortnite"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/ninja/",
+            "sourceUpdatedAt": "2025-07-24",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/ninja"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@Ninja"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/ninja-01a2da1e51876676.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "clix",
+        "name": "Clix",
+        "realName": {
+          "en": "Cody Conrod",
+          "ru": "Коди Конрод"
+        },
+        "aliases": [
+          "cody conrod",
+          "clix fortnite",
+          "nrg clix"
+        ],
+        "initials": "CX",
+        "kinds": [
+          "streamer",
+          "youtuber",
+          "esports"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube",
+          "esports"
+        ],
+        "game": "Fortnite",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "Clix PC and streaming setup",
+            "seoDescription": "Clix's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "Fortnite competitor and streamer"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап Clix",
+            "seoDescription": "ПК, периферия и стриминговое оборудование Clix, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Игрок и стример по Fortnite"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "Alienware AW2523HF",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Finalmouse Ultralight X Sakura",
+            "sourceIds": [
+              "prosettings-clix-2026",
+              "clix-penthouse-tour-2026"
+            ],
+            "note": {
+              "en": "Visible in Clix’s January 2026 apartment tour; the exact model is cross-checked against ProSettings.",
+              "ru": "Устройство видно в туре Clix по квартире за январь 2026 года; точная модель сверена с ProSettings."
+            }
+          },
+          {
+            "category": "keyboard",
+            "name": "SteelSeries Apex Pro Mini Black",
+            "sourceIds": [
+              "prosettings-clix-2026",
+              "clix-penthouse-tour-2026"
+            ],
+            "note": {
+              "en": "Visible in Clix’s January 2026 apartment tour; the exact model is cross-checked against ProSettings.",
+              "ru": "Устройство видно в туре Clix по квартире за январь 2026 года; точная модель сверена с ProSettings."
+            }
+          },
+          {
+            "category": "headset",
+            "name": "JBL Quantum 950X",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "DR3AMIN Ivory",
+            "sourceIds": [
+              "prosettings-clix-2026",
+              "clix-penthouse-tour-2026"
+            ],
+            "note": {
+              "en": "Visible in Clix’s January 2026 apartment tour; the exact model is cross-checked against ProSettings.",
+              "ru": "Устройство видно в туре Clix по квартире за январь 2026 года; точная модель сверена с ProSettings."
+            }
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "audio-interface",
+            "name": "TC-Helicon GoXLR",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "camera",
+            "name": "Sony A7 III",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "AMD Ryzen 7 9800X3D",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 5090",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "G.SKILL Trident Z Neo 32 GB",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "Lian Li PC-O11",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "storage",
+            "name": "Sabrent Rocket 2 TB",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          },
+          {
+            "category": "psu",
+            "name": "EVGA SuperNOVA 1000 G5",
+            "sourceIds": [
+              "prosettings-clix-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-clix-2026",
+            "title": {
+              "en": "Clix Fortnite Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование Clix для Fortnite"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/clix/",
+            "sourceUpdatedAt": "2026-07-13",
+            "checkedAt": "2026-07-23"
+          },
+          {
+            "id": "clix-penthouse-tour-2026",
+            "title": {
+              "en": "My $6,000,000 Dallas Penthouse Tour (2026)",
+              "ru": "Тур Clix по пентхаусу в Далласе (2026)"
+            },
+            "publisher": "Clix (YouTube)",
+            "url": "https://www.youtube.com/watch?v=25sCzeRZIPY&t=829s",
+            "sourceUpdatedAt": "2026-01-25",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/clix"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@Clix"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/clix-e9cdb7bc523ec2c0.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "tenz",
+        "name": "TenZ",
+        "realName": {
+          "en": "Tyson Ngo",
+          "ru": "Тайсон Нго"
+        },
+        "aliases": [
+          "tyson ngo",
+          "sentinels tenz",
+          "tenz valorant"
+        ],
+        "initials": "TZ",
+        "kinds": [
+          "streamer",
+          "youtuber",
+          "esports"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube",
+          "esports"
+        ],
+        "game": "VALORANT",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "TenZ PC and streaming setup",
+            "seoDescription": "TenZ's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "VALORANT streamer and former pro"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап TenZ",
+            "seoDescription": "ПК, периферия и стриминговое оборудование TenZ, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Стример VALORANT и бывший профессиональный игрок"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "Sony INZONE M10S",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Pulsar TenZ Signature Edition",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Wooting 80HE TenZ Edition",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Sony INZONE H9 II",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "Artisan Ninja FX Zero XSoft Black",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "chair",
+            "name": "Secretlab Titan Evo Jett",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "audio-interface",
+            "name": "TC-Helicon GoXLR Mini",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "camera",
+            "name": "Logitech C920",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-14900K",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 4090 Gaming X Trio",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "motherboard",
+            "name": "MSI MAG Z790 Tomahawk",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "memory",
+            "name": "TeamGroup T-Force Delta RGB DDR5 32 GB",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "Lian Li O11 Dynamic EVO",
+            "sourceIds": [
+              "prosettings-tenz-2026"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-tenz-2026",
+            "title": {
+              "en": "TenZ VALORANT Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование TenZ для VALORANT"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/tenz/",
+            "sourceUpdatedAt": "2026-06-08",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/tenz"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@TenZ"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/tenz-bcf56e81967b25a1.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "tarik",
+        "name": "tarik",
+        "realName": {
+          "en": "Tarik Celik",
+          "ru": "Тарик Челик"
+        },
+        "aliases": [
+          "tarik celik",
+          "tarik çelik",
+          "tarik valorant"
+        ],
+        "initials": "TR",
+        "kinds": [
+          "streamer",
+          "youtuber",
+          "esports"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube",
+          "esports"
+        ],
+        "game": "VALORANT",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "tarik PC and streaming setup",
+            "seoDescription": "tarik's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "VALORANT streamer and former CS pro"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап tarik",
+            "seoDescription": "ПК, периферия и стриминговое оборудование tarik, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Стример VALORANT и бывший профессионал CS"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "ZOWIE XL2566K",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Finalmouse Ultralight X Large",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Wooting 80HE Black",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "beyerdynamic DT 770 Pro",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "Finalmouse Horizon",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Shure SM7B",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "audio-interface",
+            "name": "TC-Helicon GoXLR",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "camera",
+            "name": "Logitech C920",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-14900K",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "MSI GeForce RTX 4090 Gaming X Trio",
+            "sourceIds": [
+              "prosettings-tarik-2025"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-tarik-2025",
+            "title": {
+              "en": "tarik VALORANT Settings, Crosshair & Config",
+              "ru": "Настройки и оборудование tarik для VALORANT"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/tarik/",
+            "sourceUpdatedAt": "2025-11-07",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/tarik"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@tarik"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/tarik-623db4e6d2b8399f.webp"
+      }
+    },
+    {
+      "action": "create",
+      "document": {
+        "slug": "timthetatman",
+        "name": "TimTheTatman",
+        "realName": {
+          "en": "Timothy John Betar",
+          "ru": "Тимоти Джон Бетар"
+        },
+        "aliases": [
+          "tim the tatman",
+          "timothy betar",
+          "tim"
+        ],
+        "initials": "TT",
+        "kinds": [
+          "streamer",
+          "youtuber"
+        ],
+        "platforms": [
+          "twitch",
+          "youtube"
+        ],
+        "game": "Call of Duty and variety",
+        "featured": false,
+        "publishedAt": "2026-07-23",
+        "updatedAt": "2026-07-23",
+        "content": {
+          "en": {
+            "seoTitle": "TimTheTatman PC and streaming setup",
+            "seoDescription": "TimTheTatman's PC, peripherals and streaming gear grouped by dated public sources.",
+            "eyebrow": "Battle royale and variety streamer"
+          },
+          "ru": {
+            "seoTitle": "ПК и стриминговый сетап TimTheTatman",
+            "seoDescription": "ПК, периферия и стриминговое оборудование TimTheTatman, сгруппированные по датированным публичным источникам.",
+            "eyebrow": "Стример battle royale и variety-контента"
+          }
+        },
+        "equipment": [
+          {
+            "category": "monitor",
+            "name": "LG UltraGear 27GN750-B",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "mouse",
+            "name": "Razer Viper V3 Pro Black",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "keyboard",
+            "name": "Razer BlackWidow V4 75%",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "headset",
+            "name": "Razer BlackShark V2 X",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "mousepad",
+            "name": "HyperX Fury S Pro",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "microphone",
+            "name": "Audio-Technica BP40",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "audio-interface",
+            "name": "TC-Helicon GoXLR",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "cpu",
+            "name": "Intel Core i9-12900K",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "gpu",
+            "name": "NVIDIA GeForce RTX 3090",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          },
+          {
+            "category": "case",
+            "name": "NZXT H710i",
+            "sourceIds": [
+              "prosettings-timthetatman-2025"
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "prosettings-timthetatman-2025",
+            "title": {
+              "en": "TimTheTatman Call of Duty: Warzone Settings & Config",
+              "ru": "Настройки и оборудование TimTheTatman для Warzone"
+            },
+            "publisher": "ProSettings.net",
+            "url": "https://prosettings.net/players/timthetatman/",
+            "sourceUpdatedAt": "2025-05-21",
+            "checkedAt": "2026-07-23"
+          }
+        ],
+        "socials": [
+          {
+            "label": "Twitch",
+            "url": "https://www.twitch.tv/timthetatman"
+          },
+          {
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@timthetatman"
+          }
+        ],
+        "avatarUrl": "/uploads/avatars/timthetatman-3f9ef1ff555be94f.webp"
+      }
+    }
+  ]
+}

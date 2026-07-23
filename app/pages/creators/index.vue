@@ -59,7 +59,6 @@ useHead(() => ({
             mainEntity: {
               '@type': 'ItemList',
               itemListElement: creators.value
-                .filter(creator => creator.indexable)
                 .map((creator, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
@@ -115,7 +114,6 @@ useHead(() => ({
       <div class="container">
         <div class="catalog-meta">
           <strong>{{ t('catalog.results', { count: filteredCreators.length }) }}</strong>
-          <p>{{ t('catalog.researchNotice') }}</p>
         </div>
 
         <div v-if="filteredCreators.length" class="creator-grid">

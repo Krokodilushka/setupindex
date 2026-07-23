@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { Creator, CreatorKind, EquipmentCategory, EquipmentStatus, Platform, VerificationStatus } from '../types/content'
+import type { Creator, CreatorKind, EquipmentCategory, Platform } from '../types/content'
 import { creatorAccent } from '#shared/utils/creator-accent'
+import { sortSourcesNewestFirst } from '../utils/content'
 
 interface StoredCreator {
   document: Creator
@@ -74,6 +75,7 @@ const importPreview = ref<ImportPreview>()
 const importPending = ref(false)
 const creatorSearch = ref('')
 const sessionExpired = ref(false)
+const avatarUploadError = ref('')
 
 const filteredRecords = computed(() => {
   const query = creatorSearch.value.trim().toLocaleLowerCase('ru')
@@ -107,53 +109,6 @@ const platformOptions: Array<{ value: Platform, label: string }> = [
   { value: 'youtube', label: 'YouTube' },
   { value: 'vk-video', label: 'VK Видео' },
   { value: 'esports', label: 'Киберспорт' },
-]
-const verificationStatusOptions: Array<{
-  value: VerificationStatus
-  label: string
-  description: string
-}> = [
-  {
-    value: 'research',
-    label: 'Черновик — ещё проверяется',
-    description: 'Профиль виден по прямой ссылке, но закрыт от поисковых систем.',
-  },
-  {
-    value: 'reported',
-    label: 'Опубликован — данные из источников',
-    description: 'Оборудование указано сторонними профильными источниками.',
-  },
-  {
-    value: 'confirmed',
-    label: 'Опубликован — подтверждено автором',
-    description: 'Оборудование подтверждено самим автором.',
-  },
-  {
-    value: 'mixed',
-    label: 'Опубликован — смешанные или старые данные',
-    description: 'В профиле совмещены данные разной степени подтверждения или давности.',
-  },
-]
-const equipmentStatusOptions: Array<{
-  value: EquipmentStatus
-  label: string
-  description: string
-}> = [
-  {
-    value: 'reported',
-    label: 'Указано источником',
-    description: 'Модель указана сторонним профильным источником.',
-  },
-  {
-    value: 'confirmed',
-    label: 'Подтверждено автором',
-    description: 'Автор лично подтвердил эту модель.',
-  },
-  {
-    value: 'historical',
-    label: 'Старые данные',
-    description: 'Модель использовалась раньше и может быть уже неактуальна.',
-  },
 ]
 const equipmentCategories: EquipmentCategory[] = [
   'cpu',
@@ -253,7 +208,10 @@ function uniqueSorted(values: string[]): string[] {
   )
 }
 
-function urlHost(value: string): string {
+function urlHost(value?: string): string {
+  if (!value)
+    return ''
+
   try {
     return new URL(value).hostname.toLocaleLowerCase('en').replace(/^www\./, '')
   }
@@ -262,7 +220,7 @@ function urlHost(value: string): string {
   }
 }
 
-function suggestedPublisher(url: string): string {
+function suggestedPublisher(url?: string): string {
   const host = urlHost(url)
   if (!host)
     return ''
@@ -278,7 +236,7 @@ function suggestedPublisher(url: string): string {
     ?.publisher || ''
 }
 
-function nextSourceId(url: string, sourceIndex: number): string {
+function nextSourceId(url: string | undefined, sourceIndex: number): string {
   const host = urlHost(url)
   const base = (host.split('.')[0] || 'source')
     .replace(/[^a-z0-9-]+/g, '-')
@@ -311,14 +269,6 @@ function completeSocial(social: NonNullable<Creator['socials']>[number]) {
     social.label = suggestedPublisher(social.url)
 }
 
-function verificationStatusDescription(status: VerificationStatus): string {
-  return verificationStatusOptions.find(option => option.value === status)?.description || ''
-}
-
-function equipmentStatusDescription(status: EquipmentStatus): string {
-  return equipmentStatusOptions.find(option => option.value === status)?.description || ''
-}
-
 function creatorKindLabel(kind: CreatorKind): string {
   return creatorKindOptions.find(option => option.value === kind)?.label || kind
 }
@@ -329,33 +279,6 @@ function platformLabel(platform: Platform): string {
 
 function localeLabel(locale: 'en' | 'ru'): string {
   return locale === 'ru' ? 'русский' : 'английский'
-}
-
-function setVerificationStatus(status: VerificationStatus) {
-  if (!editor.value)
-    return
-  editor.value.verificationStatus = status
-  editor.value.indexable = status !== 'research'
-}
-
-function fillBlankVerdicts(value: Creator) {
-  if (!value.content.ru.verdict.trim()) {
-    value.content.ru.verdict = value.equipment.length
-      ? 'Оборудование ниже указано по датированным профильным источникам; у каждой позиции приведена ссылка.'
-      : 'Актуальный список оборудования ещё не подтверждён источниками.'
-  }
-  if (!value.content.en.verdict.trim()) {
-    value.content.en.verdict = value.equipment.length
-      ? 'The equipment below is reported by dated specialist sources, with a source linked for each item.'
-      : 'No current equipment list has been verified against sources yet.'
-  }
-}
-
-function normalizePublication(value: Creator) {
-  value.indexable = value.verificationStatus !== 'research'
-  delete value.content.en.researchNote
-  delete value.content.ru.researchNote
-  fillBlankVerdicts(value)
 }
 
 function emptyCreator(): Creator {
@@ -370,8 +293,6 @@ function emptyCreator(): Creator {
     kinds: ['streamer'],
     platforms: ['twitch'],
     featured: false,
-    indexable: false,
-    verificationStatus: 'research',
     publishedAt: today,
     updatedAt: today,
     content: {
@@ -379,15 +300,11 @@ function emptyCreator(): Creator {
         seoTitle: '',
         seoDescription: '',
         eyebrow: '',
-        intro: '',
-        verdict: '',
       },
       ru: {
         seoTitle: '',
         seoDescription: '',
         eyebrow: '',
-        intro: '',
-        verdict: '',
       },
     },
     equipment: [],
@@ -404,11 +321,83 @@ function normalizeEditor(document: Creator): Creator {
   const copy = cloneCreator(document)
   copy.realName ||= { en: '', ru: '' }
   copy.socials ||= []
+  for (const source of copy.sources)
+    source.description ||= { en: '', ru: '' }
   for (const item of copy.equipment) {
     item.note ||= { en: '', ru: '' }
     item.affiliateUrl ||= {}
   }
   return copy
+}
+
+function loadImageElement(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image()
+    image.onload = () => resolve(image)
+    image.onerror = () => reject(new Error('Не удалось прочитать изображение'))
+    image.src = url
+  })
+}
+
+async function uploadAvatar(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file || !editor.value)
+    return
+
+  avatarUploadError.value = ''
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+    avatarUploadError.value = 'Поддерживаются JPG, PNG и WebP.'
+    input.value = ''
+    return
+  }
+  if (file.size > 8 * 1024 * 1024) {
+    avatarUploadError.value = 'Файл должен быть не больше 8 МБ.'
+    input.value = ''
+    return
+  }
+
+  const objectUrl = URL.createObjectURL(file)
+  try {
+    const image = await loadImageElement(objectUrl)
+    const side = Math.min(image.naturalWidth, image.naturalHeight)
+    const sourceX = (image.naturalWidth - side) / 2
+    const sourceY = (image.naturalHeight - side) / 2
+    const canvas = document.createElement('canvas')
+    canvas.width = 512
+    canvas.height = 512
+    const context = canvas.getContext('2d')
+    if (!context)
+      throw new Error('Браузер не поддерживает обработку изображения')
+
+    context.drawImage(image, sourceX, sourceY, side, side, 0, 0, 512, 512)
+    if (!/^[a-z0-9-]+$/.test(editor.value.slug))
+      throw new Error('Сначала укажите корректный адрес профиля (slug)')
+
+    const uploaded = await $fetch<{ url: string }>('/api/admin/avatar', {
+      method: 'POST',
+      body: {
+        slug: editor.value.slug,
+        imageData: canvas.toDataURL('image/webp', 0.86),
+      },
+    })
+    editor.value.avatarUrl = uploaded.url
+  }
+  catch (uploadError) {
+    avatarUploadError.value = uploadError instanceof Error
+      ? uploadError.message
+      : 'Не удалось обработать изображение.'
+  }
+  finally {
+    URL.revokeObjectURL(objectUrl)
+    input.value = ''
+  }
+}
+
+function removeAvatar() {
+  if (editor.value)
+    delete editor.value.avatarUrl
+  avatarUploadError.value = ''
 }
 
 function messageFromError(value: unknown): string {
@@ -572,7 +561,7 @@ async function loadWorkspace() {
   await loadCreators(props.creatorSlug)
   if (props.creatorSlug && !editor.value) {
     tab.value = 'content'
-    error.value = `Стример «${props.creatorSlug}» не найден.`
+    error.value = `Автор «${props.creatorSlug}» не найден.`
   }
 }
 
@@ -633,11 +622,6 @@ function toggleArrayValue<T extends string>(values: T[], value: T) {
     values.splice(index, 1)
 }
 
-function toggleSourceId(sourceIds: string[], sourceId: string) {
-  if (sourceId)
-    toggleArrayValue(sourceIds, sourceId)
-}
-
 function updateSourceId(sourceIndex: number, nextId: string) {
   if (!editor.value)
     return
@@ -656,25 +640,77 @@ function updateSourceId(sourceIndex: number, nextId: string) {
   }
 }
 
-function addEquipment() {
-  editor.value?.equipment.push({
+function sourceEquipment(sourceId: string) {
+  return (editor.value?.equipment || []).flatMap((item, index) =>
+    item.sourceIds.includes(sourceId) ? [{ item, index }] : [],
+  )
+}
+
+function addEquipmentToSource(sourceIndex: number) {
+  if (!editor.value)
+    return
+
+  const source = editor.value.sources[sourceIndex]
+  if (!source)
+    return
+  if (!source.id)
+    source.id = nextSourceId(source.url, sourceIndex)
+
+  editor.value.equipment.push({
     category: 'cpu',
     name: '',
-    status: 'reported',
-    sourceIds: [],
+    sourceIds: [source.id],
     note: { en: '', ru: '' },
     affiliateUrl: {},
   })
 }
 
+function removeEquipmentFromSource(equipmentIndex: number, sourceId: string) {
+  if (!editor.value)
+    return
+
+  const item = editor.value.equipment[equipmentIndex]
+  if (!item)
+    return
+
+  if (item.sourceIds.length > 1)
+    item.sourceIds = item.sourceIds.filter(id => id !== sourceId)
+  else
+    editor.value.equipment.splice(equipmentIndex, 1)
+}
+
 function addSource() {
-  editor.value?.sources.push({
-    id: '',
+  if (!editor.value)
+    return
+
+  const sourceIndex = editor.value.sources.length
+  editor.value.sources.push({
+    id: nextSourceId(undefined, sourceIndex),
     title: { en: '', ru: '' },
     publisher: '',
-    url: 'https://',
+    url: '',
     checkedAt: new Date().toISOString().slice(0, 10),
+    description: { en: '', ru: '' },
   })
+}
+
+function removeSource(sourceIndex: number) {
+  if (!editor.value)
+    return
+
+  const [source] = editor.value.sources.splice(sourceIndex, 1)
+  if (!source)
+    return
+
+  for (let index = editor.value.equipment.length - 1; index >= 0; index--) {
+    const item = editor.value.equipment[index]
+    if (!item?.sourceIds.includes(source.id))
+      continue
+
+    item.sourceIds = item.sourceIds.filter(id => id !== source.id)
+    if (!item.sourceIds.length)
+      editor.value.equipment.splice(index, 1)
+  }
 }
 
 function addSocial() {
@@ -686,16 +722,22 @@ function addSocial() {
 
 function cleanCreatorForSave(value: Creator): Creator {
   const copy = cloneCreator(value)
-  normalizePublication(copy)
   copy.accent = creatorAccent(copy.slug)
+  copy.sources = sortSourcesNewestFirst(copy.sources)
   if (!copy.realName?.en && !copy.realName?.ru)
     delete copy.realName
   if (!copy.game)
     delete copy.game
+  if (!copy.avatarUrl)
+    delete copy.avatarUrl
 
   for (const source of copy.sources) {
+    if (!source.url || source.url === 'https://')
+      delete source.url
     if (!source.sourceUpdatedAt)
       delete source.sourceUpdatedAt
+    if (!source.description?.en && !source.description?.ru)
+      delete source.description
   }
 
   for (const item of copy.equipment) {
@@ -920,14 +962,14 @@ if (status.value.authenticated)
     <div v-else class="admin-workspace">
       <aside class="admin-sidebar">
         <button type="button" class="admin-button primary wide" @click="createCreator">
-          + Новый стример
+          + Новый автор
         </button>
         <button
           type="button"
           :class="['admin-nav-button', { active: tab === 'creators' }]"
           @click="showCreatorTable"
         >
-          Стримеры ({{ records.length }})
+          Авторы ({{ records.length }})
         </button>
         <button
           type="button"
@@ -946,13 +988,13 @@ if (status.value.authenticated)
           <div class="admin-title-row">
             <div>
               <p class="admin-kicker">ПРОФИЛИ</p>
-              <h1>Стримеры</h1>
+              <h1>Авторы</h1>
               <p class="admin-table-summary">
                 Показано {{ filteredRecords.length }} из {{ records.length }}
               </p>
             </div>
             <label class="admin-table-search">
-              <span class="sr-only">Поиск стримера</span>
+              <span class="sr-only">Поиск автора</span>
               <input
                 v-model="creatorSearch"
                 type="search"
@@ -965,10 +1007,9 @@ if (status.value.authenticated)
             <table class="admin-creators-table">
               <thead>
                 <tr>
-                  <th>Стример</th>
+                  <th>Автор</th>
                   <th>Тип / платформы</th>
                   <th>Сборка</th>
-                  <th>Публикация</th>
                   <th>Обновлено</th>
                   <th>Версия</th>
                   <th><span class="sr-only">Действия</span></th>
@@ -995,12 +1036,6 @@ if (status.value.authenticated)
                     <span class="admin-cell-secondary">позиций</span>
                   </td>
                   <td>
-                    <span :class="['admin-status-badge', record.document.indexable ? 'published' : 'draft']">
-                      {{ record.document.indexable ? 'В индексе' : 'Черновик' }}
-                    </span>
-                    <span v-if="record.document.featured" class="admin-cell-secondary">На главной</span>
-                  </td>
-                  <td>
                     <strong class="admin-cell-primary">{{ record.document.updatedAt }}</strong>
                     <span v-if="record.document.game" class="admin-cell-secondary">{{ record.document.game }}</span>
                   </td>
@@ -1012,8 +1047,8 @@ if (status.value.authenticated)
                   </td>
                 </tr>
                 <tr v-if="!filteredRecords.length">
-                  <td colspan="7" class="admin-table-empty">
-                    {{ records.length ? 'По вашему запросу ничего не найдено.' : 'Стримеров пока нет.' }}
+                  <td colspan="6" class="admin-table-empty">
+                    {{ records.length ? 'По вашему запросу ничего не найдено.' : 'Авторов пока нет.' }}
                   </td>
                 </tr>
               </tbody>
@@ -1087,18 +1122,20 @@ if (status.value.authenticated)
 
         <div v-else-if="editor" class="admin-panel">
           <div class="admin-title-row sticky">
-            <div>
-              <p class="admin-kicker">{{ editorVersion === null ? 'НОВЫЙ ПРОФИЛЬ' : `ВЕРСИЯ ${editorVersion}` }}</p>
-              <h1>{{ editor.name || 'Новый стример' }}</h1>
+            <div class="admin-editor-identity">
+              <CreatorAvatar
+                :initials="editor.initials || '—'"
+                :accent="editor.accent"
+                :image="editor.avatarUrl"
+                size="small"
+              />
+              <div>
+                <p class="admin-kicker">{{ editorVersion === null ? 'НОВЫЙ ПРОФИЛЬ' : `ВЕРСИЯ ${editorVersion}` }}</p>
+                <h1>{{ editor.name || 'Новый автор' }}</h1>
+              </div>
             </div>
             <button type="button" class="admin-button primary" :disabled="savePending" @click="saveCreator">
-              {{
-                savePending
-                  ? 'Сохраняю…'
-                  : editor.verificationStatus === 'research'
-                    ? 'Сохранить черновик'
-                    : 'Сохранить и опубликовать'
-              }}
+              {{ savePending ? 'Сохраняю…' : 'Сохранить' }}
             </button>
           </div>
 
@@ -1116,28 +1153,37 @@ if (status.value.authenticated)
                   <small>автоматически из slug</small>
                 </div>
               </div>
+              <div class="admin-field full">
+                <span>Аватар автора</span>
+                <div class="admin-avatar-upload">
+                  <label class="admin-button secondary admin-file-button">
+                    Загрузить JPG, PNG или WebP
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      @change="uploadAvatar"
+                    >
+                  </label>
+                  <button
+                    v-if="editor.avatarUrl"
+                    type="button"
+                    class="admin-button ghost"
+                    @click="removeAvatar"
+                  >
+                    Удалить изображение
+                  </button>
+                  <small class="admin-input-hint">
+                    Изображение обрезается до квадрата. Если его нет, показываются инициалы.
+                  </small>
+                  <small v-if="avatarUploadError" class="admin-avatar-error">{{ avatarUploadError }}</small>
+                </div>
+              </div>
               <label class="admin-field">
                 <span>Игра</span>
                 <input v-model="editor.game" list="admin-game-suggestions" autocomplete="off">
               </label>
-              <label class="admin-field">
-                <span>Состояние профиля</span>
-                <select
-                  :value="editor.verificationStatus"
-                  @change="setVerificationStatus(($event.target as HTMLSelectElement).value as VerificationStatus)"
-                >
-                  <option
-                    v-for="option in verificationStatusOptions"
-                    :key="option.value"
-                    :value="option.value"
-                  >
-                    {{ option.label }}
-                  </option>
-                </select>
-                <small class="admin-input-hint">{{ verificationStatusDescription(editor.verificationStatus) }}</small>
-              </label>
               <label class="admin-field"><span>Дата публикации</span><input v-model="editor.publishedAt" type="date"></label>
-              <label class="admin-field"><span>Дата обновления</span><input v-model="editor.updatedAt" type="date"></label>
+              <label class="admin-field"><span>Дата проверки данных</span><input v-model="editor.updatedAt" type="date"></label>
               <label class="admin-field"><span>Настоящее имя на английском</span><input v-model="editor.realName!.en"></label>
               <label class="admin-field"><span>Настоящее имя на русском</span><input v-model="editor.realName!.ru"></label>
               <label class="admin-field full">
@@ -1170,11 +1216,8 @@ if (status.value.authenticated)
                 </label>
               </fieldset>
               <fieldset>
-                <legend>Публикация</legend>
+                <legend>Размещение</legend>
                 <label><input v-model="editor.featured" type="checkbox"> На главной</label>
-                <small class="admin-input-hint">
-                  Индексация включается автоматически для опубликованных профилей.
-                </small>
               </fieldset>
             </div>
 
@@ -1218,105 +1261,35 @@ if (status.value.authenticated)
                 <textarea v-model="editor.content[locale].seoDescription" rows="2" />
               </label>
               <label class="admin-field full"><span>Надзаголовок</span><input v-model="editor.content[locale].eyebrow"></label>
-              <label class="admin-field full"><span>Вступление</span><textarea v-model="editor.content[locale].intro" rows="4" /></label>
-              <label class="admin-field full">
-                <span>Короткий ответ — можно оставить пустым</span>
-                <textarea
-                  v-model="editor.content[locale].verdict"
-                  rows="4"
-                  placeholder="При сохранении подставится нейтральный текст"
-                />
-              </label>
             </div>
           </section>
 
           <section class="admin-form-section">
             <div class="admin-section-title">
-              <h2>Сборка и оборудование</h2>
-              <button type="button" class="admin-button secondary" @click="addEquipment">+ Позиция</button>
-            </div>
-            <div class="admin-repeat-list">
-              <article v-for="(item, index) in editor.equipment" :key="index" class="admin-repeat-card">
-                <div class="admin-form-grid equipment-row">
-                  <label class="admin-field">
-                    <span>Категория</span>
-                    <select v-model="item.category">
-                      <option v-for="category in equipmentCategories" :key="category" :value="category">
-                        {{ equipmentCategoryLabels[category] }}
-                      </option>
-                    </select>
-                  </label>
-                  <label class="admin-field">
-                    <span>Модель</span>
-                    <input
-                      v-model="item.name"
-                      :list="`admin-equipment-${item.category}-suggestions`"
-                      autocomplete="off"
-                    >
-                  </label>
-                  <label class="admin-field">
-                    <span>Достоверность позиции</span>
-                    <select v-model="item.status">
-                      <option
-                        v-for="option in equipmentStatusOptions"
-                        :key="option.value"
-                        :value="option.value"
-                      >
-                        {{ option.label }}
-                      </option>
-                    </select>
-                    <small class="admin-input-hint">{{ equipmentStatusDescription(item.status) }}</small>
-                  </label>
-                  <div class="admin-field full">
-                    <span>Источники</span>
-                    <div v-if="editor.sources.length" class="admin-source-picker">
-                      <label
-                        v-for="(source, sourceIndex) in editor.sources"
-                        :key="sourceIndex"
-                        :class="{ disabled: !source.id }"
-                      >
-                        <input
-                          type="checkbox"
-                          :checked="Boolean(source.id && item.sourceIds.includes(source.id))"
-                          :disabled="!source.id"
-                          @change="toggleSourceId(item.sourceIds, source.id)"
-                        >
-                        <span>
-                          <strong>{{ source.id || 'Сначала укажите идентификатор' }}</strong>
-                          <small>{{ source.publisher || urlHost(source.url) || `Источник ${sourceIndex + 1}` }}</small>
-                        </span>
-                      </label>
-                    </div>
-                    <small v-else class="admin-input-hint">
-                      Сначала добавьте источник в разделе ниже.
-                    </small>
-                  </div>
-                  <label class="admin-field full"><span>Примечание на русском</span><input v-model="item.note!.ru"></label>
-                  <label class="admin-field full"><span>Примечание на английском</span><input v-model="item.note!.en"></label>
-                  <label class="admin-field"><span>Партнёрская ссылка для русского сайта</span><input v-model="item.affiliateUrl!.ru" type="url"></label>
-                  <label class="admin-field"><span>Партнёрская ссылка для английского сайта</span><input v-model="item.affiliateUrl!.en" type="url"></label>
-                </div>
-                <button type="button" class="admin-remove" @click="editor.equipment.splice(index, 1)">Удалить</button>
-              </article>
-            </div>
-          </section>
-
-          <section class="admin-form-section">
-            <div class="admin-section-title">
-              <h2>Источники</h2>
+              <div>
+                <h2>Источники и оборудование</h2>
+                <p class="admin-section-description">
+                  Сначала укажите источник, затем добавьте относящиеся к нему элементы.
+                </p>
+              </div>
               <button type="button" class="admin-button secondary" @click="addSource">+ Источник</button>
             </div>
             <div class="admin-repeat-list">
-              <article v-for="(source, index) in editor.sources" :key="index" class="admin-repeat-card">
+              <article v-for="(source, sourceIndex) in editor.sources" :key="sourceIndex" class="admin-repeat-card admin-source-card">
+                <div class="admin-source-card-title">
+                  <h3>Источник {{ sourceIndex + 1 }}</h3>
+                  <button type="button" class="admin-remove" @click="removeSource(sourceIndex)">Удалить источник</button>
+                </div>
+
                 <div class="admin-form-grid">
                   <label class="admin-field">
                     <span>Идентификатор</span>
                     <input
                       :value="source.id"
                       placeholder="заполнится из ссылки"
-                      @input="updateSourceId(index, ($event.target as HTMLInputElement).value)"
+                      @input="updateSourceId(sourceIndex, ($event.target as HTMLInputElement).value)"
                     >
-                    <small class="admin-input-hint">При переименовании связи в сборке обновятся автоматически.</small>
+                    <small class="admin-input-hint">Связи с элементами обновляются автоматически.</small>
                   </label>
                   <label class="admin-field">
                     <span>Издатель</span>
@@ -1328,12 +1301,12 @@ if (status.value.authenticated)
                     >
                   </label>
                   <label class="admin-field full">
-                    <span>Ссылка</span>
+                    <span>Ссылка — необязательно</span>
                     <input
                       v-model="source.url"
                       type="url"
                       placeholder="https://"
-                      @blur="completeSource(source, index)"
+                      @blur="completeSource(source, sourceIndex)"
                     >
                     <small v-if="suggestedPublisher(source.url)" class="admin-input-hint">
                       Домен распознан: {{ suggestedPublisher(source.url) }}
@@ -1341,10 +1314,79 @@ if (status.value.authenticated)
                   </label>
                   <label class="admin-field"><span>Название на русском</span><input v-model="source.title.ru"></label>
                   <label class="admin-field"><span>Название на английском</span><input v-model="source.title.en"></label>
-                  <label class="admin-field"><span>Проверено</span><input v-model="source.checkedAt" type="date"></label>
-                  <label class="admin-field"><span>Дата источника</span><input v-model="source.sourceUpdatedAt" type="date"></label>
+                  <label class="admin-field"><span>Проверено редакцией</span><input v-model="source.checkedAt" type="date"></label>
+                  <label class="admin-field"><span>Дата информации на источнике — необязательно</span><input v-model="source.sourceUpdatedAt" type="date"></label>
+                  <label class="admin-field full">
+                    <span>Описание на русском — необязательно</span>
+                    <textarea v-model="source.description!.ru" rows="3" />
+                  </label>
+                  <label class="admin-field full">
+                    <span>Описание на английском — необязательно</span>
+                    <textarea v-model="source.description!.en" rows="3" />
+                  </label>
                 </div>
-                <button type="button" class="admin-remove" @click="editor.sources.splice(index, 1)">Удалить</button>
+
+                <div class="admin-nested-section">
+                  <div class="admin-section-title">
+                    <h3>Элементы источника</h3>
+                    <button type="button" class="admin-button secondary" @click="addEquipmentToSource(sourceIndex)">
+                      + Элемент
+                    </button>
+                  </div>
+
+                  <div v-if="sourceEquipment(source.id).length" class="admin-repeat-list">
+                    <article
+                      v-for="entry in sourceEquipment(source.id)"
+                      :key="entry.index"
+                      class="admin-repeat-card admin-equipment-card"
+                    >
+                      <div class="admin-form-grid equipment-row">
+                        <label class="admin-field">
+                          <span>Категория</span>
+                          <select v-model="entry.item.category">
+                            <option v-for="category in equipmentCategories" :key="category" :value="category">
+                              {{ equipmentCategoryLabels[category] }}
+                            </option>
+                          </select>
+                        </label>
+                        <label class="admin-field">
+                          <span>Модель</span>
+                          <input
+                            v-model="entry.item.name"
+                            :list="`admin-equipment-${entry.item.category}-suggestions`"
+                            autocomplete="off"
+                          >
+                        </label>
+                        <label class="admin-field full">
+                          <span>Примечание на русском</span>
+                          <input v-model="entry.item.note!.ru">
+                        </label>
+                        <label class="admin-field full">
+                          <span>Примечание на английском</span>
+                          <input v-model="entry.item.note!.en">
+                        </label>
+                        <label class="admin-field">
+                          <span>Партнёрская ссылка для русского сайта</span>
+                          <input v-model="entry.item.affiliateUrl!.ru" type="url">
+                        </label>
+                        <label class="admin-field">
+                          <span>Партнёрская ссылка для английского сайта</span>
+                          <input v-model="entry.item.affiliateUrl!.en" type="url">
+                        </label>
+                      </div>
+                      <button
+                        type="button"
+                        class="admin-remove"
+                        @click="removeEquipmentFromSource(entry.index, source.id)"
+                      >
+                        Удалить элемент
+                      </button>
+                    </article>
+                  </div>
+                  <p v-else class="admin-source-empty">
+                    У этого источника пока нет элементов.
+                  </p>
+                </div>
               </article>
             </div>
           </section>
@@ -1525,6 +1567,23 @@ if (status.value.authenticated)
   background: #090b0e;
 }
 
+.admin-editor-identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-editor-identity > div {
+  min-width: 0;
+}
+
+.admin-editor-identity h1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .admin-table-summary {
   margin: -6px 0 0;
   color: #7d8792;
@@ -1634,24 +1693,6 @@ if (status.value.authenticated)
   font-weight: 600;
 }
 
-.admin-status-badge {
-  display: inline-flex;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.admin-status-badge.published {
-  color: #c9f1b7;
-  background: #1b3020;
-}
-
-.admin-status-badge.draft {
-  color: #c8d0d8;
-  background: #29313a;
-}
-
 .admin-version {
   color: #89949f;
   font-size: 12px;
@@ -1710,6 +1751,12 @@ if (status.value.authenticated)
   border-color: #343d47;
   color: #dfe5eb;
   background: #171c22;
+}
+
+.admin-button.ghost {
+  border-color: #343d47;
+  color: #aeb7c0;
+  background: transparent;
 }
 
 .admin-button.danger {
@@ -1784,6 +1831,13 @@ if (status.value.authenticated)
   margin-bottom: 20px;
 }
 
+.admin-section-description {
+  margin: 6px 0 0;
+  color: #7f8a95;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .admin-subsection-title {
   margin-top: 24px;
 }
@@ -1837,63 +1891,30 @@ if (status.value.authenticated)
   line-height: 1.4;
 }
 
-.admin-source-picker {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 8px;
-}
-
-.admin-source-picker label {
+.admin-avatar-upload {
   display: flex;
-  min-width: 0;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 9px;
-  padding: 10px;
+  padding: 16px;
   border: 1px solid #333d47;
-  border-radius: 8px;
-  color: #dfe5eb;
+  border-radius: 10px;
   background: #0a0d11;
-  cursor: pointer;
 }
 
-.admin-source-picker label:has(input:checked) {
-  border-color: #91aa3b;
-  background: rgb(217 255 88 / 7%);
+.admin-avatar-upload .admin-input-hint,
+.admin-avatar-error {
+  flex-basis: 100%;
 }
 
-.admin-source-picker label.disabled {
-  cursor: not-allowed;
-  opacity: .55;
+.admin-file-button input {
+  display: none;
 }
 
-.admin-source-picker input {
-  width: auto;
-  min-height: auto;
-  margin-top: 2px;
-}
-
-.admin-source-picker span,
-.admin-source-picker strong,
-.admin-source-picker small {
-  display: block;
-  min-width: 0;
-}
-
-.admin-source-picker strong {
-  overflow: hidden;
-  font: 700 12px ui-monospace, SFMono-Regular, Consolas, monospace;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.admin-source-picker small {
-  margin-top: 3px;
-  overflow: hidden;
-  color: #7d8792;
+.admin-avatar-error {
+  color: #ff9aa3;
   font-size: 11px;
-  font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-weight: 600;
 }
 
 .admin-auto-accent {
@@ -1962,6 +1983,50 @@ if (status.value.authenticated)
   border: 1px solid #29313a;
   border-radius: 11px;
   background: #0b0e12;
+}
+
+.admin-source-card {
+  padding: 20px;
+}
+
+.admin-source-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.admin-source-card-title h3,
+.admin-nested-section h3 {
+  margin: 0;
+}
+
+.admin-source-card-title .admin-remove {
+  margin-top: 0;
+}
+
+.admin-nested-section {
+  padding: 18px;
+  margin-top: 20px;
+  border: 1px solid #29313a;
+  border-radius: 11px;
+  background: #090c0f;
+}
+
+.admin-nested-section > .admin-section-title {
+  margin-bottom: 14px;
+}
+
+.admin-equipment-card {
+  border-color: #343d47;
+  background: #10151a;
+}
+
+.admin-source-empty {
+  margin: 0;
+  color: #737e89;
+  font-size: 13px;
 }
 
 .admin-repeat-card.compact {
@@ -2095,6 +2160,15 @@ if (status.value.authenticated)
 
   .admin-field.full {
     grid-column: auto;
+  }
+
+  .admin-avatar-upload {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-editor-identity {
+    align-items: flex-start;
   }
 }
 </style>

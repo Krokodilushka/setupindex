@@ -11,13 +11,6 @@ const sourceTiers = computed(() => [
   { title: t('methodology.tier3Title'), text: t('methodology.tier3Text'), level: 'C' },
   { title: t('methodology.tier4Title'), text: t('methodology.tier4Text'), level: 'LEAD' },
 ])
-const labels = computed(() => [
-  { status: 'confirmed' as const, text: t('methodology.confirmedText') },
-  { status: 'reported' as const, text: t('methodology.reportedText') },
-  { status: 'historical' as const, text: t('methodology.historicalText') },
-  { status: 'research' as const, text: t('methodology.researchText') },
-])
-
 useSeoMeta({
   title: () => t('methodology.seoTitle'),
   description: () => t('methodology.seoDescription'),
@@ -79,27 +72,15 @@ useHead(() => ({
           </div>
         </article>
 
-        <article class="method-section">
-          <span class="method-kicker">02 / LABELS</span>
-          <h2>{{ t('methodology.labelsTitle') }}</h2>
-
-          <div class="label-explainer-grid">
-            <div v-for="item in labels" :key="item.status">
-              <StatusBadge :status="item.status" />
-              <p>{{ item.text }}</p>
-            </div>
-          </div>
-        </article>
-
         <div class="method-two-column">
           <article class="method-section method-card">
-            <span class="method-kicker">03 / FRESHNESS</span>
+            <span class="method-kicker">02 / FRESHNESS</span>
             <h2>{{ t('methodology.datesTitle') }}</h2>
             <p>{{ t('methodology.datesText') }}</p>
           </article>
 
           <article class="method-section method-card">
-            <span class="method-kicker">04 / SEO</span>
+            <span class="method-kicker">03 / SEO</span>
             <h2>{{ t('methodology.seoTitleSection') }}</h2>
             <p>{{ t('methodology.seoText') }}</p>
           </article>
@@ -107,13 +88,13 @@ useHead(() => ({
 
         <div class="method-two-column">
           <article class="method-section method-card">
-            <span class="method-kicker">05 / MONEY</span>
+            <span class="method-kicker">04 / MONEY</span>
             <h2>{{ t('methodology.moneyTitle') }}</h2>
             <p>{{ t('methodology.moneyText') }}</p>
           </article>
 
           <article class="method-section method-card">
-            <span class="method-kicker">06 / HISTORY</span>
+            <span class="method-kicker">05 / HISTORY</span>
             <h2>{{ t('methodology.correctionsTitle') }}</h2>
             <p>{{ t('methodology.correctionsText') }}</p>
           </article>

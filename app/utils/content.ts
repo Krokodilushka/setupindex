@@ -1,4 +1,4 @@
-import type { LocaleCode, LocalizedText } from '../types/content'
+import type { LocaleCode, LocalizedText, Source } from '../types/content'
 
 export function localize(value: LocalizedText | undefined, locale: string): string {
   if (!value)
@@ -14,6 +14,14 @@ export function formatIsoDate(date: string, locale: string): string {
     year: 'numeric',
     timeZone: 'UTC',
   }).format(new Date(`${date}T00:00:00Z`))
+}
+
+export function sortSourcesNewestFirst<T extends Source>(sources: readonly T[]): T[] {
+  return [...sources].sort((left, right) => {
+    const leftDate = left.sourceUpdatedAt || left.checkedAt
+    const rightDate = right.sourceUpdatedAt || right.checkedAt
+    return rightDate.localeCompare(leftDate)
+  })
 }
 
 export function safeJsonLd(value: unknown): string {

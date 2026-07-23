@@ -49,6 +49,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     databasePath: process.env.NUXT_DATABASE_PATH || './.data/setupindex.sqlite',
+    uploadsPath: process.env.NUXT_UPLOADS_PATH || './.data/uploads',
     public: {
       siteUrl,
       yandexMetrikaId: process.env.NUXT_PUBLIC_YANDEX_METRIKA_ID || '',

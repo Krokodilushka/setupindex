@@ -2,8 +2,10 @@
 // This replaces the coverage previously provided by `nuxt generate --failOnError`.
 import { spawn } from 'node:child_process'
 import { randomUUID, webcrypto } from 'node:crypto'
-import { existsSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import process from 'node:process'
+import { basename, join } from 'node:path'
 import { defaults as sessionSealDefaults, seal } from 'iron-webcrypto'
 
 const port = Number(process.env.SMOKE_PORT || 3123)
@@ -11,6 +13,14 @@ const origin = `http://127.0.0.1:${port}`
 const entry = '.output/server/index.mjs'
 const failures = []
 const sessionPassword = process.env.NUXT_SESSION_PASSWORD || 'smoke-test-session-password-at-least-32-characters'
+const contentImport = JSON.parse(readFileSync('docs/imports/setupindex-creators.json', 'utf8'))
+const m0nesyAvatarPath = contentImport.operations.find(operation => operation.document.slug === 'm0nesy').document.avatarUrl
+const temporaryUploads = mkdtempSync(join(tmpdir(), 'setupindex-smoke-uploads-'))
+mkdirSync(join(temporaryUploads, 'avatars'))
+copyFileSync(
+  join('docs/imports/avatars', basename(m0nesyAvatarPath)),
+  join(temporaryUploads, 'avatars', basename(m0nesyAvatarPath)),
+)
 
 if (!existsSync(entry)) {
   console.error(`Missing ${entry}. Run "npm run build" first.`)
@@ -24,6 +34,7 @@ const server = spawn(process.execPath, [entry], {
     HOST: '127.0.0.1',
     NITRO_PORT: String(port),
     NUXT_DATABASE_PATH: ':memory:',
+    NUXT_UPLOADS_PATH: temporaryUploads,
     NUXT_SESSION_PASSWORD: sessionPassword,
   },
   stdio: ['ignore', 'pipe', 'pipe'],
@@ -93,6 +104,43 @@ async function waitForServer() {
 async function run() {
   await waitForServer()
 
+  const emptyCreators = await get('/api/creators')
+  const emptyCreatorsBody = await emptyCreators.json()
+  check('fresh database has no creator seed', emptyCreators.status === 200
+    && Array.isArray(emptyCreatorsBody)
+    && emptyCreatorsBody.length === 0)
+
+  const now = Date.now()
+  const sealedAdminSession = await seal(webcrypto, {
+    id: randomUUID(),
+    createdAt: now,
+    data: {
+      user: { id: 'admin' },
+      loggedInAt: now,
+    },
+  }, sessionPassword, sessionSealDefaults)
+  const adminCookie = `nuxt-session=${encodeURIComponent(sealedAdminSession)}`
+  const importPreviewResponse = await post('/api/admin/import/preview', contentImport, {
+    headers: { cookie: adminCookie },
+  })
+  const importPreview = await importPreviewResponse.json()
+  check('portable import previews on a clean database', importPreviewResponse.status === 200
+    && importPreview.valid === true
+    && typeof importPreview.signature === 'string',
+  `${importPreviewResponse.status} ${JSON.stringify(importPreview).slice(0, 600)}`)
+
+  const importApplyResponse = await post('/api/admin/import/apply', {
+    batch: contentImport,
+    signature: importPreview.signature,
+  }, {
+    headers: { cookie: adminCookie },
+  })
+  const importApply = await importApplyResponse.json()
+  check('portable import populates the clean database', importApplyResponse.status === 200
+    && importApply.ok === true
+    && importApply.applied === contentImport.operations.length,
+  `${importApplyResponse.status} ${JSON.stringify(importApply).slice(0, 600)}`)
+
   console.log('\nhealth + headers')
   const health = await get('/healthz')
   check('/healthz returns 200 "ok"', health.status === 200 && (await health.text()) === 'ok\n')
@@ -135,17 +183,37 @@ async function run() {
 
   const profile = await get('/en/creators/m0nesy')
   const profileBody = profile.ok ? await profile.text() : ''
-  check('indexable profile renders with JSON-LD', profile.status === 200
+  check('creator profile renders with JSON-LD', profile.status === 200
     && profileBody.includes('m0NESY')
     && profileBody.includes('application/ld+json')
     && profileBody.includes('"@type":"ProfilePage"'))
-  check('indexable profile is indexable', /<meta[^>]+name="robots"[^>]+content="index, follow/.test(profileBody))
+  check('creator profile is indexable', /<meta[^>]+name="robots"[^>]+content="index, follow/.test(profileBody))
   check('server-rendered HTML contains equipment', profileBody.includes('9800X3D'))
 
-  const research = await get('/en/creators/evelone')
-  const researchBody = research.ok ? await research.text() : ''
-  check('research profile is noindex', research.status === 200
-    && /<meta[^>]+name="robots"[^>]+content="noindex/.test(researchBody))
+  const avatar = await get(m0nesyAvatarPath)
+  const avatarBytes = new Uint8Array(await avatar.arrayBuffer())
+  check('local avatar is served from disk', avatar.status === 200
+    && avatar.headers.get('content-type') === 'image/webp'
+    && new TextDecoder().decode(avatarBytes.slice(0, 4)) === 'RIFF')
+
+  const avatarUpload = await post('/api/admin/avatar', {
+    slug: 'smoke-avatar',
+    imageData: `data:image/webp;base64,${Buffer.from(avatarBytes).toString('base64')}`,
+  }, {
+    headers: { cookie: adminCookie },
+  })
+  const avatarUploadBody = await avatarUpload.json()
+  const uploadedAvatar = typeof avatarUploadBody.url === 'string'
+    ? await get(avatarUploadBody.url)
+    : null
+  const uploadedAvatarBytes = uploadedAvatar
+    ? new Uint8Array(await uploadedAvatar.arrayBuffer())
+    : new Uint8Array()
+  check('admin avatar upload writes a WebP file to disk', avatarUpload.status === 200
+    && /^\/uploads\/avatars\/smoke-avatar-[a-f0-9]{16}\.webp$/.test(avatarUploadBody.url)
+    && uploadedAvatar?.status === 200
+    && new TextDecoder().decode(uploadedAvatarBytes.slice(0, 4)) === 'RIFF',
+  `${avatarUpload.status} ${JSON.stringify(avatarUploadBody).slice(0, 300)}`)
 
   console.log('\nadmin')
   const adminRedirect = await get('/admin')
@@ -166,24 +234,15 @@ async function run() {
     && /<meta[^>]+name="robots"[^>]+content="noindex, nofollow/.test(adminCreatorPageBody)
     && adminCreatorPage.headers.get('x-robots-tag') === 'noindex, nofollow')
 
-  const now = Date.now()
-  const sealedAdminSession = await seal(webcrypto, {
-    id: randomUUID(),
-    createdAt: now,
-    data: {
-      user: { id: 'admin' },
-      loggedInAt: now,
-    },
-  }, sessionPassword, sessionSealDefaults)
   const authenticatedAdminPage = await get('/ru/admin/creators/m0nesy', {
     headers: {
-      cookie: `nuxt-session=${encodeURIComponent(sealedAdminSession)}`,
+      cookie: adminCookie,
     },
   })
   const authenticatedAdminPageBody = await authenticatedAdminPage.text()
   check('admin session reaches SSR creator data requests', authenticatedAdminPage.status === 200
     && authenticatedAdminPageBody.includes('m0NESY')
-    && authenticatedAdminPageBody.includes('Сохранить и опубликовать'),
+    && authenticatedAdminPageBody.includes('Сохранить'),
   `${authenticatedAdminPage.status} ${authenticatedAdminPageBody.match(/<h1[^>]*>([^<]*)<\/h1>/)?.[1] || 'no heading'}`)
 
   const adminStatus = await get('/api/admin/status')
@@ -236,8 +295,8 @@ async function run() {
 
   const enSitemap = await get('/__sitemap__/en.xml')
   const enSitemapBody = await enSitemap.text()
-  check('sitemap includes an indexable creator', enSitemapBody.includes('/en/creators/m0nesy'))
-  check('sitemap excludes research profiles', !enSitemapBody.includes('/en/creators/evelone'))
+  check('sitemap includes a creator', enSitemapBody.includes('/en/creators/m0nesy'))
+  check('sitemap excludes inactive profiles', !enSitemapBody.includes('/en/creators/evelone'))
 
   for (const locale of ['en', 'ru']) {
     const body = await (await get(`/__sitemap__/${locale}.xml`)).text()
@@ -259,7 +318,12 @@ catch (error) {
   console.error(error.message)
 }
 finally {
-  server.kill()
+  if (server.exitCode === null) {
+    const exited = new Promise(resolve => server.once('exit', resolve))
+    server.kill()
+    await exited
+  }
+  rmSync(temporaryUploads, { recursive: true, force: true })
 }
 
 if (failures.length) {

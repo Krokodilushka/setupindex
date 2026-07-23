@@ -13,8 +13,14 @@ const { data: creatorData } = await useFetch<Creator[]>('/api/creators', {
 const creators = computed(() => creatorData.value)
 
 const featuredCreators = computed(() => creators.value.filter(creator => creator.featured))
-const publishedCount = computed(() => creators.value.filter(creator => creator.indexable).length)
+const publishedCount = computed(() => creators.value.filter(creator => creator.sources.length > 0).length)
 const equipmentCount = computed(() => creators.value.reduce((total, creator) => total + creator.equipment.length, 0))
+
+function statLabel(key: 'statsProfiles' | 'statsPublished' | 'statsItems', count: number): string {
+  const category = new Intl.PluralRules(locale.value === 'ru' ? 'ru-RU' : 'en-US').select(count)
+  const form = ['one', 'few', 'many'].includes(category) ? category : 'other'
+  return t(`home.${key}.${form}`)
+}
 
 function submitSearch() {
   const query = search.value.trim()
@@ -98,33 +104,20 @@ useHead(() => ({
           </form>
         </div>
 
-        <aside class="proof-panel" aria-labelledby="proof-title">
-          <div class="proof-grid" aria-hidden="true">
-            <span v-for="cell in 16" :key="cell" />
-          </div>
-          <div class="proof-code">SOURCE_01</div>
-          <div class="proof-icon" aria-hidden="true">
-            ✓
-          </div>
-          <div>
-            <h2 id="proof-title">{{ t('home.proofTitle') }}</h2>
-            <p>{{ t('home.proofText') }}</p>
-          </div>
-        </aside>
       </div>
 
       <div class="container stats-row" aria-label="Site statistics">
         <div>
           <strong>{{ creators.length }}</strong>
-          <span>{{ t('home.statsProfiles') }}</span>
+          <span>{{ statLabel('statsProfiles', creators.length) }}</span>
         </div>
         <div>
           <strong>{{ publishedCount }}</strong>
-          <span>{{ t('home.statsPublished') }}</span>
+          <span>{{ statLabel('statsPublished', publishedCount) }}</span>
         </div>
         <div>
           <strong>{{ equipmentCount }}</strong>
-          <span>{{ t('home.statsItems') }}</span>
+          <span>{{ statLabel('statsItems', equipmentCount) }}</span>
         </div>
       </div>
     </section>

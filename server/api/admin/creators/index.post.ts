@@ -2,7 +2,10 @@ import { creatorRecords } from '../../../database/schema'
 
 export default defineEventHandler(async (event) => {
   await requireAdmin(event)
-  const document = parseCreatorDocument(await readBody(event))
+  const document = await persistCreatorAvatar(
+    event,
+    parseCreatorDocument(await readBody(event)),
+  )
 
   if (await findStoredCreator(document.slug)) {
     throw createError({
@@ -16,7 +19,6 @@ export default defineEventHandler(async (event) => {
   await db.insert(creatorRecords).values({
     slug: document.slug,
     document,
-    indexable: document.indexable,
     featured: document.featured,
     createdAt: now,
     updatedAt: now,

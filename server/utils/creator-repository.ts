@@ -1,4 +1,6 @@
 import type { Creator } from '../../app/types/content'
+import { sortSourcesNewestFirst } from '../../app/utils/content'
+import { creatorSchema } from '../../app/utils/creator-schema'
 import { asc, eq } from 'drizzle-orm'
 import { withCreatorAccent } from '../../shared/utils/creator-accent'
 import { creatorRecords } from '../database/schema'
@@ -6,6 +8,14 @@ import { creatorRecords } from '../database/schema'
 export interface StoredCreator {
   document: Creator
   version: number
+}
+
+function normalizeStoredCreator(document: unknown): Creator {
+  const parsed = creatorSchema.parse(document)
+  return withCreatorAccent({
+    ...parsed,
+    sources: sortSourcesNewestFirst(parsed.sources),
+  }) as Creator
 }
 
 export async function listStoredCreators(): Promise<StoredCreator[]> {
@@ -20,7 +30,7 @@ export async function listStoredCreators(): Promise<StoredCreator[]> {
 
   return creators.map(creator => ({
     ...creator,
-    document: withCreatorAccent(creator.document),
+    document: normalizeStoredCreator(creator.document),
   }))
 }
 
@@ -38,7 +48,7 @@ export async function findStoredCreator(slug: string): Promise<StoredCreator | u
   return creator
     ? {
         ...creator,
-        document: withCreatorAccent(creator.document),
+        document: normalizeStoredCreator(creator.document),
       }
     : undefined
 }

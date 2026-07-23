@@ -1,4 +1,5 @@
 import type { Creator } from '../../app/types/content'
+import { sortSourcesNewestFirst } from '../../app/utils/content'
 import { creatorSchema, validateCreatorSemantics } from '../../app/utils/creator-schema'
 import { withCreatorAccent } from '../../shared/utils/creator-accent'
 
@@ -16,7 +17,10 @@ export function parseCreatorDocument(input: unknown): Creator {
     })
   }
 
-  const document = withCreatorAccent(result.data)
+  const document = withCreatorAccent({
+    ...result.data,
+    sources: sortSourcesNewestFirst(result.data.sources),
+  })
   const problems = validateCreatorSemantics(document)
   if (problems.length) {
     throw createError({

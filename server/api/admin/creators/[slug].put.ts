@@ -6,7 +6,10 @@ export default defineEventHandler(async (event) => {
   const currentSlug = getRouterParam(event, 'slug')
   const body = await readBody(event)
   const expectedVersion = Number(body?.expectedVersion)
-  const document = parseCreatorDocument(body?.document)
+  const document = await persistCreatorAvatar(
+    event,
+    parseCreatorDocument(body?.document),
+  )
 
   if (!currentSlug || !Number.isInteger(expectedVersion) || expectedVersion < 1) {
     throw createError({
@@ -43,7 +46,6 @@ export default defineEventHandler(async (event) => {
     .set({
       slug: document.slug,
       document,
-      indexable: document.indexable,
       featured: document.featured,
       version: nextVersion,
       updatedAt: new Date().toISOString(),

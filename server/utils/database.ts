@@ -1,12 +1,9 @@
-import * as schema from '../database/schema'
 import { mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 import { drizzle } from 'drizzle-orm/node-sqlite'
 import type { NodeSQLiteDatabase } from 'drizzle-orm/node-sqlite'
 import { migrate } from 'drizzle-orm/node-sqlite/migrator'
-import { count } from 'drizzle-orm'
-import { creators as seedCreators } from '../../app/data/creators'
 
 type AppDatabase = NodeSQLiteDatabase
 
@@ -38,20 +35,6 @@ function openDatabase(): AppDatabase {
 
 async function initializeDatabase(): Promise<AppDatabase> {
   database ||= openDatabase()
-
-  const [result] = await database.select({ count: count() }).from(schema.creatorRecords)
-  if ((result?.count || 0) === 0) {
-    const now = new Date().toISOString()
-    await database.insert(schema.creatorRecords).values(seedCreators.map(creator => ({
-      slug: creator.slug,
-      document: creator,
-      indexable: creator.indexable,
-      featured: creator.featured,
-      createdAt: now,
-      updatedAt: now,
-    })))
-  }
-
   return database
 }
 
