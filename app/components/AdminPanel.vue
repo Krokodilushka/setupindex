@@ -97,10 +97,64 @@ watch(() => editor.value?.slug, (slug) => {
     editor.value.accent = creatorAccent(slug || '')
 })
 
-const creatorKinds: CreatorKind[] = ['streamer', 'youtuber', 'esports']
-const platforms: Platform[] = ['twitch', 'youtube', 'vk-video', 'esports']
-const verificationStatuses: VerificationStatus[] = ['confirmed', 'reported', 'mixed', 'research']
-const equipmentStatuses: EquipmentStatus[] = ['confirmed', 'reported', 'historical']
+const creatorKindOptions: Array<{ value: CreatorKind, label: string }> = [
+  { value: 'streamer', label: 'Стример' },
+  { value: 'youtuber', label: 'YouTube-автор' },
+  { value: 'esports', label: 'Киберспортсмен' },
+]
+const platformOptions: Array<{ value: Platform, label: string }> = [
+  { value: 'twitch', label: 'Twitch' },
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'vk-video', label: 'VK Видео' },
+  { value: 'esports', label: 'Киберспорт' },
+]
+const verificationStatusOptions: Array<{
+  value: VerificationStatus
+  label: string
+  description: string
+}> = [
+  {
+    value: 'research',
+    label: 'Черновик — ещё проверяется',
+    description: 'Профиль виден по прямой ссылке, но закрыт от поисковых систем.',
+  },
+  {
+    value: 'reported',
+    label: 'Опубликован — данные из источников',
+    description: 'Оборудование указано сторонними профильными источниками.',
+  },
+  {
+    value: 'confirmed',
+    label: 'Опубликован — подтверждено автором',
+    description: 'Оборудование подтверждено самим автором.',
+  },
+  {
+    value: 'mixed',
+    label: 'Опубликован — смешанные или старые данные',
+    description: 'В профиле совмещены данные разной степени подтверждения или давности.',
+  },
+]
+const equipmentStatusOptions: Array<{
+  value: EquipmentStatus
+  label: string
+  description: string
+}> = [
+  {
+    value: 'reported',
+    label: 'Указано источником',
+    description: 'Модель указана сторонним профильным источником.',
+  },
+  {
+    value: 'confirmed',
+    label: 'Подтверждено автором',
+    description: 'Автор лично подтвердил эту модель.',
+  },
+  {
+    value: 'historical',
+    label: 'Старые данные',
+    description: 'Модель использовалась раньше и может быть уже неактуальна.',
+  },
+]
 const equipmentCategories: EquipmentCategory[] = [
   'cpu',
   'gpu',
@@ -122,6 +176,27 @@ const equipmentCategories: EquipmentCategory[] = [
   'storage',
   'cooling',
 ]
+const equipmentCategoryLabels: Record<EquipmentCategory, string> = {
+  cpu: 'Процессор',
+  gpu: 'Видеокарта',
+  motherboard: 'Материнская плата',
+  memory: 'Оперативная память',
+  psu: 'Блок питания',
+  laptop: 'Ноутбук',
+  monitor: 'Монитор',
+  mouse: 'Мышь',
+  keyboard: 'Клавиатура',
+  microphone: 'Микрофон',
+  'audio-interface': 'Аудиоинтерфейс',
+  speakers: 'Колонки',
+  camera: 'Камера',
+  headset: 'Наушники',
+  mousepad: 'Коврик для мыши',
+  chair: 'Кресло',
+  case: 'Корпус',
+  storage: 'Накопитель',
+  cooling: 'Охлаждение',
+}
 
 const gameSuggestions = computed(() => uniqueSorted(
   records.value.map(record => record.document.game).filter((value): value is string => Boolean(value)),
@@ -236,6 +311,53 @@ function completeSocial(social: NonNullable<Creator['socials']>[number]) {
     social.label = suggestedPublisher(social.url)
 }
 
+function verificationStatusDescription(status: VerificationStatus): string {
+  return verificationStatusOptions.find(option => option.value === status)?.description || ''
+}
+
+function equipmentStatusDescription(status: EquipmentStatus): string {
+  return equipmentStatusOptions.find(option => option.value === status)?.description || ''
+}
+
+function creatorKindLabel(kind: CreatorKind): string {
+  return creatorKindOptions.find(option => option.value === kind)?.label || kind
+}
+
+function platformLabel(platform: Platform): string {
+  return platformOptions.find(option => option.value === platform)?.label || platform
+}
+
+function localeLabel(locale: 'en' | 'ru'): string {
+  return locale === 'ru' ? 'русский' : 'английский'
+}
+
+function setVerificationStatus(status: VerificationStatus) {
+  if (!editor.value)
+    return
+  editor.value.verificationStatus = status
+  editor.value.indexable = status !== 'research'
+}
+
+function fillBlankVerdicts(value: Creator) {
+  if (!value.content.ru.verdict.trim()) {
+    value.content.ru.verdict = value.equipment.length
+      ? 'Оборудование ниже указано по датированным профильным источникам; у каждой позиции приведена ссылка.'
+      : 'Актуальный список оборудования ещё не подтверждён источниками.'
+  }
+  if (!value.content.en.verdict.trim()) {
+    value.content.en.verdict = value.equipment.length
+      ? 'The equipment below is reported by dated specialist sources, with a source linked for each item.'
+      : 'No current equipment list has been verified against sources yet.'
+  }
+}
+
+function normalizePublication(value: Creator) {
+  value.indexable = value.verificationStatus !== 'research'
+  delete value.content.en.researchNote
+  delete value.content.ru.researchNote
+  fillBlankVerdicts(value)
+}
+
 function emptyCreator(): Creator {
   const today = new Date().toISOString().slice(0, 10)
   return {
@@ -259,7 +381,6 @@ function emptyCreator(): Creator {
         eyebrow: '',
         intro: '',
         verdict: '',
-        researchNote: '',
       },
       ru: {
         seoTitle: '',
@@ -267,7 +388,6 @@ function emptyCreator(): Creator {
         eyebrow: '',
         intro: '',
         verdict: '',
-        researchNote: '',
       },
     },
     equipment: [],
@@ -566,6 +686,7 @@ function addSocial() {
 
 function cleanCreatorForSave(value: Creator): Creator {
   const copy = cloneCreator(value)
+  normalizePublication(copy)
   copy.accent = creatorAccent(copy.slug)
   if (!copy.realName?.en && !copy.realName?.ru)
     delete copy.realName
@@ -759,13 +880,13 @@ if (status.value.authenticated)
 
     <main v-if="!status.authenticated" class="admin-auth">
       <section class="admin-auth-card">
-        <p class="admin-kicker">ADMIN / PASSKEY</p>
+        <p class="admin-kicker">ВХОД В АДМИН-ПАНЕЛЬ</p>
         <h1>{{ status.configured ? 'Вход в админ-панель' : 'Создание администратора' }}</h1>
         <p v-if="status.configured">
-          Используйте passkey, зарегистрированный для SetupIndex.
+          Используйте ключ доступа, зарегистрированный для SetupIndex.
         </p>
         <p v-else>
-          Администратор ещё не создан. Первый успешно зарегистрированный passkey станет единственным ключом администратора.
+          Администратор ещё не создан. Первый успешно зарегистрированный ключ доступа станет единственным ключом администратора.
         </p>
 
         <p v-if="!webAuthnSupported" class="admin-alert error">
@@ -779,7 +900,7 @@ if (status.value.authenticated)
           :disabled="authPending || !webAuthnSupported"
           @click="completeAuthentication(status.configured ? 'authenticate' : 'register')"
         >
-          {{ authPending ? 'Подождите…' : status.configured ? 'Войти с passkey' : 'Создать passkey' }}
+          {{ authPending ? 'Подождите…' : status.configured ? 'Войти с ключом доступа' : 'Создать ключ доступа' }}
         </button>
 
         <template v-if="status.devMode">
@@ -824,7 +945,7 @@ if (status.value.authenticated)
         <div v-if="tab === 'creators'" class="admin-panel creators-panel">
           <div class="admin-title-row">
             <div>
-              <p class="admin-kicker">CREATORS</p>
+              <p class="admin-kicker">ПРОФИЛИ</p>
               <h1>Стримеры</h1>
               <p class="admin-table-summary">
                 Показано {{ filteredRecords.length }} из {{ records.length }}
@@ -862,8 +983,12 @@ if (status.value.authenticated)
                     <span class="admin-creator-slug">{{ record.document.slug }}</span>
                   </td>
                   <td>
-                    <strong class="admin-cell-primary">{{ record.document.kinds.join(', ') }}</strong>
-                    <span class="admin-cell-secondary">{{ record.document.platforms.join(', ') }}</span>
+                    <strong class="admin-cell-primary">
+                      {{ record.document.kinds.map(creatorKindLabel).join(', ') }}
+                    </strong>
+                    <span class="admin-cell-secondary">
+                      {{ record.document.platforms.map(platformLabel).join(', ') }}
+                    </span>
                   </td>
                   <td>
                     <strong class="admin-cell-primary">{{ record.document.equipment.length }}</strong>
@@ -899,12 +1024,12 @@ if (status.value.authenticated)
         <div v-else-if="tab === 'import'" class="admin-panel import-panel">
           <div class="admin-title-row">
             <div>
-              <p class="admin-kicker">BULK JSON</p>
+              <p class="admin-kicker">МАССОВЫЙ ИМПОРТ</p>
               <h1>Импорт и экспорт</h1>
             </div>
             <div class="admin-inline-actions">
               <a class="admin-button secondary" href="/api/admin/import/schema" download>
-                JSON Schema
+                Схема JSON
               </a>
               <button type="button" class="admin-button secondary" @click="exportCreateTemplate">
                 Шаблон создания
@@ -916,7 +1041,7 @@ if (status.value.authenticated)
           </div>
 
           <p class="admin-help">
-            Передайте нейросети JSON Schema и экспорт. После загрузки файл сначала проверяется и показывает изменения. Ничего не сохраняется до нажатия «Применить».
+            Передайте нейросети схему JSON и экспорт. После загрузки файл сначала проверяется и показывает изменения. Ничего не сохраняется до нажатия «Применить».
           </p>
 
           <label class="admin-file">
@@ -963,11 +1088,17 @@ if (status.value.authenticated)
         <div v-else-if="editor" class="admin-panel">
           <div class="admin-title-row sticky">
             <div>
-              <p class="admin-kicker">{{ editorVersion === null ? 'NEW CREATOR' : `VERSION ${editorVersion}` }}</p>
+              <p class="admin-kicker">{{ editorVersion === null ? 'НОВЫЙ ПРОФИЛЬ' : `ВЕРСИЯ ${editorVersion}` }}</p>
               <h1>{{ editor.name || 'Новый стример' }}</h1>
             </div>
             <button type="button" class="admin-button primary" :disabled="savePending" @click="saveCreator">
-              {{ savePending ? 'Сохраняю…' : 'Сохранить и опубликовать' }}
+              {{
+                savePending
+                  ? 'Сохраняю…'
+                  : editor.verificationStatus === 'research'
+                    ? 'Сохранить черновик'
+                    : 'Сохранить и опубликовать'
+              }}
             </button>
           </div>
 
@@ -975,7 +1106,7 @@ if (status.value.authenticated)
             <h2>Основное</h2>
             <div class="admin-form-grid">
               <label class="admin-field"><span>Имя</span><input v-model="editor.name"></label>
-              <label class="admin-field"><span>Slug</span><input v-model="editor.slug" pattern="[a-z0-9-]+"></label>
+              <label class="admin-field"><span>Адрес профиля (slug)</span><input v-model="editor.slug" pattern="[a-z0-9-]+"></label>
               <label class="admin-field"><span>Инициалы</span><input v-model="editor.initials"></label>
               <div class="admin-field">
                 <span>Цвет</span>
@@ -990,15 +1121,25 @@ if (status.value.authenticated)
                 <input v-model="editor.game" list="admin-game-suggestions" autocomplete="off">
               </label>
               <label class="admin-field">
-                <span>Статус проверки</span>
-                <select v-model="editor.verificationStatus">
-                  <option v-for="value in verificationStatuses" :key="value" :value="value">{{ value }}</option>
+                <span>Состояние профиля</span>
+                <select
+                  :value="editor.verificationStatus"
+                  @change="setVerificationStatus(($event.target as HTMLSelectElement).value as VerificationStatus)"
+                >
+                  <option
+                    v-for="option in verificationStatusOptions"
+                    :key="option.value"
+                    :value="option.value"
+                  >
+                    {{ option.label }}
+                  </option>
                 </select>
+                <small class="admin-input-hint">{{ verificationStatusDescription(editor.verificationStatus) }}</small>
               </label>
               <label class="admin-field"><span>Дата публикации</span><input v-model="editor.publishedAt" type="date"></label>
               <label class="admin-field"><span>Дата обновления</span><input v-model="editor.updatedAt" type="date"></label>
-              <label class="admin-field"><span>Настоящее имя EN</span><input v-model="editor.realName!.en"></label>
-              <label class="admin-field"><span>Настоящее имя RU</span><input v-model="editor.realName!.ru"></label>
+              <label class="admin-field"><span>Настоящее имя на английском</span><input v-model="editor.realName!.en"></label>
+              <label class="admin-field"><span>Настоящее имя на русском</span><input v-model="editor.realName!.ru"></label>
               <label class="admin-field full">
                 <span>Алиасы через запятую</span>
                 <input :value="editor.aliases.join(', ')" @input="updateCsv('aliases', ($event.target as HTMLInputElement).value)">
@@ -1008,41 +1149,57 @@ if (status.value.authenticated)
             <div class="admin-check-groups">
               <fieldset>
                 <legend>Тип</legend>
-                <label v-for="kind in creatorKinds" :key="kind">
-                  <input type="checkbox" :checked="editor.kinds.includes(kind)" @change="toggleArrayValue(editor.kinds, kind)">
-                  {{ kind }}
+                <label v-for="option in creatorKindOptions" :key="option.value">
+                  <input
+                    type="checkbox"
+                    :checked="editor.kinds.includes(option.value)"
+                    @change="toggleArrayValue(editor.kinds, option.value)"
+                  >
+                  {{ option.label }}
                 </label>
               </fieldset>
               <fieldset>
                 <legend>Платформы</legend>
-                <label v-for="platform in platforms" :key="platform">
-                  <input type="checkbox" :checked="editor.platforms.includes(platform)" @change="toggleArrayValue(editor.platforms, platform)">
-                  {{ platform }}
+                <label v-for="option in platformOptions" :key="option.value">
+                  <input
+                    type="checkbox"
+                    :checked="editor.platforms.includes(option.value)"
+                    @change="toggleArrayValue(editor.platforms, option.value)"
+                  >
+                  {{ option.label }}
                 </label>
               </fieldset>
               <fieldset>
                 <legend>Публикация</legend>
                 <label><input v-model="editor.featured" type="checkbox"> На главной</label>
-                <label><input v-model="editor.indexable" type="checkbox"> Индексировать</label>
+                <small class="admin-input-hint">
+                  Индексация включается автоматически для опубликованных профилей.
+                </small>
               </fieldset>
             </div>
           </section>
 
           <section v-for="locale in (['ru', 'en'] as const)" :key="locale" class="admin-form-section">
-            <h2>Контент {{ locale.toUpperCase() }}</h2>
+            <h2>Тексты: {{ localeLabel(locale) }}</h2>
             <div class="admin-form-grid">
               <label class="admin-field full">
-                <span>SEO title ({{ editor.content[locale].seoTitle.length }}/70)</span>
+                <span>Заголовок в поиске ({{ editor.content[locale].seoTitle.length }}/70)</span>
                 <input v-model="editor.content[locale].seoTitle">
               </label>
               <label class="admin-field full">
-                <span>SEO description ({{ editor.content[locale].seoDescription.length }}/165)</span>
+                <span>Описание в поиске ({{ editor.content[locale].seoDescription.length }}/165)</span>
                 <textarea v-model="editor.content[locale].seoDescription" rows="2" />
               </label>
-              <label class="admin-field full"><span>Eyebrow</span><input v-model="editor.content[locale].eyebrow"></label>
+              <label class="admin-field full"><span>Надзаголовок</span><input v-model="editor.content[locale].eyebrow"></label>
               <label class="admin-field full"><span>Вступление</span><textarea v-model="editor.content[locale].intro" rows="4" /></label>
-              <label class="admin-field full"><span>Вердикт</span><textarea v-model="editor.content[locale].verdict" rows="4" /></label>
-              <label class="admin-field full"><span>Research note</span><textarea v-model="editor.content[locale].researchNote" rows="2" /></label>
+              <label class="admin-field full">
+                <span>Короткий ответ — можно оставить пустым</span>
+                <textarea
+                  v-model="editor.content[locale].verdict"
+                  rows="4"
+                  placeholder="При сохранении подставится нейтральный текст"
+                />
+              </label>
             </div>
           </section>
 
@@ -1057,7 +1214,9 @@ if (status.value.authenticated)
                   <label class="admin-field">
                     <span>Категория</span>
                     <select v-model="item.category">
-                      <option v-for="category in equipmentCategories" :key="category" :value="category">{{ category }}</option>
+                      <option v-for="category in equipmentCategories" :key="category" :value="category">
+                        {{ equipmentCategoryLabels[category] }}
+                      </option>
                     </select>
                   </label>
                   <label class="admin-field">
@@ -1069,10 +1228,17 @@ if (status.value.authenticated)
                     >
                   </label>
                   <label class="admin-field">
-                    <span>Статус</span>
+                    <span>Достоверность позиции</span>
                     <select v-model="item.status">
-                      <option v-for="value in equipmentStatuses" :key="value" :value="value">{{ value }}</option>
+                      <option
+                        v-for="option in equipmentStatusOptions"
+                        :key="option.value"
+                        :value="option.value"
+                      >
+                        {{ option.label }}
+                      </option>
                     </select>
+                    <small class="admin-input-hint">{{ equipmentStatusDescription(item.status) }}</small>
                   </label>
                   <div class="admin-field full">
                     <span>Источники</span>
@@ -1089,7 +1255,7 @@ if (status.value.authenticated)
                           @change="toggleSourceId(item.sourceIds, source.id)"
                         >
                         <span>
-                          <strong>{{ source.id || 'Сначала укажите ID' }}</strong>
+                          <strong>{{ source.id || 'Сначала укажите идентификатор' }}</strong>
                           <small>{{ source.publisher || urlHost(source.url) || `Источник ${sourceIndex + 1}` }}</small>
                         </span>
                       </label>
@@ -1098,10 +1264,10 @@ if (status.value.authenticated)
                       Сначала добавьте источник в разделе ниже.
                     </small>
                   </div>
-                  <label class="admin-field full"><span>Примечание RU</span><input v-model="item.note!.ru"></label>
-                  <label class="admin-field full"><span>Примечание EN</span><input v-model="item.note!.en"></label>
-                  <label class="admin-field"><span>Партнёрская ссылка RU</span><input v-model="item.affiliateUrl!.ru" type="url"></label>
-                  <label class="admin-field"><span>Партнёрская ссылка EN</span><input v-model="item.affiliateUrl!.en" type="url"></label>
+                  <label class="admin-field full"><span>Примечание на русском</span><input v-model="item.note!.ru"></label>
+                  <label class="admin-field full"><span>Примечание на английском</span><input v-model="item.note!.en"></label>
+                  <label class="admin-field"><span>Партнёрская ссылка для русского сайта</span><input v-model="item.affiliateUrl!.ru" type="url"></label>
+                  <label class="admin-field"><span>Партнёрская ссылка для английского сайта</span><input v-model="item.affiliateUrl!.en" type="url"></label>
                 </div>
                 <button type="button" class="admin-remove" @click="editor.equipment.splice(index, 1)">Удалить</button>
               </article>
@@ -1117,10 +1283,10 @@ if (status.value.authenticated)
               <article v-for="(source, index) in editor.sources" :key="index" class="admin-repeat-card">
                 <div class="admin-form-grid">
                   <label class="admin-field">
-                    <span>ID</span>
+                    <span>Идентификатор</span>
                     <input
                       :value="source.id"
-                      placeholder="заполнится из URL"
+                      placeholder="заполнится из ссылки"
                       @input="updateSourceId(index, ($event.target as HTMLInputElement).value)"
                     >
                     <small class="admin-input-hint">При переименовании связи в сборке обновятся автоматически.</small>
@@ -1135,7 +1301,7 @@ if (status.value.authenticated)
                     >
                   </label>
                   <label class="admin-field full">
-                    <span>URL</span>
+                    <span>Ссылка</span>
                     <input
                       v-model="source.url"
                       type="url"
@@ -1146,8 +1312,8 @@ if (status.value.authenticated)
                       Домен распознан: {{ suggestedPublisher(source.url) }}
                     </small>
                   </label>
-                  <label class="admin-field"><span>Название RU</span><input v-model="source.title.ru"></label>
-                  <label class="admin-field"><span>Название EN</span><input v-model="source.title.en"></label>
+                  <label class="admin-field"><span>Название на русском</span><input v-model="source.title.ru"></label>
+                  <label class="admin-field"><span>Название на английском</span><input v-model="source.title.en"></label>
                   <label class="admin-field"><span>Проверено</span><input v-model="source.checkedAt" type="date"></label>
                   <label class="admin-field"><span>Дата источника</span><input v-model="source.sourceUpdatedAt" type="date"></label>
                 </div>
@@ -1172,7 +1338,7 @@ if (status.value.authenticated)
                   >
                 </label>
                 <label class="admin-field">
-                  <span>URL</span>
+                  <span>Ссылка</span>
                   <input
                     v-model="social.url"
                     type="url"

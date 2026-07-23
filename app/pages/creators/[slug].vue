@@ -188,9 +188,6 @@ useHead(() => ({
               <div>
                 <h3>{{ t('profile.noEquipmentTitle') }}</h3>
                 <p>{{ t('profile.noEquipmentText') }}</p>
-                <p v-if="content.researchNote" class="research-note">
-                  {{ content.researchNote }}
-                </p>
               </div>
             </div>
           </section>
