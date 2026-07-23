@@ -43,7 +43,7 @@ There are deliberately no roles, revisions, audit log, drafts, or stored import 
 
 ### Source model
 
-Every `EquipmentItem` carries `sourceIds` pointing into the creator's own `sources: Source[]`. Each source has a required `checkedAt` plus an optional original URL, source date, and bilingual description. The admin UI presents sources as parent records with their equipment nested below. There are no creator or equipment status fields, and every stored creator page is indexable.
+Every `EquipmentItem` carries `sourceIds` pointing into the creator's own `sources: Source[]`. Each source has a required original URL and `checkedAt` plus an optional source date and bilingual description. Source titles and publishers are not stored; the public UI derives the linked host from the URL. The admin UI presents sources as parent records with their equipment nested below. There are no creator or equipment status fields, and every stored creator page is indexable.
 
 ### Localization
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Creator, EquipmentItem } from '../../types/content'
-import { formatIsoDate, localize, safeJsonLd, sortSourcesNewestFirst } from '../../utils/content'
+import { formatIsoDate, localize, safeJsonLd, sortSourcesNewestFirst, sourceUrlHost } from '../../utils/content'
 
 const route = useRoute()
 const { locale, t } = useI18n()
@@ -199,26 +199,23 @@ useHead(() => ({
 
             <div v-if="sourceGroups.length" class="source-group-list">
               <article
-                v-for="(group, index) in sourceGroups"
+                v-for="group in sourceGroups"
                 :key="group.source.id"
                 class="source-group"
               >
                 <header class="source-group-header">
-                  <span class="source-index">{{ String(index + 1).padStart(2, '0') }}</span>
                   <div class="source-group-heading">
-                    <p class="source-publisher">{{ group.source.publisher }}</p>
+                    <p class="source-label">{{ t('common.source') }}</p>
                     <h3>
                       <a
-                        v-if="group.source.url"
                         :href="group.source.url"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {{ localize(group.source.title, locale) }}
+                        {{ sourceUrlHost(group.source.url) }}
                         <span aria-hidden="true">↗</span>
                         <span class="sr-only">({{ t('common.externalLink') }})</span>
                       </a>
-                      <span v-else>{{ localize(group.source.title, locale) }}</span>
                     </h3>
                     <p v-if="localize(group.source.description, locale)" class="source-description">
                       {{ localize(group.source.description, locale) }}

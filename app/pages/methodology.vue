@@ -32,7 +32,7 @@ useHead(() => ({
         url: `${config.public.siteUrl}${route.path}`,
         inLanguage: locale.value,
         datePublished: '2026-07-22',
-        dateModified: '2026-07-22',
+        dateModified: '2026-07-23',
         author: {
           '@type': 'Organization',
           name: 'SetupIndex',

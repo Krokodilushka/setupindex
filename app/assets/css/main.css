@@ -823,19 +823,15 @@ h3 {
 .source-group-header {
   @apply grid items-start gap-5 border-b border-line p-6;
 
-  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   background: rgba(255, 255, 255, 0.018);
-}
-
-.source-index {
-  @apply font-mono text-xs text-brand;
 }
 
 .source-group-heading {
   @apply min-w-0;
 }
 
-.source-publisher {
+.source-label {
   @apply mb-1.5 font-mono text-xs font-extrabold text-ink-muted uppercase;
 
   letter-spacing: 0.06em;
@@ -1248,11 +1244,11 @@ h3 {
   }
 
   .source-group-header {
-    grid-template-columns: 2rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .source-group-date {
-    @apply col-start-2 mt-1 text-left;
+    @apply col-start-1 mt-1 text-left;
   }
 
   .empty-equipment-state {

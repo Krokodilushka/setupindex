@@ -55,7 +55,7 @@ The repository includes a complete clean-database content package:
 
 To populate a clean installation, copy `docs/imports/avatars/*.webp` to `${NUXT_UPLOADS_PATH}/avatars/` and import `docs/imports/setupindex-creators.json` in `/admin`. The default local upload directory is `.data/uploads`; production uses `/data/uploads`. The database stores only `/uploads/avatars/...` paths, not image blobs.
 
-Each equipment item points to one or more named sources. A source carries its editorial check date plus an optional original URL, source date, and bilingual description. The admin editor presents this as `source → equipment items`. Every saved creator page is indexable; there are no creator or equipment status fields.
+Each equipment item points to one or more sources. A source carries its original URL, editorial check date, optional source date, and bilingual description. The public page labels the source with its linked domain, and the admin editor presents the data as `source → equipment items`. Every saved creator page is indexable; there are no creator or equipment status fields.
 
 Before publishing a new profile:
 

@@ -95,11 +95,6 @@
         "sources": [
           {
             "id": "prosettings-m0nesy-2026",
-            "title": {
-              "en": "m0NESY CS2 Settings, Crosshair & Config",
-              "ru": "Настройки, конфиг и оборудование m0NESY для CS2"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/m0nesy/",
             "sourceUpdatedAt": "2026-07-13",
             "checkedAt": "2026-07-22"
@@ -211,11 +206,6 @@
         "sources": [
           {
             "id": "prosettings-donk-2026",
-            "title": {
-              "en": "donk CS2 Settings, Crosshair & Config",
-              "ru": "Настройки, конфиг и оборудование donk для CS2"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/donk/",
             "sourceUpdatedAt": "2026-07-10",
             "checkedAt": "2026-07-22"
@@ -325,11 +315,6 @@
         "sources": [
           {
             "id": "what-equipment-nix-2025",
-            "title": {
-              "en": "Nix's Streaming Setup & PC Specs",
-              "ru": "Стриминговый сетап и характеристики ПК Nix"
-            },
-            "publisher": "What.Equipment",
             "url": "https://what.equipment/profiles/nix/",
             "sourceUpdatedAt": "2025-09-27",
             "checkedAt": "2026-07-22"
@@ -482,11 +467,6 @@
         "sources": [
           {
             "id": "hyperpc-kuplinov",
-            "title": {
-              "en": "HYPERPC project page for the Kuplinov Play build",
-              "ru": "Прокачка компьютера для Kuplinov Play от компании HYPERPC"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/kuplinov-play",
             "checkedAt": "2026-07-23"
           }
@@ -692,33 +672,18 @@
         "sources": [
           {
             "id": "cybersport-buster-devices-2025",
-            "title": {
-              "en": "Buster CS2 config and gear in 2026",
-              "ru": "Конфиг Бустера CS 2 в 2026 — настройки прицела, рук и девайсы"
-            },
-            "publisher": "Cyber.Sports.ru",
             "url": "https://cyber.sports.ru/cs/blogs/3316505.html",
             "sourceUpdatedAt": "2025-04-13",
             "checkedAt": "2026-07-23"
           },
           {
             "id": "cybersport-buster-desk-2023",
-            "title": {
-              "en": "Buster showed a ₽1.7M PC built into his desk with an RTX 4090 and i9-13900KF",
-              "ru": "Бустер показал ПК в столе за 1,7 млн рублей с RTX 4090 и i9-13900KF"
-            },
-            "publisher": "Cyber.Sports.ru",
             "url": "https://cyber.sports.ru/streamers-twitch/1115133174-buster-pokazal-pk-v-stole-za-1-7-mln-rublej-rtx-4090-i9-13900kf-2x16-g.html",
             "sourceUpdatedAt": "2023-05-15",
             "checkedAt": "2026-07-23"
           },
           {
             "id": "respawn-buster-2022",
-            "title": {
-              "en": "What a PC like s1mple’s and Buster’s costs",
-              "ru": "Сколько стоит ПК, как у Симпла и Бустера"
-            },
-            "publisher": "Respawn Media",
             "url": "https://respawn.media/celebrities/bpm43-kompiuter-kak-u-s1mple-i-buster-skolko-stoit-pk-zvezdnykh-igrokov-i-strimerov",
             "sourceUpdatedAt": "2022-05-05",
             "checkedAt": "2026-07-23"
@@ -881,11 +846,6 @@
         "sources": [
           {
             "id": "marmok-workspace-2026",
-            "title": {
-              "en": "My workspace tour (PC config, device list and more)",
-              "ru": "Обзор Моего Рабочего Места 🎙️🖥️ (конфиг ПК, список девайсов и пр.)"
-            },
-            "publisher": "Marmok (YouTube)",
             "url": "https://www.youtube.com/watch?v=cM3RNVaH9PI",
             "sourceUpdatedAt": "2026-02-24",
             "checkedAt": "2026-07-23"
@@ -1010,11 +970,6 @@
         "sources": [
           {
             "id": "hyperpc-mrlololoshka",
-            "title": {
-              "en": "HYPERPC project page for the MrLololoshka build",
-              "ru": "Проект HYPERPC: компьютер для MrLololoshka"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/mrlololoshka",
             "checkedAt": "2026-07-23"
           }
@@ -1126,11 +1081,6 @@
         "sources": [
           {
             "id": "pcstonks-bratishkinoff-2024",
-            "title": {
-              "en": "Gaming PC of streamer bratishkinoff",
-              "ru": "Игровой ПК стримера bratishkinoff"
-            },
-            "publisher": "PCstonks",
             "url": "https://pcstonks.com/note/ukWtX5",
             "sourceUpdatedAt": "2024-04-20",
             "checkedAt": "2026-07-23"
@@ -1225,11 +1175,6 @@
         "sources": [
           {
             "id": "prosettings-strogo-2026",
-            "title": {
-              "en": "StRoGo CS2 Settings, Crosshair & Config",
-              "ru": "Настройки, конфиг и оборудование StRoGo для CS2"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/strogo/",
             "sourceUpdatedAt": "2026-05-06",
             "checkedAt": "2026-07-23"
@@ -1334,11 +1279,6 @@
         "sources": [
           {
             "id": "prosettings-recrent-2025",
-            "title": {
-              "en": "Recrent Settings, Crosshair, Config & Gear",
-              "ru": "Настройки, конфиг и оборудование Recrent"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/recrent/",
             "sourceUpdatedAt": "2025-11-24",
             "checkedAt": "2026-07-23"
@@ -1462,11 +1402,6 @@
         "sources": [
           {
             "id": "sasavot-new-pc-2025",
-            "title": {
-              "en": "Gleb bought a new computer — the parts list shown on stream",
-              "ru": "ГЛЕБ КУПИЛ НОВЫЙ КОМПЬЮТЕР — список комплектующих на экране"
-            },
-            "publisher": "YouTube (unofficial Sasavot clips)",
             "url": "https://www.youtube.com/watch?v=xfDBi8H2J2A",
             "sourceUpdatedAt": "2025-04-21",
             "checkedAt": "2026-07-23"
@@ -1610,22 +1545,12 @@
         "sources": [
           {
             "id": "pcstonks-papich-2024",
-            "title": {
-              "en": "Papich Arthas’s PC: i9-14900K + RTX 4090",
-              "ru": "Компьютер Папича Arthas: i9-14900K + RTX 4090"
-            },
-            "publisher": "PCstonks",
             "url": "https://pcstonks.com/note/KksihP",
             "sourceUpdatedAt": "2024-07-18",
             "checkedAt": "2026-07-23"
           },
           {
             "id": "cybersport-papich-2024",
-            "title": {
-              "en": "Papich bought a streaming setup for ₽1.5 million",
-              "ru": "Папич купил ПК и периферию для стримов за ₽1,5 млн"
-            },
-            "publisher": "Cybersport.ru",
             "url": "https://www.cybersport.ru/tags/other/papich-kupil-setap-dlia-strimov-za-1-5-mln",
             "sourceUpdatedAt": "2024-07-10",
             "checkedAt": "2026-07-23"
@@ -1758,11 +1683,6 @@
         "sources": [
           {
             "id": "prosettings-s1mple-2026",
-            "title": {
-              "en": "s1mple CS2 Settings, Crosshair & Config",
-              "ru": "Настройки, конфиг и оборудование s1mple для CS2"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/s1mple/",
             "sourceUpdatedAt": "2026-07-19",
             "checkedAt": "2026-07-23"
@@ -1921,21 +1841,11 @@
         "sources": [
           {
             "id": "hyperpc-edison-2",
-            "title": {
-              "en": "HYPERPC CONCEPT project page for the EdisonPts 2.0 build",
-              "ru": "Проект HYPERPC CONCEPT: компьютер для EdisonPts 2.0"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/edison-pts-2",
             "checkedAt": "2026-07-23"
           },
           {
             "id": "hyperpc-edison-1",
-            "title": {
-              "en": "HYPERPC LUMEN PLUS project page for Edison PTS",
-              "ru": "Проект HYPERPC LUMEN PLUS для Edison PTS"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/edison-pts",
             "checkedAt": "2026-07-23"
           }
@@ -2045,11 +1955,6 @@
         "sources": [
           {
             "id": "hyperpc-chezee",
-            "title": {
-              "en": "HYPERPC CONCEPT project page for the CheZee Rust build",
-              "ru": "Проект HYPERPC: компьютер для CheZee в стилистике Rust"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/chezee",
             "checkedAt": "2026-07-23"
           }
@@ -2161,11 +2066,6 @@
         "sources": [
           {
             "id": "hyperpc-derzko69",
-            "title": {
-              "en": "HYPERPC project page for the Derzko69 build",
-              "ru": "Проект HYPERPC: компьютер для Derzko69"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/derzko69",
             "checkedAt": "2026-07-23"
           }
@@ -2279,11 +2179,6 @@
         "sources": [
           {
             "id": "hyperpc-derzhi-dver",
-            "title": {
-              "en": "HYPERPC CONCEPT 5 project page for the Derzhi Dver build",
-              "ru": "Проект HYPERPC CONCEPT 5: компьютер для «Держи дверь»"
-            },
-            "publisher": "HYPERPC",
             "url": "https://hyperpc.ru/project/hyperboost/concept-5-rust",
             "checkedAt": "2026-07-23"
           }
@@ -2405,11 +2300,6 @@
         "sources": [
           {
             "id": "prosettings-deko-2026",
-            "title": {
-              "en": "deko CS2 Settings, Crosshair & Config",
-              "ru": "Настройки, конфиг и оборудование deko для CS2"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/deko/",
             "sourceUpdatedAt": "2026-07-19",
             "checkedAt": "2026-07-23"
@@ -2489,11 +2379,6 @@
         "sources": [
           {
             "id": "prosettings-jynxzi-2026",
-            "title": {
-              "en": "Jynxzi Rainbow Six Siege Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование Jynxzi для Rainbow Six Siege"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/jynxzi/",
             "sourceUpdatedAt": "2026-06-10",
             "checkedAt": "2026-07-23"
@@ -2666,11 +2551,6 @@
         "sources": [
           {
             "id": "prosettings-xqc-2023",
-            "title": {
-              "en": "xQc Overwatch Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование xQc для Overwatch"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/xqc/",
             "sourceUpdatedAt": "2023-08-02",
             "checkedAt": "2026-07-23"
@@ -2781,11 +2661,6 @@
         "sources": [
           {
             "id": "prosettings-typical-gamer-2026",
-            "title": {
-              "en": "Typical Gamer Fortnite Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование Typical Gamer для Fortnite"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/typical-gamer/",
             "sourceUpdatedAt": "2026-03-11",
             "checkedAt": "2026-07-23"
@@ -2921,11 +2796,6 @@
         "sources": [
           {
             "id": "prosettings-shroud-2026",
-            "title": {
-              "en": "shroud Marvel Rivals Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование shroud"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/shroud/",
             "sourceUpdatedAt": "2026-07-19",
             "checkedAt": "2026-07-23"
@@ -3044,11 +2914,6 @@
         "sources": [
           {
             "id": "prosettings-ninja-2025",
-            "title": {
-              "en": "Ninja Fortnite Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование Ninja для Fortnite"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/ninja/",
             "sourceUpdatedAt": "2025-07-24",
             "checkedAt": "2026-07-23"
@@ -3226,22 +3091,12 @@
         "sources": [
           {
             "id": "prosettings-clix-2026",
-            "title": {
-              "en": "Clix Fortnite Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование Clix для Fortnite"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/clix/",
             "sourceUpdatedAt": "2026-07-13",
             "checkedAt": "2026-07-23"
           },
           {
             "id": "clix-penthouse-tour-2026",
-            "title": {
-              "en": "My $6,000,000 Dallas Penthouse Tour (2026)",
-              "ru": "Тур Clix по пентхаусу в Далласе (2026)"
-            },
-            "publisher": "Clix (YouTube)",
             "url": "https://www.youtube.com/watch?v=25sCzeRZIPY&t=829s",
             "sourceUpdatedAt": "2026-01-25",
             "checkedAt": "2026-07-23"
@@ -3404,11 +3259,6 @@
         "sources": [
           {
             "id": "prosettings-tenz-2026",
-            "title": {
-              "en": "TenZ VALORANT Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование TenZ для VALORANT"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/tenz/",
             "sourceUpdatedAt": "2026-06-08",
             "checkedAt": "2026-07-23"
@@ -3543,11 +3393,6 @@
         "sources": [
           {
             "id": "prosettings-tarik-2025",
-            "title": {
-              "en": "tarik VALORANT Settings, Crosshair & Config",
-              "ru": "Настройки и оборудование tarik для VALORANT"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/tarik/",
             "sourceUpdatedAt": "2025-11-07",
             "checkedAt": "2026-07-23"
@@ -3680,11 +3525,6 @@
         "sources": [
           {
             "id": "prosettings-timthetatman-2025",
-            "title": {
-              "en": "TimTheTatman Call of Duty: Warzone Settings & Config",
-              "ru": "Настройки и оборудование TimTheTatman для Warzone"
-            },
-            "publisher": "ProSettings.net",
             "url": "https://prosettings.net/players/timthetatman/",
             "sourceUpdatedAt": "2025-05-21",
             "checkedAt": "2026-07-23"

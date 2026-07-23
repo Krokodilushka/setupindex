@@ -24,6 +24,10 @@ export function sortSourcesNewestFirst<T extends Source>(sources: readonly T[]):
   })
 }
 
+export function sourceUrlHost(url: string): string {
+  return new URL(url).hostname.toLocaleLowerCase('en').replace(/^www\./, '')
+}
+
 export function safeJsonLd(value: unknown): string {
   return JSON.stringify(value).replace(/</g, '\\u003c')
 }

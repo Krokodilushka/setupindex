@@ -113,9 +113,9 @@ for (const creator of creators) {
       source.sourceUpdatedAt !== undefined && !isIsoDate(source.sourceUpdatedAt),
       `${where}: source "${source.id}" has invalid sourceUpdatedAt "${source.sourceUpdatedAt}"`,
     )
-    report(source.url !== undefined && !source.url.startsWith('https://'), `${where}: source "${source.id}" url is not https`)
-    for (const locale of locales)
-      report(!source.title[locale]?.trim(), `${where}: source "${source.id}" has no ${locale} title`)
+    report(!source.url.startsWith('https://'), `${where}: source "${source.id}" url is not https`)
+    report('title' in source, `${where}: legacy source title is present`)
+    report('publisher' in source, `${where}: legacy source publisher is present`)
 
     const previousSource = creator.sources[sourceIndex - 1]
     if (previousSource) {

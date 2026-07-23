@@ -157,13 +157,6 @@ const gameSuggestions = computed(() => uniqueSorted(
   records.value.map(record => record.document.game).filter((value): value is string => Boolean(value)),
 ))
 
-const publisherSuggestions = computed(() => uniqueSorted(
-  [
-    ...Object.values(knownPublisherByHost),
-    ...records.value.flatMap(record => record.document.sources.map(source => source.publisher)),
-  ],
-))
-
 const socialLabelSuggestions = computed(() => uniqueSorted([
   'Twitch',
   'YouTube',
@@ -186,7 +179,7 @@ const equipmentSuggestionsByCategory = computed(() => Object.fromEntries(
   ]),
 ) as Record<EquipmentCategory, string[]>)
 
-const knownPublisherByHost: Record<string, string> = {
+const knownSocialLabelByHost: Record<string, string> = {
   'youtube.com': 'YouTube',
   'youtu.be': 'YouTube',
   'twitch.tv': 'Twitch',
@@ -220,20 +213,20 @@ function urlHost(value?: string): string {
   }
 }
 
-function suggestedPublisher(url?: string): string {
+function suggestedSocialLabel(url?: string): string {
   const host = urlHost(url)
   if (!host)
     return ''
 
-  for (const [knownHost, publisher] of Object.entries(knownPublisherByHost)) {
+  for (const [knownHost, label] of Object.entries(knownSocialLabelByHost)) {
     if (host === knownHost || host.endsWith(`.${knownHost}`))
-      return publisher
+      return label
   }
 
   return records.value
-    .flatMap(record => record.document.sources)
-    .find(source => urlHost(source.url) === host)
-    ?.publisher || ''
+    .flatMap(record => record.document.socials || [])
+    .find(social => urlHost(social.url) === host)
+    ?.label || ''
 }
 
 function nextSourceId(url: string | undefined, sourceIndex: number): string {
@@ -257,16 +250,13 @@ function nextSourceId(url: string | undefined, sourceIndex: number): string {
 }
 
 function completeSource(source: Creator['sources'][number], sourceIndex: number) {
-  const publisher = suggestedPublisher(source.url)
-  if (!source.publisher && publisher)
-    source.publisher = publisher
   if (!source.id && urlHost(source.url))
     source.id = nextSourceId(source.url, sourceIndex)
 }
 
 function completeSocial(social: NonNullable<Creator['socials']>[number]) {
   if (!social.label)
-    social.label = suggestedPublisher(social.url)
+    social.label = suggestedSocialLabel(social.url)
 }
 
 function creatorKindLabel(kind: CreatorKind): string {
@@ -686,9 +676,7 @@ function addSource() {
   const sourceIndex = editor.value.sources.length
   editor.value.sources.push({
     id: nextSourceId(undefined, sourceIndex),
-    title: { en: '', ru: '' },
-    publisher: '',
-    url: '',
+    url: 'https://',
     checkedAt: new Date().toISOString().slice(0, 10),
     description: { en: '', ru: '' },
   })
@@ -732,8 +720,6 @@ function cleanCreatorForSave(value: Creator): Creator {
     delete copy.avatarUrl
 
   for (const source of copy.sources) {
-    if (!source.url || source.url === 'https://')
-      delete source.url
     if (!source.sourceUpdatedAt)
       delete source.sourceUpdatedAt
     if (!source.description?.en && !source.description?.ru)
@@ -1291,29 +1277,18 @@ if (status.value.authenticated)
                     >
                     <small class="admin-input-hint">Связи с элементами обновляются автоматически.</small>
                   </label>
-                  <label class="admin-field">
-                    <span>Издатель</span>
-                    <input
-                      v-model="source.publisher"
-                      list="admin-publisher-suggestions"
-                      autocomplete="off"
-                      placeholder="например, YouTube"
-                    >
-                  </label>
                   <label class="admin-field full">
-                    <span>Ссылка — необязательно</span>
+                    <span>Ссылка на страницу источника</span>
                     <input
                       v-model="source.url"
                       type="url"
                       placeholder="https://"
                       @blur="completeSource(source, sourceIndex)"
                     >
-                    <small v-if="suggestedPublisher(source.url)" class="admin-input-hint">
-                      Домен распознан: {{ suggestedPublisher(source.url) }}
+                    <small v-if="urlHost(source.url)" class="admin-input-hint">
+                      На странице автора будет показано: {{ urlHost(source.url) }}
                     </small>
                   </label>
-                  <label class="admin-field"><span>Название на русском</span><input v-model="source.title.ru"></label>
-                  <label class="admin-field"><span>Название на английском</span><input v-model="source.title.en"></label>
                   <label class="admin-field"><span>Проверено редакцией</span><input v-model="source.checkedAt" type="date"></label>
                   <label class="admin-field"><span>Дата информации на источнике — необязательно</span><input v-model="source.sourceUpdatedAt" type="date"></label>
                   <label class="admin-field full">
@@ -1402,9 +1377,6 @@ if (status.value.authenticated)
 
     <datalist id="admin-game-suggestions">
       <option v-for="game in gameSuggestions" :key="game" :value="game" />
-    </datalist>
-    <datalist id="admin-publisher-suggestions">
-      <option v-for="publisher in publisherSuggestions" :key="publisher" :value="publisher" />
     </datalist>
     <datalist id="admin-social-label-suggestions">
       <option v-for="label in socialLabelSuggestions" :key="label" :value="label" />

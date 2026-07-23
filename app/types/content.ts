@@ -29,9 +29,7 @@ export type EquipmentCategory
 
 export interface Source {
   id: string
-  title: LocalizedText
-  publisher: string
-  url?: string
+  url: string
   sourceUpdatedAt?: string
   checkedAt: string
   description?: LocalizedText

@@ -189,6 +189,9 @@ async function run() {
     && profileBody.includes('"@type":"ProfilePage"'))
   check('creator profile is indexable', /<meta[^>]+name="robots"[^>]+content="index, follow/.test(profileBody))
   check('server-rendered HTML contains equipment', profileBody.includes('9800X3D'))
+  check('equipment source shows its linked domain', profileBody.includes('>Source</p>')
+    && profileBody.includes('prosettings.net')
+    && profileBody.includes('href="https://prosettings.net/players/m0nesy/"'))
 
   const avatar = await get(m0nesyAvatarPath)
   const avatarBytes = new Uint8Array(await avatar.arrayBuffer())

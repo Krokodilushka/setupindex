@@ -18,9 +18,7 @@ const localizedTextSchema = z.object({
 
 const sourceSchema = z.object({
   id: z.string().min(1),
-  title: localizedTextSchema,
-  publisher: z.string().min(1),
-  url: httpsUrl.optional(),
+  url: httpsUrl,
   sourceUpdatedAt: isoDate.optional(),
   checkedAt: isoDate,
   description: localizedTextSchema.optional(),
