@@ -19,21 +19,27 @@ CI order is `lint` → `typecheck` → `validate` → `build` → `smoke`; run a
 
 [scripts/validate-content.ts](scripts/validate-content.ts) covers what the types cannot: dangling/unused `sourceIds`, duplicate slugs, date sanity, SEO length limits, `en.json`/`ru.json` key parity, and `indexable` profiles without sourced equipment. A typo in `sourceIds` otherwise fails silently — [EquipmentCard.vue](app/components/EquipmentCard.vue#L11) just renders the item with no source link, which is exactly the failure the project exists to prevent.
 
-`NUXT_PUBLIC_SITE_URL` is baked at build time (i18n `baseUrl`, canonicals, sitemap) and defaults to `https://setupindex.com`. `NUXT_PUBLIC_YANDEX_METRIKA_ID` is read at **runtime**, so changing the counter is a container restart, not a rebuild; empty disables the plugin entirely.
+`NUXT_PUBLIC_SITE_URL` is baked at build time (i18n `baseUrl` and canonicals) and defaults to `https://setupindex.com`. `NUXT_PUBLIC_YANDEX_METRIKA_ID`, `NUXT_DATABASE_PATH`, and `NUXT_SESSION_PASSWORD` are runtime settings. The session password must be at least 32 characters.
 
 ## Architecture
 
-Nuxt 4 server-rendered app (Nitro `node-server` preset), no CMS, no database. All content is a single typed TypeScript array compiled into the bundle, so publishing content still means a rebuild and redeploy.
+Nuxt 4 server-rendered app (Nitro `node-server` preset) with a SQLite content database, Drizzle ORM `1.0.0-rc.4`, and a first-party admin panel. Publishing through `/admin` updates the database immediately and does not require a rebuild.
 
-### Content is code, and it drives the build
+### SQLite content and seed
 
-`app/data/creators.ts` exports `creators: Creator[]` (types in `app/types/content.ts`). This file is imported **three** times with different consequences:
+`server/database/schema.ts` declares two tables: `creators`, which stores the complete typed `Creator` document as JSON plus query/version columns, and `webauthn_credentials`, which stores the sole administrator passkey. `server/utils/database.ts` opens SQLite through the built-in Node 24 `node:sqlite` driver, enables WAL/foreign keys/busy timeout, and runs checked-in migrations from `drizzle/`.
 
-1. By pages/components, rendered on the server per request.
-2. By `nuxt.config.ts` at config-evaluation time — it derives `sitemap.urls` and `sitemap.exclude` from the array.
-3. By `scripts/validate-content.ts`, run by bare Node with native type stripping.
+`app/data/creators.ts` is seed data only. It is imported when the database is empty and is never applied over existing content. `scripts/validate-content.ts` continues to validate that seed so a fresh installation cannot start from corrupt content.
 
-`indexable: false` is the switch that keeps a profile out of the sitemap (via `excludedCreatorRoutes`) — the route still renders, and `[slug].vue` emits `robots: noindex, follow` for it. `updatedAt` becomes the sitemap `lastmod`. Keep the multi-import in mind: `creators.ts` must stay side-effect-free and importable outside the Nuxt runtime — plain TS, relative imports, no `~/` aliases, no auto-imported composables, and nothing Node's type stripping rejects (no `enum`, no `namespace`).
+Public pages read through `/api/creators`; the dynamic sitemap source at `server/api/__sitemap__/urls.ts` queries SQLite and only emits `indexable` profiles. `updatedAt` becomes `lastmod`. Keep `creators.ts` side-effect-free and importable outside Nuxt because the validation script still uses native type stripping.
+
+### Admin and imports
+
+`/admin` redirects to `/ru/admin`. When the credential table is empty, the first completed WebAuthn registration atomically claims the unique `admin` owner key. Once configured, registration is closed and only authentication is offered. Admin mutations check both the sealed session and same-origin headers on the server.
+
+During `nuxt dev` only, `/api/admin/dev-login` creates the same admin session without credentials and the UI exposes a corresponding button. The endpoint checks same-origin and returns 404 from a production build; never replace that `import.meta.dev` guard with a runtime environment toggle.
+
+There are deliberately no roles, revisions, audit log, drafts, or stored import history. Manual saves publish immediately. Import files use the Zod schema in `app/utils/creator-schema.ts`, are previewed with a server-signed content hash, and are revalidated and applied in one transaction. `expectedVersion` provides optimistic concurrency without keeping prior versions.
 
 ### Evidence model
 
@@ -56,9 +62,9 @@ Each page sets `useSeoMeta` plus a `useHead` JSON-LD block built through `safeJs
 
 ### Deploy path
 
-`.github/workflows/deploy.yml`: verify job runs the five checks, then Buildx builds `Dockerfile` and pushes `ghcr.io/krokodilushka/setupindex-web:{sha,latest}`. PRs build but do not push or deploy. The deploy job rsyncs only `compose.yaml` to `/home/deploy/setupindex`, writes `.env` with `SETUPINDEX_IMAGE_TAG=$GITHUB_SHA` and the Metrica ID, and runs `docker compose up -d --wait`.
+`.github/workflows/deploy.yml`: verify job runs the five checks, then Buildx builds `Dockerfile` and pushes `ghcr.io/krokodilushka/setupindex-web:{sha,latest}`. PRs build but do not push or deploy. The deploy job rsyncs only `compose.yaml` to `/home/deploy/setupindex`, writes runtime settings to `.env`, and runs `docker compose up -d --wait`. SQLite lives in the separate host directory `/home/deploy/setupindex-data`, so release rsync cannot delete it.
 
-`Dockerfile` is multi-stage and self-contained: it installs with `npm ci --ignore-scripts` (the app's own `postinstall` needs source that isn't copied yet; esbuild still resolves its platform binary through optional deps), builds, and copies only `.output` into a `node:24-alpine` runtime. The container runs as `node` on port 3000 with a read-only root filesystem and a `/tmp` tmpfs — anything that needs to write at runtime will fail, by design.
+`Dockerfile` is multi-stage and self-contained: it installs with `npm ci --ignore-scripts`, builds, and copies `.output` plus `drizzle/` into a `node:24-alpine` runtime. The container runs as the deployment UID/GID on port 3000 with a read-only root filesystem and a `/tmp` tmpfs. Compose bind-mounts the only writable persistent path at `/data` for the SQLite database, WAL, and SHM files.
 
 `server/routes/healthz.ts` backs both the image `HEALTHCHECK` and the Compose healthcheck; both match the body exactly, so it must stay `ok\n`.
 

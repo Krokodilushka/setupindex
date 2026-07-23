@@ -1,12 +1,15 @@
 <script setup lang="ts">
 // This index file keeps creator detail routes from being treated as nested children.
-import type { CreatorKind } from '../../types/content'
-import { creators } from '../../data/creators'
+import type { Creator, CreatorKind } from '../../types/content'
 import { localize, safeJsonLd } from '../../utils/content'
 
 const route = useRoute()
 const { locale, t } = useI18n()
 const config = useRuntimeConfig()
+const { data: creatorData } = await useFetch<Creator[]>('/api/creators', {
+  default: () => [],
+})
+const creators = computed(() => creatorData.value)
 
 const search = ref(typeof route.query.q === 'string' ? route.query.q : '')
 const selectedKind = ref<'all' | CreatorKind>('all')
@@ -15,7 +18,7 @@ const kindFilters: Array<'all' | CreatorKind> = ['all', 'streamer', 'youtuber', 
 const filteredCreators = computed(() => {
   const query = search.value.trim().toLocaleLowerCase(locale.value === 'ru' ? 'ru-RU' : 'en-US')
 
-  return creators.filter((creator) => {
+  return creators.value.filter((creator) => {
     const matchesKind = selectedKind.value === 'all' || creator.kinds.includes(selectedKind.value)
     const searchable = [
       creator.name,
@@ -55,7 +58,7 @@ useHead(() => ({
             inLanguage: locale.value,
             mainEntity: {
               '@type': 'ItemList',
-              itemListElement: creators
+              itemListElement: creators.value
                 .filter(creator => creator.indexable)
                 .map((creator, index) => ({
                   '@type': 'ListItem',

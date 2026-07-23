@@ -8,8 +8,13 @@ Requirements: Node.js 24 and npm 11.
 
 ```bash
 npm install
+cp .env.example .env
 npm run dev
 ```
+
+The local SQLite database is created at `.data/setupindex.sqlite`. On an empty database the server applies the checked-in Drizzle migrations and imports the original records from `app/data/creators.ts`.
+
+In `npm run dev`, `/admin` shows a **Войти без WebAuthn** button for passwordless local access. That endpoint is compiled out of production behavior and returns 404 in a production build.
 
 Production checks, in the order CI runs them:
 
@@ -30,9 +35,19 @@ Set `NUXT_PUBLIC_SITE_URL` when building for a non-production hostname. Producti
 
 Set `NUXT_PUBLIC_YANDEX_METRIKA_ID` to enable Yandex Metrica. Under SSR this is read at runtime, so changing the counter needs a container restart, not a rebuild. The integration uses SPA mode and records an explicit page hit after each completed Nuxt navigation.
 
-## Content model
+## Database and admin panel
 
-Creator records live in `app/data/creators.ts`. Each equipment claim has its own source URL, source label, and checked date. Only profiles with enough sourced content use `indexable: true`; research placeholders receive `noindex, follow` and are excluded from the explicit sitemap list.
+Production creator records live in SQLite. `app/data/creators.ts` is the initial seed only and is never applied over a non-empty database. The schema is declared in `server/database/schema.ts`; generated migrations live in `drizzle/`.
+
+```bash
+npx drizzle-kit generate
+```
+
+Open `/admin` to manage content. If no administrator credential exists yet, the first successfully registered WebAuthn passkey becomes the sole administrator. Afterwards the route only offers passkey authentication. The panel edits profile data, localized copy, equipment, sources, and social links.
+
+The import section provides a downloadable JSON Schema, a create template, and an export of current records with concurrency versions. Imports are not retained. A confirmed batch is revalidated and applied in one SQLite transaction. Updates carry `expectedVersion`, so an older export cannot overwrite a record changed since it was downloaded.
+
+Each equipment claim still has its own source URL, source label, and checked date. Only profiles with enough sourced content use `indexable: true`; research placeholders receive `noindex, follow` and are excluded from the dynamic sitemap.
 
 Before publishing a new profile:
 
@@ -74,6 +89,12 @@ Configure these non-sensitive repository variables:
 | `DEPLOY_PATH` | `/home/deploy/setupindex` |
 | `NUXT_PUBLIC_YANDEX_METRIKA_ID` | Yandex Metrica counter ID; leave unset to disable analytics |
 
+Configure this production secret:
+
+| Secret | Value |
+| --- | --- |
+| `NUXT_SESSION_PASSWORD` | Random value of at least 32 characters used to seal administrator sessions and sign import previews |
+
 The server needs Docker, Docker Compose, and `rsync`. The Compose service joins the existing external `traefik` network and publishes `setupindex.com` through the `websecure` entrypoint with the `letsencrypt` certificate resolver. Traefik must also have an HTTP-to-HTTPS redirect on the `web` entrypoint — this stack only defines a `websecure` router, so plain `http://setupindex.com` depends on that global rule.
 
 Useful server commands:
@@ -85,4 +106,4 @@ docker compose logs --tail=100 web
 docker compose restart web
 ```
 
-The container runs the Nitro server on port 3000 as the non-root `node` user with a read-only root filesystem. It serves its own static assets with pre-compressed gzip and brotli variants, and Traefik's `compress` middleware handles the rendered HTML. Health is exposed at `/healthz`, which both the image `HEALTHCHECK` and the Compose healthcheck poll.
+The container runs the Nitro server on port 3000 as a non-root user with a read-only root filesystem. SQLite is the exception: Compose bind-mounts `/home/deploy/setupindex-data` to `/data`, outside the rsynced release directory. `SETUPINDEX_UID` and `SETUPINDEX_GID` match the deployment user so the container can write the database, WAL, and SHM files. It serves its own static assets with pre-compressed gzip and brotli variants, and Traefik's `compress` middleware handles the rendered HTML. Health is exposed at `/healthz`, which both the image `HEALTHCHECK` and the Compose healthcheck poll.

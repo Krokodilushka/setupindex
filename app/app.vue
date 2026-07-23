@@ -2,6 +2,8 @@
 const { t } = useI18n()
 const localeHead = useLocaleHead({ seo: true })
 const config = useRuntimeConfig()
+const route = useRoute()
+const isAdminPage = computed(() => /(?:^|\/)admin\/?$/.test(route.path))
 const yandexMetrikaId = String(config.public.yandexMetrikaId).replace(/\D/g, '')
 
 const metrikaCode = yandexMetrikaId
@@ -34,10 +36,10 @@ useSeoMeta({
 <template>
   <div class="app-shell">
     <a class="skip-link" href="#main-content">{{ t('common.skipToContent') }}</a>
-    <AppHeader />
+    <AppHeader v-if="!isAdminPage" />
     <main id="main-content">
       <NuxtPage />
     </main>
-    <AppFooter />
+    <AppFooter v-if="!isAdminPage" />
   </div>
 </template>

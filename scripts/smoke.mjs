@@ -15,7 +15,14 @@ if (!existsSync(entry)) {
 }
 
 const server = spawn(process.execPath, [entry], {
-  env: { ...process.env, PORT: String(port), HOST: '127.0.0.1', NITRO_PORT: String(port) },
+  env: {
+    ...process.env,
+    PORT: String(port),
+    HOST: '127.0.0.1',
+    NITRO_PORT: String(port),
+    NUXT_DATABASE_PATH: ':memory:',
+    NUXT_SESSION_PASSWORD: process.env.NUXT_SESSION_PASSWORD || 'smoke-test-session-password-at-least-32-characters',
+  },
   stdio: ['ignore', 'pipe', 'pipe'],
 })
 
@@ -40,6 +47,20 @@ const browserAccept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*
 function get(path, { headers = {} } = {}) {
   return fetch(`${origin}${path}`, {
     headers: { accept: browserAccept, ...headers },
+    redirect: 'manual',
+  })
+}
+
+function post(path, body, { headers = {} } = {}) {
+  return fetch(`${origin}${path}`, {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      origin,
+      ...headers,
+    },
+    body: JSON.stringify(body),
     redirect: 'manual',
   })
 }
@@ -122,6 +143,43 @@ async function run() {
   const researchBody = research.ok ? await research.text() : ''
   check('research profile is noindex', research.status === 200
     && /<meta[^>]+name="robots"[^>]+content="noindex/.test(researchBody))
+
+  console.log('\nadmin')
+  const adminRedirect = await get('/admin')
+  check('/admin redirects to the localized panel', adminRedirect.status === 302
+    && adminRedirect.headers.get('location') === '/ru/admin')
+
+  const adminPage = await get('/ru/admin')
+  const adminPageBody = await adminPage.text()
+  check('admin setup page renders with noindex', adminPage.status === 200
+    && adminPageBody.includes('Создание администратора')
+    && /<meta[^>]+name="robots"[^>]+content="noindex, nofollow/.test(adminPageBody)
+    && adminPage.headers.get('x-robots-tag') === 'noindex, nofollow')
+
+  const adminStatus = await get('/api/admin/status')
+  const adminStatusBody = await adminStatus.json()
+  check('fresh database allows first passkey setup', adminStatus.status === 200
+    && adminStatusBody.configured === false
+    && adminStatusBody.authenticated === false
+    && adminStatusBody.devMode === false)
+
+  const productionDevLogin = await post('/api/admin/dev-login', {})
+  check('passwordless dev login is absent from production', productionDevLogin.status === 404)
+
+  const protectedCreators = await get('/api/admin/creators')
+  check('admin data is protected before authentication', protectedCreators.status === 401)
+
+  const registration = await post('/api/admin/webauthn/register', {
+    verify: false,
+    user: {
+      userName: 'setupindex-admin',
+      displayName: 'SetupIndex administrator',
+    },
+  })
+  const registrationBody = await registration.json()
+  check('first passkey registration options are generated', registration.status === 200
+    && typeof registrationBody.attemptId === 'string'
+    && typeof registrationBody.creationOptions?.challenge === 'string')
 
   console.log('\nerrors')
   const missingEn = await get('/en/creators/definitely-not-a-creator')

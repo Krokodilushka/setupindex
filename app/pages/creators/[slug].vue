@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { creators } from '../../data/creators'
+import type { Creator } from '../../types/content'
 import { formatIsoDate, localize, safeJsonLd } from '../../utils/content'
 
 const route = useRoute()
@@ -7,9 +7,14 @@ const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const config = useRuntimeConfig()
 
-const creator = creators.find(item => item.slug === route.params.slug)
+const slug = String(route.params.slug)
+const { data: creatorData, error: creatorError } = await useFetch<Creator>(`/api/creators/${encodeURIComponent(slug)}`)
+const { data: creatorList } = await useFetch<Creator[]>('/api/creators', {
+  default: () => [],
+})
+const creator = creatorData.value
 
-if (!creator) {
+if (creatorError.value || !creator) {
   throw createError({
     statusCode: 404,
     statusMessage: 'Creator not found',
@@ -18,7 +23,7 @@ if (!creator) {
 
 const content = computed(() => creator.content[locale.value as 'en' | 'ru'])
 const realName = computed(() => localize(creator.realName, locale.value))
-const relatedCreators = computed(() => creators
+const relatedCreators = computed(() => creatorList.value
   .filter(item => item.slug !== creator.slug && item.kinds.some(kind => creator.kinds.includes(kind)))
   .slice(0, 3))
 const breadcrumbItems = computed(() => [

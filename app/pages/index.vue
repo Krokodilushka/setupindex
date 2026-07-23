@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { creators } from '../data/creators'
+import type { Creator } from '../types/content'
 import { safeJsonLd } from '../utils/content'
 
 const { locale, t } = useI18n()
@@ -7,10 +7,14 @@ const localePath = useLocalePath()
 const route = useRoute()
 const config = useRuntimeConfig()
 const search = ref('')
+const { data: creatorData } = await useFetch<Creator[]>('/api/creators', {
+  default: () => [],
+})
+const creators = computed(() => creatorData.value)
 
-const featuredCreators = computed(() => creators.filter(creator => creator.featured))
-const publishedCount = computed(() => creators.filter(creator => creator.indexable).length)
-const equipmentCount = computed(() => creators.reduce((total, creator) => total + creator.equipment.length, 0))
+const featuredCreators = computed(() => creators.value.filter(creator => creator.featured))
+const publishedCount = computed(() => creators.value.filter(creator => creator.indexable).length)
+const equipmentCount = computed(() => creators.value.reduce((total, creator) => total + creator.equipment.length, 0))
 
 function submitSearch() {
   const query = search.value.trim()

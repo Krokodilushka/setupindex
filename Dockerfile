@@ -29,6 +29,7 @@ ENV NODE_ENV=production \
     NUXT_PUBLIC_SITE_URL=https://setupindex.com
 
 COPY --from=build --chown=node:node /app/.output ./.output
+COPY --from=build --chown=node:node /app/drizzle ./drizzle
 
 USER node
 

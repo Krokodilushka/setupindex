@@ -4,13 +4,21 @@ services:
   web:
     image: ghcr.io/krokodilushka/setupindex-web:${SETUPINDEX_IMAGE_TAG:-latest}
     container_name: setupindex-web
+    user: "${SETUPINDEX_UID:-1000}:${SETUPINDEX_GID:-1000}"
     restart: unless-stopped
     expose:
       - "3000"
     environment:
       NUXT_PUBLIC_SITE_URL: https://setupindex.com
+      NUXT_DATABASE_PATH: /data/setupindex.sqlite
+      NUXT_MIGRATIONS_DIR: /app/drizzle
+      NUXT_SESSION_PASSWORD: ${NUXT_SESSION_PASSWORD:?NUXT_SESSION_PASSWORD is required}
       # Read at runtime by the SSR server: changing it needs a restart, not a rebuild.
       NUXT_PUBLIC_YANDEX_METRIKA_ID: ${NUXT_PUBLIC_YANDEX_METRIKA_ID:-}
+    volumes:
+      - type: bind
+        source: ${SETUPINDEX_DATA_PATH:-./.data}
+        target: /data
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/healthz | grep -qx 'ok'"]
       interval: 15s

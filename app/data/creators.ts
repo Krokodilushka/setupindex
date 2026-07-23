@@ -1,4 +1,5 @@
 import type { Creator } from '../types/content'
+import { withCreatorAccent } from '../../shared/utils/creator-accent.ts'
 
 const researchContent = (
   name: string,
@@ -23,7 +24,7 @@ const researchContent = (
   },
 })
 
-export const creators: Creator[] = [
+const creatorDocuments: Creator[] = [
   {
     slug: 'm0nesy',
     name: 'm0NESY',
@@ -1422,3 +1423,5 @@ export const creators: Creator[] = [
     socials: [{ label: 'YouTube', url: 'https://www.youtube.com/channel/UCHWRsG39azX1x6lXEyoDdSw' }],
   },
 ]
+
+export const creators: Creator[] = creatorDocuments.map(withCreatorAccent)
