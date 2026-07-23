@@ -1,13 +1,16 @@
 // Boots the built SSR server and asserts the behavior that only exists at runtime.
 // This replaces the coverage previously provided by `nuxt generate --failOnError`.
 import { spawn } from 'node:child_process'
+import { randomUUID, webcrypto } from 'node:crypto'
 import { existsSync } from 'node:fs'
 import process from 'node:process'
+import { defaults as sessionSealDefaults, seal } from 'iron-webcrypto'
 
 const port = Number(process.env.SMOKE_PORT || 3123)
 const origin = `http://127.0.0.1:${port}`
 const entry = '.output/server/index.mjs'
 const failures = []
+const sessionPassword = process.env.NUXT_SESSION_PASSWORD || 'smoke-test-session-password-at-least-32-characters'
 
 if (!existsSync(entry)) {
   console.error(`Missing ${entry}. Run "npm run build" first.`)
@@ -21,7 +24,7 @@ const server = spawn(process.execPath, [entry], {
     HOST: '127.0.0.1',
     NITRO_PORT: String(port),
     NUXT_DATABASE_PATH: ':memory:',
-    NUXT_SESSION_PASSWORD: process.env.NUXT_SESSION_PASSWORD || 'smoke-test-session-password-at-least-32-characters',
+    NUXT_SESSION_PASSWORD: sessionPassword,
   },
   stdio: ['ignore', 'pipe', 'pipe'],
 })
@@ -155,6 +158,33 @@ async function run() {
     && adminPageBody.includes('Создание администратора')
     && /<meta[^>]+name="robots"[^>]+content="noindex, nofollow/.test(adminPageBody)
     && adminPage.headers.get('x-robots-tag') === 'noindex, nofollow')
+
+  const adminCreatorPage = await get('/ru/admin/creators/m0nesy')
+  const adminCreatorPageBody = await adminCreatorPage.text()
+  check('admin creator editor has a separate protected route', adminCreatorPage.status === 200
+    && adminCreatorPageBody.includes('Создание администратора')
+    && /<meta[^>]+name="robots"[^>]+content="noindex, nofollow/.test(adminCreatorPageBody)
+    && adminCreatorPage.headers.get('x-robots-tag') === 'noindex, nofollow')
+
+  const now = Date.now()
+  const sealedAdminSession = await seal(webcrypto, {
+    id: randomUUID(),
+    createdAt: now,
+    data: {
+      user: { id: 'admin' },
+      loggedInAt: now,
+    },
+  }, sessionPassword, sessionSealDefaults)
+  const authenticatedAdminPage = await get('/ru/admin/creators/m0nesy', {
+    headers: {
+      cookie: `nuxt-session=${encodeURIComponent(sealedAdminSession)}`,
+    },
+  })
+  const authenticatedAdminPageBody = await authenticatedAdminPage.text()
+  check('admin session reaches SSR creator data requests', authenticatedAdminPage.status === 200
+    && authenticatedAdminPageBody.includes('m0NESY')
+    && authenticatedAdminPageBody.includes('Сохранить и опубликовать'),
+  `${authenticatedAdminPage.status} ${authenticatedAdminPageBody.match(/<h1[^>]*>([^<]*)<\/h1>/)?.[1] || 'no heading'}`)
 
   const adminStatus = await get('/api/admin/status')
   const adminStatusBody = await adminStatus.json()

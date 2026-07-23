@@ -124,7 +124,7 @@ export default defineNuxtConfig({
       {
         userAgent: ['*'],
         allow: ['/'],
-        disallow: ['/*?q=', '/*?platform=', '/admin', '/*/admin', '/api/admin/'],
+        disallow: ['/*?q=', '/*?platform=', '/admin', '/*/admin', '/*/admin/', '/api/admin/'],
       },
     ],
   },
@@ -158,6 +158,18 @@ export default defineNuxtConfig({
       },
     },
     '/**/admin': {
+      headers: {
+        'Cache-Control': 'no-store',
+        'X-Robots-Tag': 'noindex, nofollow',
+      },
+    },
+    '/admin/**': {
+      headers: {
+        'Cache-Control': 'no-store',
+        'X-Robots-Tag': 'noindex, nofollow',
+      },
+    },
+    '/**/admin/**': {
       headers: {
         'Cache-Control': 'no-store',
         'X-Robots-Tag': 'noindex, nofollow',

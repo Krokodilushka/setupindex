@@ -35,7 +35,7 @@ Public pages read through `/api/creators`; the dynamic sitemap source at `server
 
 ### Admin and imports
 
-`/admin` redirects to `/ru/admin`. When the credential table is empty, the first completed WebAuthn registration atomically claims the unique `admin` owner key. Once configured, registration is closed and only authentication is offered. Admin mutations check both the sealed session and same-origin headers on the server.
+`/admin` redirects to `/ru/admin`. The localized admin index lists creators, while `/[locale]/admin/creators/:slug` is the separate editor route (`new` opens a blank creator). When the credential table is empty, the first completed WebAuthn registration atomically claims the unique `admin` owner key. Once configured, registration is closed and only authentication is offered. Admin mutations check both the sealed session and same-origin headers on the server.
 
 During `nuxt dev` only, `/api/admin/dev-login` creates the same admin session without credentials and the UI exposes a corresponding button. The endpoint checks same-origin and returns 404 from a production build; never replace that `import.meta.dev` guard with a runtime environment toggle.
 

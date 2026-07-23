@@ -33,19 +33,22 @@ interface ImportPreview {
 
 type AdminTab = 'creators' | 'content' | 'import'
 
-definePageMeta({
-  layout: false,
-})
+const props = defineProps<{
+  creatorSlug?: string
+}>()
 
 useSeoMeta({
   title: 'Админ-панель',
   robots: 'noindex, nofollow',
 })
 
+const route = useRoute()
+const localePath = useLocalePath()
 const { data: status, refresh: refreshStatus } = await useFetch<AdminStatus>('/api/admin/status', {
   default: () => ({ configured: false, authenticated: false, devMode: false }),
 })
 const { fetch: fetchSession } = useUserSession()
+const requestFetch = useRequestFetch()
 const {
   register,
   authenticate,
@@ -55,7 +58,7 @@ const {
   authenticateEndpoint: '/api/admin/webauthn/authenticate',
 })
 
-const tab = ref<AdminTab>('creators')
+const tab = ref<AdminTab>(route.query.view === 'import' && props.creatorSlug === undefined ? 'import' : 'creators')
 const authPending = ref(false)
 const authError = ref('')
 const records = ref<StoredCreator[]>([])
@@ -70,6 +73,7 @@ const importBatch = ref<Record<string, unknown>>()
 const importPreview = ref<ImportPreview>()
 const importPending = ref(false)
 const creatorSearch = ref('')
+const sessionExpired = ref(false)
 
 const filteredRecords = computed(() => {
   const query = creatorSearch.value.trim().toLocaleLowerCase('ru')
@@ -302,6 +306,48 @@ function messageFromError(value: unknown): string {
     : candidate?.data?.statusMessage || candidate?.data?.message || candidate?.message || 'Неизвестная ошибка'
 }
 
+function statusFromError(value: unknown): number | undefined {
+  const candidate = value as {
+    status?: number
+    statusCode?: number
+    response?: { status?: number }
+    data?: { statusCode?: number }
+    cause?: {
+      status?: number
+      statusCode?: number
+      response?: { status?: number }
+      data?: { statusCode?: number }
+    }
+  }
+
+  return candidate?.statusCode
+    || candidate?.status
+    || candidate?.response?.status
+    || candidate?.data?.statusCode
+    || candidate?.cause?.statusCode
+    || candidate?.cause?.status
+    || candidate?.cause?.response?.status
+    || candidate?.cause?.data?.statusCode
+}
+
+async function handleExpiredSession(value: unknown): Promise<boolean> {
+  if (statusFromError(value) !== 401)
+    return false
+
+  sessionExpired.value = true
+  notice.value = ''
+  error.value = ''
+  authError.value = 'Сессия истекла. Войдите снова — несохранённые изменения останутся в форме.'
+  status.value.authenticated = false
+
+  await Promise.allSettled([
+    fetchSession(),
+    refreshStatus(),
+  ])
+  status.value.authenticated = false
+  return true
+}
+
 async function completeAuthentication(action: 'register' | 'authenticate') {
   authPending.value = true
   authError.value = ''
@@ -320,7 +366,7 @@ async function completeAuthentication(action: 'register' | 'authenticate') {
     await fetchSession()
     await refreshStatus()
     if (status.value.authenticated)
-      await loadCreators()
+      await loadAuthenticatedWorkspace()
   }
   catch (value) {
     authError.value = messageFromError(value)
@@ -336,10 +382,10 @@ async function devLogin() {
   authError.value = ''
 
   try {
-    await $fetch('/api/admin/dev-login', { method: 'POST' })
+    await requestFetch('/api/admin/dev-login', { method: 'POST' })
     await fetchSession()
     await refreshStatus()
-    await loadCreators()
+    await loadAuthenticatedWorkspace()
   }
   catch (value) {
     authError.value = messageFromError(value)
@@ -350,25 +396,35 @@ async function devLogin() {
 }
 
 async function logout() {
-  await $fetch('/api/admin/logout', { method: 'POST' })
+  try {
+    await requestFetch('/api/admin/logout', { method: 'POST' })
+  }
+  catch (value) {
+    if (await handleExpiredSession(value))
+      return
+    error.value = messageFromError(value)
+    return
+  }
+
   editor.value = null
   records.value = []
   tab.value = 'creators'
+  sessionExpired.value = false
   await fetchSession()
   await refreshStatus()
 }
 
 async function loadCreators(selectSlug?: string) {
-  records.value = await $fetch<StoredCreator[]>('/api/admin/creators')
+  records.value = await requestFetch<StoredCreator[]>('/api/admin/creators')
 
   if (selectSlug) {
     const record = records.value.find(item => item.document.slug === selectSlug)
     if (record)
-      editCreator(record)
+      openCreator(record)
   }
 }
 
-function editCreator(record: StoredCreator) {
+function openCreator(record: StoredCreator) {
   editor.value = normalizeEditor(record.document)
   editorVersion.value = record.version
   originalSlug.value = record.document.slug
@@ -377,7 +433,7 @@ function editCreator(record: StoredCreator) {
   tab.value = 'content'
 }
 
-function createCreator() {
+function openNewCreator() {
   editor.value = emptyCreator()
   editorVersion.value = null
   originalSlug.value = ''
@@ -386,12 +442,61 @@ function createCreator() {
   tab.value = 'content'
 }
 
-function showCreatorTable() {
+async function loadWorkspace() {
+  if (props.creatorSlug === 'new') {
+    await loadCreators()
+    openNewCreator()
+    return
+  }
+
+  await loadCreators(props.creatorSlug)
+  if (props.creatorSlug && !editor.value) {
+    tab.value = 'content'
+    error.value = `Стример «${props.creatorSlug}» не найден.`
+  }
+}
+
+async function loadAuthenticatedWorkspace() {
+  try {
+    if (sessionExpired.value && editor.value)
+      await loadCreators()
+    else
+      await loadWorkspace()
+    sessionExpired.value = false
+  }
+  catch (value) {
+    if (!(await handleExpiredSession(value)))
+      error.value = messageFromError(value)
+  }
+}
+
+function creatorEditorPath(slug: string): string {
+  return localePath(`/admin/creators/${encodeURIComponent(slug)}`)
+}
+
+async function editCreator(record: StoredCreator) {
+  await navigateTo(creatorEditorPath(record.document.slug))
+}
+
+async function createCreator() {
+  await navigateTo(creatorEditorPath('new'))
+}
+
+async function showCreatorTable() {
   editor.value = null
   originalSlug.value = ''
   notice.value = ''
   error.value = ''
   tab.value = 'creators'
+  await navigateTo(localePath('/admin'))
+}
+
+async function showImport() {
+  editor.value = null
+  tab.value = 'import'
+
+  if (props.creatorSlug !== undefined)
+    await navigateTo(`${localePath('/admin')}?view=import`)
 }
 
 function updateCsv(field: 'aliases', value: string) {
@@ -498,11 +603,11 @@ async function saveCreator() {
   try {
     const document = cleanCreatorForSave(editor.value)
     const saved = editorVersion.value === null
-      ? await $fetch<StoredCreator>('/api/admin/creators', {
+      ? await requestFetch<StoredCreator>('/api/admin/creators', {
           method: 'POST',
           body: document,
         })
-      : await $fetch<StoredCreator>(`/api/admin/creators/${encodeURIComponent(originalSlug.value)}`, {
+      : await requestFetch<StoredCreator>(`/api/admin/creators/${encodeURIComponent(originalSlug.value)}`, {
           method: 'PUT',
           body: {
             expectedVersion: editorVersion.value,
@@ -510,11 +615,17 @@ async function saveCreator() {
           },
         })
 
-    notice.value = 'Изменения опубликованы.'
+    if (props.creatorSlug !== saved.document.slug) {
+      await navigateTo(creatorEditorPath(saved.document.slug), {
+        replace: true,
+      })
+    }
     await loadCreators(saved.document.slug)
+    notice.value = 'Изменения опубликованы.'
   }
   catch (value) {
-    error.value = messageFromError(value)
+    if (!(await handleExpiredSession(value)))
+      error.value = messageFromError(value)
   }
   finally {
     savePending.value = false
@@ -587,14 +698,15 @@ async function previewBatch() {
 
   try {
     parseImportText()
-    importPreview.value = await $fetch<ImportPreview>('/api/admin/import/preview', {
+    importPreview.value = await requestFetch<ImportPreview>('/api/admin/import/preview', {
       method: 'POST',
       body: importBatch.value,
     })
   }
   catch (value) {
     importPreview.value = undefined
-    error.value = messageFromError(value)
+    if (!(await handleExpiredSession(value)))
+      error.value = messageFromError(value)
   }
   finally {
     importPending.value = false
@@ -609,7 +721,7 @@ async function applyBatch() {
   error.value = ''
 
   try {
-    const result = await $fetch<{ applied: number }>('/api/admin/import/apply', {
+    const result = await requestFetch<{ applied: number }>('/api/admin/import/apply', {
       method: 'POST',
       body: {
         batch: importBatch.value,
@@ -621,7 +733,8 @@ async function applyBatch() {
     await loadCreators()
   }
   catch (value) {
-    error.value = messageFromError(value)
+    if (!(await handleExpiredSession(value)))
+      error.value = messageFromError(value)
   }
   finally {
     importPending.value = false
@@ -629,13 +742,13 @@ async function applyBatch() {
 }
 
 if (status.value.authenticated)
-  await loadCreators()
+  await loadAuthenticatedWorkspace()
 </script>
 
 <template>
   <div class="admin-page">
     <header class="admin-header">
-      <NuxtLink to="/ru" class="admin-brand">SetupIndex</NuxtLink>
+      <NuxtLink :to="localePath('/')" class="admin-brand">SetupIndex</NuxtLink>
       <div v-if="status.authenticated" class="admin-header-actions">
         <span>Администратор</span>
         <button type="button" class="admin-button secondary" @click="logout">
@@ -698,7 +811,7 @@ if (status.value.authenticated)
         <button
           type="button"
           :class="['admin-nav-button', { active: tab === 'import' }]"
-          @click="tab = 'import'; editor = null"
+          @click="showImport"
         >
           Импорт и экспорт
         </button>

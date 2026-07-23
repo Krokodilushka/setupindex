@@ -43,7 +43,7 @@ Production creator records live in SQLite. `app/data/creators.ts` is the initial
 npx drizzle-kit generate
 ```
 
-Open `/admin` to manage content. If no administrator credential exists yet, the first successfully registered WebAuthn passkey becomes the sole administrator. Afterwards the route only offers passkey authentication. The panel edits profile data, localized copy, equipment, sources, and social links.
+Open `/admin` to manage content. If no administrator credential exists yet, the first successfully registered WebAuthn passkey becomes the sole administrator. Afterwards the route only offers passkey authentication. The panel edits profile data, localized copy, equipment, sources, and social links. The creator list stays on the localized `/admin` route; editing opens `/admin/creators/:slug`, and creation opens `/admin/creators/new`.
 
 The import section provides a downloadable JSON Schema, a create template, and an export of current records with concurrency versions. Imports are not retained. A confirmed batch is revalidated and applied in one SQLite transaction. Updates carry `expectedVersion`, so an older export cannot overwrite a record changed since it was downloaded.
 

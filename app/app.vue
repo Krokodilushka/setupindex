@@ -3,7 +3,7 @@ const { t } = useI18n()
 const localeHead = useLocaleHead({ seo: true })
 const config = useRuntimeConfig()
 const route = useRoute()
-const isAdminPage = computed(() => /(?:^|\/)admin\/?$/.test(route.path))
+const isAdminPage = computed(() => /(?:^|\/)admin(?:\/|$)/.test(route.path))
 const yandexMetrikaId = String(config.public.yandexMetrikaId).replace(/\D/g, '')
 
 const metrikaCode = yandexMetrikaId
